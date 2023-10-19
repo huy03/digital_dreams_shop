@@ -4,12 +4,13 @@ const mongoose = require("mongoose");
 const productSchema = mongoose.Schema({
   name: {
     type: String,
-    require: true,
+    require: [true, "Product must have a name"],
+    unique: true,
     trim: true,
   },
   regularPrice: {
     type: Number,
-    require: true,
+    require: [true, "Product must have a price"],
   },
   discountPrice: {
     type: Number,
@@ -19,17 +20,12 @@ const productSchema = mongoose.Schema({
     type: Number,
     require: true,
   },
-  color: {
-    type: Map,
-    of: String,
-    require: true,
-  },
+  color: [String],
   extraProperties: {
     type: Map,
+    default: null,
   },
-  images: {
-    type: Map,
-  },
+  images: [String],
   description: {
     type: String,
   },
@@ -38,10 +34,12 @@ const productSchema = mongoose.Schema({
     default: true,
   },
   ratingsAverage: {
-    type: Double,
+    type: Number,
+    default: 0,
   },
   ratingsQuantity: {
     type: Number,
+    default: 0,
   },
   createdAt: {
     type: Date,

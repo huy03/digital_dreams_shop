@@ -29,6 +29,10 @@ const userSchema = mongoose.Schema({
     default:
       "https://www.testhouse.net/wp-content/uploads/2021/11/default-avatar.jpg",
   },
+  role: {
+    type: String,
+    default: "User",
+  },
   createdAt: {
     type: Date,
     default: Date.now(),
