@@ -1,16 +1,16 @@
-const { Double, Int32, Timestamp } = require("mongodb");
 const mongoose = require("mongoose");
+const validator = require("validator");
 
 const productSchema = mongoose.Schema({
   name: {
     type: String,
-    require: [true, "Product must have a name"],
+    required: [true, "Product must have a name"],
     unique: true,
     trim: true,
   },
   regularPrice: {
     type: Number,
-    require: [true, "Product must have a price"],
+    required: [true, "Product must have a price"],
   },
   discountPrice: {
     type: Number,
@@ -18,7 +18,7 @@ const productSchema = mongoose.Schema({
   },
   quantity: {
     type: Number,
-    require: true,
+    required: true,
   },
   color: [String],
   extraProperties: {
@@ -36,6 +36,8 @@ const productSchema = mongoose.Schema({
   ratingsAverage: {
     type: Number,
     default: 0,
+    min: [0, "Rating must be above 0"],
+    max: [5, "Rating must be below 5.0"],
   },
   ratingsQuantity: {
     type: Number,
@@ -44,6 +46,7 @@ const productSchema = mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now(),
+    select: false,
   },
 });
 

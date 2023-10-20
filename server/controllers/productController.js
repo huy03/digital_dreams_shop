@@ -1,67 +1,43 @@
+const AppError = require("../utils/appError");
 const Product = require("./../models/product");
+const APIFeatures = require("./../utils/apiFeatures");
+const catchAsync = require("./../utils/catchAsync");
 
-exports.getAllProducts = async (req, res) => {
-  try {
-    //Build query
-    //FILTERING
-    const queryObject = { ...req.query };
-    const excludedFields = ["page", "sort", "limit", "fields"];
-    excludedFields.forEach((element) => delete queryObject[element]);
+exports.getAllProducts = catchAsync(async (req, res, next) => {
+  //Execute query
+  const features = new APIFeatures(Product.find(), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+  const products = await features.query;
 
-    let queryString = JSON.stringify(queryObject);
-    queryString = queryString.replace(
-      /\b(gte|gt|lte|lt)\b/g,
-      (match) => `$${match}`
-    );
+  //Send response
+  res.status(200).json({
+    status: "success",
+    results: products.length,
+    data: {
+      products,
+    },
+  });
+});
 
-    let query = Product.find(JSON.parse(queryString));
+exports.getProduct = catchAsync(async (req, res, next) => {
+  const product = await Product.findById(req.params.id);
 
-    //SORTING
-    if (req.query.sort) {
-      const sortBy = req.query.sort.split(",").join(" ");
-      query = query.sort(sortBy);
-    } else {
-      query = query.sort("-createdAt");
-    }
-
-    //Execute query
-    const products = await query;
-
-    //Send response
-    res.status(200).json({
-      status: "success",
-      results: products.length,
-      data: {
-        products,
-      },
-    });
-  } catch (e) {
-    res.status(404).json({
-      status: "failed",
-      message: e,
-    });
+  if (!product) {
+    return next(new AppError("No product found with that ID", 404));
   }
-};
 
-exports.getProduct = async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
+  res.status(200).json({
+    status: "success",
+    data: {
+      product,
+    },
+  });
+});
 
-    res.status(200).json({
-      status: "success",
-      data: {
-        product,
-      },
-    });
-  } catch (e) {
-    res.status(404).json({
-      status: "failed",
-      message: e,
-    });
-  }
-};
-
-exports.createProduct = async (req, res) => {
+exports.createProduct = async (req, res, next) => {
   try {
     const newProduct = await Product.create(req.body);
 
@@ -71,32 +47,41 @@ exports.createProduct = async (req, res) => {
         product: newProduct,
       },
     });
-  } catch (e) {}
+  } catch (e) {
+    res.status(404).json({
+      status: "failed",
+      message: e,
+    });
+  }
 };
 
-exports.updateProduct = async (req, res) => {
-  try {
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+exports.updateProduct = catchAsync(async (req, res, next) => {
+  const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
 
-    res.status(200).json({
-      status: "success",
-      data: {
-        product,
-      },
-    });
-  } catch (e) {}
-};
+  if (!product) {
+    return next(new AppError("No product found with that ID", 404));
+  }
 
-exports.deleteProduct = async (req, res) => {
-  try {
-    await Product.findByIdAndUpdate(req.params.id);
+  res.status(200).json({
+    status: "success",
+    data: {
+      product,
+    },
+  });
+});
 
-    res.status(204).json({
-      status: "success",
-      data: null,
-    });
-  } catch (e) {}
-};
+exports.deleteProduct = catchAsync(async (req, res, next) => {
+  const product = await Product.findByIdAndUpdate(req.params.id);
+
+  if (!product) {
+    return next(new AppError("No product found with that ID", 404));
+  }
+
+  res.status(204).json({
+    status: "success",
+    data: null,
+  });
+});
