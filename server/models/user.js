@@ -3,37 +3,60 @@ const validator = require("validator");
 const bcrypt = require("bcryptjs");
 
 const userSchema = mongoose.Schema({
-  username: {
+  name: {
     type: String,
-    require: [true, "Please tell us your name!"],
+    required: [true, "Please tell us your name!"],
     trim: true,
+  },
+  phoneNumber: {
+    type: Number,
+    required: [true, "Please provide a phone number!"],
     unique: true,
   },
   email: {
     type: String,
-    require: [true, "Please provide an email!"],
+    required: [true, "Please provide an email!"],
     trim: true,
     unique: true,
     lowercase: true,
     validate: [validator.isEmail, "Please provide a valid email!"],
   },
+  emailVerifiedAt: Date,
   password: {
     type: String,
-    require: [true, "Please provide a password!"],
+    required: [true, "Please provide a password!"],
     minLength: 8,
     trim: true,
     select: false,
   },
+  birthday: Date,
+  gender: {
+    type: String,
+    enum: {
+      values: ["male", "female"],
+      message: "Gender is either male or female!",
+    },
+  },
+  address: String,
   avatarImgUrl: {
     type: String,
     default:
       "https://www.testhouse.net/wp-content/uploads/2021/11/default-avatar.jpg",
+  },
+  activationOTP: Number,
+  isActive: {
+    type: Boolean,
+    default: false,
   },
   role: {
     type: String,
     default: "User",
   },
   createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
+  updatedAt: {
     type: Date,
     default: Date.now(),
   },
