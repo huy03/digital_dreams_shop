@@ -4,4 +4,5 @@ class MediaResource {
   static const _baseIcons = 'assets/icons';
 
   static const _baseImages = 'assets/images';
+  
 }

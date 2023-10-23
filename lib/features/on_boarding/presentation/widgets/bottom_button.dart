@@ -10,6 +10,7 @@ class CustomBottomBtn extends StatelessWidget {
     required this.colortext,
     required this.colorbg,
     required this.text,
+ 
   });
 
   final double width;
@@ -17,6 +18,7 @@ class CustomBottomBtn extends StatelessWidget {
   final String text;
   final Color colortext;
   final Color colorbg;
+ 
 
   @override
   Widget build(BuildContext context) {
