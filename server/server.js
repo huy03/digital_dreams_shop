@@ -1,6 +1,6 @@
-const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const express = require("express");
+const dotenv = require("dotenv");
+const app = require("./app");
 
 dotenv.config({ path: "./.env" });
 
@@ -16,8 +16,6 @@ mongoose
   });
 
 const port = process.env.PORT || 3000;
-const app = express();
-
 app.listen(port, "0.0.0.0", () => {
   console.log(`Connected at port ${port}`);
 });

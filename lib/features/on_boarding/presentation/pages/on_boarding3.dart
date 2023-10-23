@@ -6,11 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class OnboardScreen3 extends StatelessWidget {
- 
   OnboardScreen3({super.key});
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -31,7 +29,9 @@ class OnboardScreen3 extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-             Subtitle(subtitle: 'Publish up your selfies to make yourself\nmore beautiful with this app'),
+              Subtitle(
+                  subtitle:
+                      'Publish up your selfies to make yourself\nmore beautiful with this app'),
               const SizedBox(
                 height: 30,
               ),
