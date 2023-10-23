@@ -37,23 +37,16 @@ exports.getProduct = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createProduct = async (req, res, next) => {
-  try {
-    const newProduct = await Product.create(req.body);
+exports.createProduct = catchAsync(async (req, res, next) => {
+  const newProduct = await Product.create(req.body);
 
-    res.status(201).json({
-      status: "success",
-      data: {
-        product: newProduct,
-      },
-    });
-  } catch (e) {
-    res.status(404).json({
-      status: "failed",
-      message: e,
-    });
-  }
-};
+  res.status(201).json({
+    status: "success",
+    data: {
+      product: newProduct,
+    },
+  });
+});
 
 exports.updateProduct = catchAsync(async (req, res, next) => {
   const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
@@ -74,11 +67,12 @@ exports.updateProduct = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteProduct = catchAsync(async (req, res, next) => {
-  const product = await Product.findByIdAndUpdate(req.params.id);
+  const product = await Product.findByIdAndDelete(req.params.id);
 
   if (!product) {
     return next(new AppError("No product found with that ID", 404));
   }
+  console.log(product);
 
   res.status(204).json({
     status: "success",
