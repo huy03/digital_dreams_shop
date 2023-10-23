@@ -22,11 +22,6 @@ exports.createBrand = catchAsync(async (req, res, next) => {
       brand: newBrand,
     },
   });
-
-  res.status(404).json({
-    status: "failed",
-    message: e,
-  });
 });
 
 exports.getBrand = catchAsync(async (req, res, next) => {

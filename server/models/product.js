@@ -43,11 +43,23 @@ const productSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  brand: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Brand",
+  },
   createdAt: {
     type: Date,
     default: Date.now(),
     select: false,
   },
+});
+
+productSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "brand",
+    select: "-__v -createdAt -updatedAt",
+  });
+  next();
 });
 
 const Product = mongoose.model("Product", productSchema);
