@@ -31,11 +31,13 @@ class OnboardScreen1 extends StatelessWidget {
                   height: 45,
                 ),
                 CustomBottomBtn(
+                
                     width: 250,
                     height: 45,
                     colortext: Colors.white,
                     colorbg: Color(0xFF87220F),
-                    text: "Let's begin")
+                    text: "Let's begin"),
+                    
               ],
             ),
           ),
