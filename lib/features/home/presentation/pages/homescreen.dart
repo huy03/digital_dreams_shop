@@ -1,5 +1,5 @@
 import 'package:digital_dreams_shop/features/home/presentation/widgets/search_textformfield.dart';
-import 'package:digital_dreams_shop/features/on_boarding/presentation/widgets/bottom_button.dart';
+import 'package:digital_dreams_shop/features/on_boarding/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
