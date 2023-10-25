@@ -37,7 +37,7 @@ class PageOne extends StatelessWidget {
                   CustomButton(
                     width: 310,
                     height: 43,
-                    colortext: Colors.white,
+                    colortext: AppColor.textLight,
                     colorbg: AppColor.primary,
                     text: 'Let\'s begin',
                   ),

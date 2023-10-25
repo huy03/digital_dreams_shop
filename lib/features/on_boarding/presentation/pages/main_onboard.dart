@@ -21,8 +21,8 @@ class MainOnboardScreen extends StatelessWidget {
             children: const [
               PageOne(),
               PageTwo(),
-              // PageThree(),
-              // PageFour(),
+              PageThree(),
+              PageFour(),
             ],
           ),
           // Container(

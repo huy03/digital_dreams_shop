@@ -2,8 +2,8 @@ import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Title extends StatelessWidget {
-  const Title({super.key, required this.text});
+class TitleText extends StatelessWidget {
+  const TitleText({super.key, required this.text});
 
   final String text;
   @override
