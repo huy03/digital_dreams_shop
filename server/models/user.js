@@ -1,15 +1,16 @@
 const mongoose = require("mongoose");
+const crypto = require("crypto");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 
 const userSchema = mongoose.Schema({
-  name: {
+  username: {
     type: String,
     required: [true, "Please tell us your name!"],
     trim: true,
   },
   phoneNumber: {
-    type: Number,
+    type: String,
     required: [true, "Please provide a phone number!"],
     unique: true,
   },
@@ -21,7 +22,10 @@ const userSchema = mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, "Please provide a valid email!"],
   },
-  emailVerifiedAt: Date,
+  emailVerifiedAt: {
+    type: Date,
+    default: Date.now(),
+  },
   password: {
     type: String,
     required: [true, "Please provide a password!"],
@@ -29,7 +33,15 @@ const userSchema = mongoose.Schema({
     trim: true,
     select: false,
   },
-  birthday: Date,
+  passwordChangedAt: {
+    type: Date,
+    default: Date.now(),
+  },
+  passwordResetToken: String,
+  passwordResetExpires: Date,
+  birthday: {
+    type: Date,
+  },
   gender: {
     type: String,
     enum: {
@@ -37,20 +49,26 @@ const userSchema = mongoose.Schema({
       message: "Gender is either male or female!",
     },
   },
-  address: String,
+  address: {
+    type: String,
+  },
   avatarImgUrl: {
     type: String,
     default:
       "https://www.testhouse.net/wp-content/uploads/2021/11/default-avatar.jpg",
   },
-  activationOTP: Number,
+  activationOTP: {
+    type: Number,
+  },
   isActive: {
     type: Boolean,
-    default: false,
+    default: true,
+    select: false,
   },
   role: {
     type: String,
-    default: "User",
+    enum: ["user", "admin"],
+    default: "user",
   },
   createdAt: {
     type: Date,
@@ -68,6 +86,50 @@ userSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
+
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password") || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
+
+userSchema.pre(/^find/, function (next) {
+  // this points to the current query
+  this.find({ isActive: { $ne: false } });
+  next();
+});
+
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+userSchema.methods.isPasswordChanged = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+    return JWTTimestamp < changedTimestamp;
+  }
+  return false;
+};
+
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
+};
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;

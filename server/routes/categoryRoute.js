@@ -1,30 +1,33 @@
 const express = require("express");
-const brandController = require("./../controllers/brandController");
+const categoryController = require("./../controllers/categoryController");
 const authController = require("./../controllers/authController");
+const productRouter = require("./../routes/productRoute");
 
 const router = express.Router();
 
 router
   .route("/")
-  .get(brandController.getAllBrands)
+  .get(categoryController.getAllCategories)
   .post(
     authController.protect,
     authController.restrictTo("admin"),
-    brandController.createBrand
+    categoryController.createCategory
   );
 
 router
   .route("/:id")
-  .get(brandController.getBrand)
+  .get(categoryController.getCategory)
   .patch(
     authController.protect,
     authController.restrictTo("admin"),
-    brandController.updateBrand
+    categoryController.updateCategory
   )
   .delete(
     authController.protect,
     authController.restrictTo("admin"),
-    brandController.deleteBrand
+    categoryController.deleteCategory
   );
+
+router.use("/:categoryId/products", productRouter);
 
 module.exports = router;

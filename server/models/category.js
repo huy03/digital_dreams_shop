@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
-const brandSchema = mongoose.Schema(
+const categorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Brand must have a name"],
-      uppercase: true,
+      required: [true, "A category must have a name!"],
+      unique: true,
     },
     productCount: {
       type: Number,
@@ -23,5 +23,12 @@ const brandSchema = mongoose.Schema(
   }
 );
 
-const Brand = mongoose.model("Brand", brandSchema);
-module.exports = Brand;
+categorySchema.virtual("products", {
+  ref: "Product",
+  foreignField: "category",
+  localField: "_id",
+});
+
+const Category = mongoose.model("Category", categorySchema);
+
+module.exports = Category;
