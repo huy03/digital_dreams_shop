@@ -1,12 +1,8 @@
-import 'package:digital_dreams_shop/features/auth/presentation/pages/login.dart';
-import 'package:digital_dreams_shop/features/auth/presentation/pages/signup.dart';
-import 'package:digital_dreams_shop/features/home/presentation/pages/homescreen.dart';
-import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/main_onboard.dart';
-import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/page_two.dart';
-import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/page_three.dart';
-import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/page_one.dart';
-import 'package:digital_dreams_shop/features/products/presentation/pages/categories.dart';
+import 'package:digital_dreams_shop/config/theme/colors.dart';
+import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/welcome_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/main_onboard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,10 +17,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        scaffoldBackgroundColor: AppColor.background,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MainOnboardScreen(),
+      home: const WelcomeScreen(),
     );
   }
 }

@@ -19,14 +19,14 @@ class PageTwo extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CustomImage(image: 'assets/images/onboard2.png'),
+                const CustomImage(image: 'assets/images/onboard3.png'),
                 const SizedBox(
                   height: 50,
                 ),
                 const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
                   child: TitleText(
-                    text: "Take Advantage\nOf The Offer Shopping",
+                    text: "All Types Offers\nWithin Your Reach",
                   ),
                 ),
                 const SizedBox(
@@ -43,13 +43,13 @@ class PageTwo extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: CustomNextBtn(),
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(horizontal: 8.0),
+                //   child: Align(
+                //     alignment: Alignment.bottomRight,
+                //     child: CustomNextBtn(),
+                //   ),
+                // ),
               ],
             ),
           ),

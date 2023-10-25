@@ -3,9 +3,12 @@ import 'package:digital_dreams_shop/features/on_boarding/presentation/widgets/ne
 import 'package:digital_dreams_shop/features/on_boarding/presentation/widgets/subtitle_text.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/widgets/title_text.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class PageThree extends StatelessWidget {
   const PageThree({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,14 +22,14 @@ class PageThree extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CustomImage(image: 'assets/images/onboard3.png'),
+                const CustomImage(image: 'assets/images/onboard4.png'),
                 const SizedBox(
                   height: 50,
                 ),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.0),
                   child: TitleText(
-                    text: "All Types Offers\nWithin Your Reach",
+                    text: "20% Discount\nNew Arrival Product",
                   ),
                 ),
                 const SizedBox(
@@ -43,13 +46,13 @@ class PageThree extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: CustomNextBtn(),
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.symmetric(horizontal: 8.0),
+                //   child: Align(
+                //     alignment: Alignment.bottomRight,
+                //     child: CustomNextBtn(),
+                //   ),
+                // ),
               ],
             ),
           ),
