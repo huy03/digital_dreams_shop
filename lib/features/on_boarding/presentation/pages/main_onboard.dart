@@ -4,12 +4,18 @@ import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/on_b
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class MainOnboardScreen extends StatelessWidget {
-  PageController _controller = PageController();
-  MainOnboardScreen({super.key});
+class MainOnboardScreen extends StatefulWidget {
+  const MainOnboardScreen({super.key});
+
+  @override
+  State<MainOnboardScreen> createState() => _MainOnboardScreenState();
+}
+
+class _MainOnboardScreenState extends State<MainOnboardScreen> {
+  final PageController _controller = PageController();
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(

@@ -1,33 +1,33 @@
 const express = require("express");
-const productController = require("./../controllers/productController");
+const categoryController = require("./../controllers/categoryController");
 const authController = require("./../controllers/authController");
-const reviewRouter = require("./../routes/reviewRoute");
+const productRouter = require("./../routes/productRoute");
 
-const router = express.Router({ mergeParams: true });
+const router = express.Router();
 
 router
   .route("/")
-  .get(productController.getAllProducts)
+  .get(categoryController.getAllCategories)
   .post(
     authController.protect,
     authController.restrictTo("admin"),
-    productController.createProduct
+    categoryController.createCategory
   );
 
 router
   .route("/:id")
-  .get(productController.getProduct)
+  .get(categoryController.getCategory)
   .patch(
     authController.protect,
     authController.restrictTo("admin"),
-    productController.updateProduct
+    categoryController.updateCategory
   )
   .delete(
     authController.protect,
     authController.restrictTo("admin"),
-    productController.deleteProduct
+    categoryController.deleteCategory
   );
 
-router.use("/:productId/reviews", reviewRouter);
+router.use("/:categoryId/products", productRouter);
 
 module.exports = router;
