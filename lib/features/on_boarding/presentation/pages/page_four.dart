@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class OnboardScreen4 extends StatelessWidget {
-  OnboardScreen4({super.key});
+class PageFour extends StatelessWidget {
+  const PageFour({super.key});
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -30,7 +30,11 @@ class OnboardScreen4 extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-             Subtitle(subtitle: 'Publish up your selfies to make yourself\nmore beautiful with this app'),
+              const Subtitle(
+                text:
+                    'Publish up your selfies to make yourself\nmore beautiful with this app',
+                textAlign: TextAlign.left,
+              ),
               const SizedBox(
                 height: 30,
               ),

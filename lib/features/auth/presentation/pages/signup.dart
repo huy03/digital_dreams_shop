@@ -1,5 +1,5 @@
 import 'package:digital_dreams_shop/features/auth/presentation/widgets/textformfield.dart';
-import 'package:digital_dreams_shop/features/on_boarding/presentation/widgets/bottom_button.dart';
+import 'package:digital_dreams_shop/features/on_boarding/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -153,7 +153,7 @@ class SignupScreen extends StatelessWidget {
             const SizedBox(
               height: 35,
             ),
-            CustomBottomBtn(
+            CustomButton(
               colorbg: Color(0xFF87220F),
               width: 350,
               height: 45,

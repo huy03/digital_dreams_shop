@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class OnboardScreen2 extends StatelessWidget {
-  OnboardScreen2({super.key});
+class PageThree extends StatelessWidget {
+  const PageThree({super.key});
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -19,18 +18,22 @@ class OnboardScreen2 extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(
-                'assets/images/onboard2.png',
+                'assets/images/onboard3.png',
               ),
               const SizedBox(
                 height: 50,
               ),
               CustomeTitleText(
-                title: "Take Advantage\nOf The Offer Shopping",
+                title: "All Types Offers\nWithin Your Reach",
               ),
               const SizedBox(
                 height: 30,
               ),
-             Subtitle(subtitle: 'Publish up your selfies to make yourself\nmore beautiful with this app'),
+              const Subtitle(
+                text:
+                    'Publish up your selfies to make yourself\nmore beautiful with this app',
+                textAlign: TextAlign.left,
+              ),
               const SizedBox(
                 height: 30,
               ),
