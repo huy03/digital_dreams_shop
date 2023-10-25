@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const Category = require("./category");
 
 const productSchema = mongoose.Schema(
   {
@@ -49,6 +50,11 @@ const productSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Brand",
     },
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: [true, "Product must belong to a category"],
+    },
     createdAt: {
       type: Date,
       default: Date.now(),
@@ -63,18 +69,54 @@ const productSchema = mongoose.Schema(
 
 productSchema.index({ regularPrice: 1, name: 1, brand: 1 });
 
+productSchema.pre(/^find/, function (next) {
+  this.populate({ path: "category", select: "name" });
+  next();
+});
+
 productSchema.virtual("reviews", {
   ref: "Review",
   foreignField: "product",
   localField: "_id",
 });
 
-productSchema.pre(/^find/, function (next) {
-  this.populate({
-    path: "brand",
-    select: "name",
-  });
+productSchema.statics.calcAverageRatings = async function (categoryId) {
+  const stats = await this.aggregate([
+    {
+      $match: { category: categoryId },
+    },
+    {
+      $group: {
+        _id: "$category",
+        nCount: { $sum: 1 },
+      },
+    },
+  ]);
+
+  if (stats.length > 0) {
+    await Category.findByIdAndUpdate(categoryId, {
+      productCount: stats[0].nCount,
+    });
+  } else {
+    await Category.findByIdAndUpdate(productId, {
+      productCount: 0,
+    });
+  }
+};
+
+productSchema.post("save", function () {
+  this.constructor.calcAverageRatings(this.category);
+});
+
+productSchema.pre(/^findOneAnd/, async function (next) {
+  this.p = await this.clone().findOne();
+
   next();
+});
+
+productSchema.post(/^findOneAnd/, async function () {
+  // await this.findOne(); does NOT work here, query has already executed
+  await this.p.constructor.calcAverageRatings(this.p.category);
 });
 
 const Product = mongoose.model("Product", productSchema);
