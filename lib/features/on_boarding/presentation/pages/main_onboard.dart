@@ -33,10 +33,10 @@ class _MainOnboardScreenState extends State<MainOnboardScreen> {
         curve: Curves.ease,
       );
     } else {
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
+          builder: (context) => const SignUpScreen(),
         ),
       );
     }

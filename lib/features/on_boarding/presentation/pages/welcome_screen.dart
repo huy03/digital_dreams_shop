@@ -1,6 +1,8 @@
-import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/main_onboard.dart';
 import 'package:flutter/material.dart';
+
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
+
+import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/main_onboard.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/widgets/subtitle_text.dart';
 
 class WelcomeScreen extends StatelessWidget {
