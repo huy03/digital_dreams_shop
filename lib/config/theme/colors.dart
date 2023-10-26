@@ -7,5 +7,6 @@ class AppColor {
   static const text = Color(0xFF000000);
   static const textSecondary = Color(0xFF9FA29E);
   static const textLight = Color(0xFFFFFFFF);
+  static const textField = Color(0xFFF7F0EF);
   static const error = Color(0xFFB00020);
 }

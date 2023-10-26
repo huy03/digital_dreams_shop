@@ -1,166 +1,163 @@
-import 'package:digital_dreams_shop/features/auth/presentation/widgets/textformfield.dart';
-import 'package:digital_dreams_shop/features/on_boarding/presentation/widgets/custom_button.dart';
+import 'package:digital_dreams_shop/config/theme/colors.dart';
+import 'package:digital_dreams_shop/features/auth/presentation/widgets/custom_social_icon.dart';
+import 'package:digital_dreams_shop/features/auth/presentation/widgets/custom_text_form_field.dart';
+import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SignupScreen extends StatelessWidget {
-  const SignupScreen({super.key});
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(top: 70),
-              child: Text(
-                'Sign up',
-                style: GoogleFonts.poppins(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF7D210F),
-                ),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24,
               ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              'Create your new account',
-              style: GoogleFonts.poppins(
-                fontSize: 13,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFF9FA29E).withOpacity(0.9),
-              ),
-            ),
-            const SizedBox(
-              height: 55,
-            ),
-            CustomTextformfield(),
-            const SizedBox(
-              height: 15,
-            ),
-            CustomTextformfield(),
-            const SizedBox(
-              height: 15,
-            ),
-            CustomTextformfield(),
-            const SizedBox(
-              height: 15,
-            ),
-            CustomTextformfield(),
-            const SizedBox(
-              height: 40,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 67, right: 67),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+              child: Column(
                 children: [
                   Text(
-                    'By signing you agree to our',
+                    'Sign up',
                     style: GoogleFonts.poppins(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF87220F).withOpacity(0.9),
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: AppColor.primary,
                     ),
                   ),
-                  Spacer(),
+                  const SizedBox(
+                    height: 5,
+                  ),
                   Text(
-                    'Team of use',
+                    'Create your new account',
                     style: GoogleFonts.poppins(
                       fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF9FA29E).withOpacity(0.9),
+                      fontWeight: FontWeight.bold,
+                      color: AppColor.textSecondary.withOpacity(0.9),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 55,
+                  ),
+                  const CustomTextFormField(
+                    hintText: 'Phone Number',
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  const CustomTextFormField(
+                    hintText: 'Email',
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  const CustomTextFormField(
+                    hintText: 'Password',
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  const CustomTextFormField(
+                    hintText: 'Confirm Password',
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'By signing you agree to our',
+                        style: GoogleFonts.poppins(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: AppColor.primary.withOpacity(0.9),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        'Team of use',
+                        style: GoogleFonts.poppins(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: AppColor.textSecondary.withOpacity(0.9),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'and',
+                        style: GoogleFonts.poppins(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: AppColor.primary.withOpacity(0.9),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        'privacy notice',
+                        style: GoogleFonts.poppins(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: AppColor.textSecondary.withOpacity(0.9),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 100,
+                  ),
+                  Text(
+                    'or continue with',
+                    style: GoogleFonts.poppins(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: AppColor.textSecondary.withOpacity(0.9),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 32,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      CustomSocialIcon(
+                        img: 'assets/svgIcons/fb.svg',
+                        onPressed: () {},
+                      ),
+                      CustomSocialIcon(
+                        img: 'assets/svgIcons/google.svg',
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 35,
+                  ),
+                  CustomButton(
+                    width: double.infinity,
+                    height: 45,
+                    text: 'Sign up',
+                    onPressed: () {},
                   ),
                 ],
               ),
             ),
-            const SizedBox(
-              height: 4,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 141, right: 141),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    'and',
-                    style: GoogleFonts.poppins(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF87220F).withOpacity(0.9),
-                    ),
-                  ),
-                  Spacer(),
-                  Text(
-                    'privacy notice',
-                    style: GoogleFonts.poppins(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF9FA29E).withOpacity(0.9),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 100,
-            ),
-            Text(
-              'or continue with',
-              style: GoogleFonts.poppins(
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-                color: Color(0xFF9FA29E).withOpacity(0.9),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 116, right: 116),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 32),
-                    height: 70,
-                    width: 70,
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: SvgPicture.asset('assets/svgIcons/fb.svg'),
-                      style: IconButton.styleFrom(
-                          backgroundColor: Colors.transparent, elevation: 2),
-                    ),
-                  ),
-                  Spacer(),
-                  Container(
-                    margin: EdgeInsets.only(top: 32),
-                    height: 70,
-                    width: 70,
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: SvgPicture.asset('assets/svgIcons/google.svg'),
-                      style: IconButton.styleFrom(
-                          backgroundColor: Colors.transparent, elevation: 2),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 35,
-            ),
-            CustomButton(
-              colorbg: Color(0xFF87220F),
-              width: 350,
-              height: 45,
-              colortext: Colors.white,
-              text: 'Sign up',
-            ),
-          ],
+          ),
         ),
       ),
     );

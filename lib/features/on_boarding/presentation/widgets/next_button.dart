@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CustomNextBtn extends StatelessWidget {
-  const CustomNextBtn({super.key});
+  const CustomNextBtn({super.key, required this.onPressed});
+
+  final void Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class CustomNextBtn extends StatelessWidget {
       height: 45,
       width: 45,
       child: IconButton(
-        onPressed: () {},
+        onPressed: onPressed,
         icon: SvgPicture.asset('assets/svgIcons/arrow_next_icon.svg'),
         style: IconButton.styleFrom(
             backgroundColor: AppColor.primary, elevation: 2),
