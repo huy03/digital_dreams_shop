@@ -1,10 +1,11 @@
+import 'package:digital_dreams_shop/config/theme/media_resource.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/widgets/custom_social_icon.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/widgets/custom_text_form_field.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -136,11 +137,11 @@ class SignUpScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       CustomSocialIcon(
-                        img: 'assets/svgIcons/fb.svg',
+                        img: MediaResource.facebook,
                         onPressed: () {},
                       ),
                       CustomSocialIcon(
-                        img: 'assets/svgIcons/google.svg',
+                        img: MediaResource.google,
                         onPressed: () {},
                       ),
                     ],

@@ -3,6 +3,39 @@ class MediaResource {
 
   static const _baseIcons = 'assets/icons';
 
+  static const arrowBack = '$_baseIcons/arrow_back.svg';
+  static const arrowNext = '$_baseIcons/arrow_next_icon.svg';
+
+  static const home = '$_baseIcons/menu_home_icon.svg';
+  static const cart = '$_baseIcons/cart_icon.svg';
+  static const message = '$_baseIcons/message_icon.svg';
+
+  static const search = '$_baseIcons/search.svg';
+
+  //Social
+  static const facebook = '$_baseIcons/fb.svg';
+  static const google = '$_baseIcons/google.svg';
+
   static const _baseImages = 'assets/images';
-  
+
+  //Splash
+  static const splashBackground = '$_baseImages/plash_screen.png';
+
+  //On Boarding
+  static const onBoardOne = '$_baseImages/onboard2.png';
+  static const onBoardTwo = '$_baseImages/onboard3.png';
+  static const onBoardThree = '$_baseImages/onboard4.png';
+
+  //Slider
+  static const advertisementOne = '$_baseImages/50%_off_image.png';
+  static const advertisementTwo = '$_baseImages/advertise_image.png';
+
+  //Categories
+  static const phoneCategoryBackground = '$_baseImages/phone_categories.png';
+  static const tabletCategoryBackground = '$_baseImages/tablet_categories.png';
+  static const watchCategoryBackground = '$_baseImages/watch_categories.png';
+  static const laptopCategoryBackground = '$_baseImages/laptop_categories.png';
+  static const headphoneCategoryBackground =
+      '$_baseImages/headphone_categories.png';
+  static const cameraCategoryBackground = '$_baseImages/camera_categories.png';
 }

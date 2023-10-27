@@ -3,7 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:digital_dreams_shop/config/theme/colors.dart';
+import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/utils/advertisement_data.dart';
+
 import 'package:digital_dreams_shop/features/home/presentation/widgets/advertisement_item.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/search_textformfield.dart';
@@ -36,8 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 45,
                       child: IconButton(
                         onPressed: () {},
-                        icon: SvgPicture.asset(
-                            'assets/svgIcons/menu_home_icon.svg'),
+                        icon: SvgPicture.asset(MediaResource.home),
                         style: IconButton.styleFrom(
                             backgroundColor: AppColor.primary, elevation: 2),
                       ),
@@ -46,14 +47,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                       children: [
                         CustomSuffixIcon(
-                          svgImg: 'assets/svgIcons/message_icon.svg',
+                          svgImg: MediaResource.message,
                           onPressed: () {},
                         ),
                         const SizedBox(
                           width: 18,
                         ),
                         CustomSuffixIcon(
-                          svgImg: 'assets/svgIcons/cart_icon.svg',
+                          svgImg: MediaResource.cart,
                           onPressed: () {},
                         )
                       ],
@@ -135,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   borderRadius: BorderRadius.circular(20.0),
                                   image: const DecorationImage(
                                     image: AssetImage(
-                                        'assets/images/50%_off_image.png'),
+                                        MediaResource.advertisementOne),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -159,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: GoogleFonts.poppins(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w400,
-                                  color: Color(0xFF666666),
+                                  color: AppColor.textSecondary,
                                 ),
                               ),
                               const SizedBox(
@@ -188,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: GoogleFonts.poppins(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF000000),
+                        color: AppColor.text,
                       ),
                     ),
                     const Spacer(),
@@ -197,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: GoogleFonts.poppins(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: Color(0xFF666666),
+                        color: AppColor.textSecondary,
                       ),
                     ),
                   ],

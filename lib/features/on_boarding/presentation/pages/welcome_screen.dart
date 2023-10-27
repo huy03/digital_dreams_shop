@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
 
 import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/main_onboard.dart';
@@ -8,6 +9,8 @@ import 'package:digital_dreams_shop/features/on_boarding/presentation/widgets/su
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
+  static const routeName = '/';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +18,7 @@ class WelcomeScreen extends StatelessWidget {
         child: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/plash_screen.png'),
+              image: AssetImage(MediaResource.splashBackground),
               fit: BoxFit.cover,
             ),
           ),
