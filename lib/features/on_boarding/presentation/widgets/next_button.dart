@@ -1,4 +1,5 @@
 import 'package:digital_dreams_shop/config/theme/colors.dart';
+import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -24,7 +25,7 @@ class CustomNextBtn extends StatelessWidget {
       width: 45,
       child: IconButton(
         onPressed: onPressed,
-        icon: SvgPicture.asset('assets/svgIcons/arrow_next_icon.svg'),
+        icon: SvgPicture.asset(MediaResource.arrowNext),
         style: IconButton.styleFrom(
             backgroundColor: AppColor.primary, elevation: 2),
       ),

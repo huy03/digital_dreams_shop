@@ -18,8 +18,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: AppColor.background,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
         useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          color: Colors.transparent,
+        ),
       ),
       home: const WelcomeScreen(),
     );
