@@ -7,14 +7,18 @@ class CustomTextFormField extends StatelessWidget {
     super.key,
     required this.hintText,
     this.controller,
+    this.validator,
   });
 
   final String hintText;
   final TextEditingController? controller;
+  final String? Function(String?)? validator;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      validator: validator,
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
