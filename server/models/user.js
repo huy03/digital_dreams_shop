@@ -3,82 +3,77 @@ const crypto = require("crypto");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 
-const userSchema = mongoose.Schema({
-  username: {
-    type: String,
-    required: [true, "Please tell us your name!"],
-    trim: true,
-  },
-  phoneNumber: {
-    type: String,
-    required: [true, "Please provide a phone number!"],
-    unique: true,
-  },
-  email: {
-    type: String,
-    required: [true, "Please provide an email!"],
-    trim: true,
-    unique: true,
-    lowercase: true,
-    validate: [validator.isEmail, "Please provide a valid email!"],
-  },
-  emailVerifiedAt: {
-    type: Date,
-    default: Date.now(),
-  },
-  password: {
-    type: String,
-    required: [true, "Please provide a password!"],
-    minLength: 8,
-    trim: true,
-    select: false,
-  },
-  passwordChangedAt: {
-    type: Date,
-    default: Date.now(),
-  },
-  passwordResetToken: String,
-  passwordResetExpires: Date,
-  birthday: {
-    type: Date,
-  },
-  gender: {
-    type: String,
-    enum: {
-      values: ["male", "female"],
-      message: "Gender is either male or female!",
+const userSchema = mongoose.Schema(
+  {
+    username: {
+      type: String,
+      required: [true, "Please tell us your name!"],
+      trim: true,
+    },
+    phoneNumber: {
+      type: String,
+      required: [true, "Please provide a phone number!"],
+      unique: true,
+    },
+    email: {
+      type: String,
+      required: [true, "Please provide an email!"],
+      trim: true,
+      unique: true,
+      lowercase: true,
+      validate: [validator.isEmail, "Please provide a valid email!"],
+    },
+    emailVerifiedAt: {
+      type: Date,
+      default: Date.now(),
+    },
+    password: {
+      type: String,
+      required: [true, "Please provide a password!"],
+      minLength: 8,
+      trim: true,
+      select: false,
+    },
+    passwordChangedAt: {
+      type: Date,
+      default: Date.now(),
+    },
+    passwordResetToken: String,
+    passwordResetExpires: Date,
+    birthday: {
+      type: Date,
+    },
+    gender: {
+      type: String,
+      enum: {
+        values: ["male", "female"],
+        message: "Gender is either male or female!",
+      },
+    },
+    address: {
+      type: String,
+    },
+    avatarImgUrl: {
+      type: String,
+      default:
+        "https://www.testhouse.net/wp-content/uploads/2021/11/default-avatar.jpg",
+    },
+    activationOTP: {
+      type: Number,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+      select: false,
+    },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
     },
   },
-  address: {
-    type: String,
-  },
-  avatarImgUrl: {
-    type: String,
-    default:
-      "https://www.testhouse.net/wp-content/uploads/2021/11/default-avatar.jpg",
-  },
-  activationOTP: {
-    type: Number,
-  },
-  isActive: {
-    type: Boolean,
-    default: true,
-    select: false,
-  },
-  role: {
-    type: String,
-    enum: ["user", "admin"],
-    default: "user",
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now(),
-  },
-});
+  { timestamps: true }
+);
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
