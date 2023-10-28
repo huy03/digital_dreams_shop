@@ -91,6 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 180,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
                     itemCount: advertisements.length,
                     itemBuilder: (ctx, index) =>
                         AdvertisementItem(advertisement: advertisements[index]),
