@@ -1,10 +1,10 @@
+import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
-import 'package:digital_dreams_shop/core/utils/advertisement_data.dart';
 
 import 'package:digital_dreams_shop/features/home/presentation/widgets/advertisement_item.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';

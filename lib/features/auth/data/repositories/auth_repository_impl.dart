@@ -21,8 +21,8 @@ class AuthRepositoryImpl extends AuthRepository {
         password: password,
       );
       return const Right(null);
-    } on APIException catch (e) {
-      return Left(APIFailure.fromException(e));
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
     }
   }
 
