@@ -1,3 +1,4 @@
+import 'package:digital_dreams_shop/core/utils/typdefs.dart';
 import 'package:equatable/equatable.dart';
 
 enum Gender { male, female }
@@ -29,8 +30,11 @@ class User extends Equatable {
   List<Object?> get props => [
         id,
         userName,
+        phoneNumber,
         email,
         password,
         avatarUrl,
+        birthDate,
+        gender,
       ];
 }
