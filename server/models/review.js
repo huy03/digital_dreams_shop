@@ -23,14 +23,11 @@ const reviewSchema = new mongoose.Schema(
       ref: "Product",
       required: [true, "Review must belong to a product."],
     },
-    createdAt: {
-      type: Date,
-      default: Date.now(),
-    },
   },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    timestamps: true,
   }
 );
 

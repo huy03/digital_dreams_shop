@@ -11,15 +11,11 @@ const categorySchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now(),
-    },
-    updatedAt: Date,
   },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    timestamps: true,
   }
 );
 
