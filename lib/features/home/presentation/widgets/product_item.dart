@@ -37,7 +37,7 @@ class ProductItem extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   image: const DecorationImage(
-                    image: AssetImage(MediaResource.advertisementOne),
+                    image: AssetImage(MediaResource.popularProductTwo),
                     fit: BoxFit.cover,
                   ),
                 ),

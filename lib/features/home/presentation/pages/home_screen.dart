@@ -139,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   borderRadius: BorderRadius.circular(20.0),
                                   image: const DecorationImage(
                                     image: AssetImage(
-                                        MediaResource.advertisementOne),
+                                        MediaResource.advertisementTwo),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
