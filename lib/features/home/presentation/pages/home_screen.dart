@@ -1,3 +1,4 @@
+import 'package:digital_dreams_shop/features/home/presentation/widgets/inkwell_categories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -148,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Text(
                                 'boAT Watch Xtend',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 14,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.w700,
                                   color: AppColor.text,
                                 ),
@@ -203,6 +204,117 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  children: [
+                    InkwellCategoriesBtn(content: 'Phone'),
+                    const SizedBox(
+                      width: 25,
+                    ),
+                    InkwellCategoriesBtn(content: 'Tablet'),
+                    Spacer(),
+                    InkwellCategoriesBtn(content: 'Laptop'),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'Popular',
+                      style: GoogleFonts.poppins(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: AppColor.text,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      'View All',
+                      style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: AppColor.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                SizedBox(
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: 5,
+                    itemBuilder: ((ctx, index) => Padding(
+                          padding: const EdgeInsets.only(top: 15),
+                          child: Container(
+                            width: double.infinity,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.0),
+                              color: AppColor.background,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0xFF969696).withOpacity(0.1),
+                                  offset: Offset(0, 11),
+                                  blurRadius: 24,
+                                  spreadRadius: 0,
+                                ),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 13, left: 15),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: 75,
+                                    height: 75,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Image.asset(
+                                        'assets/images/product_1.jpg'),
+                                  ),
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Apple Watch',
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppColor.text,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 3,
+                                      ),
+                                      Text(
+                                        'Smart Watch',
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w400,
+                                          color: AppColor.textSecondary,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        )),
+                  ),
                 ),
               ],
             ),

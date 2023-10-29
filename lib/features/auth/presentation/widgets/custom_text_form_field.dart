@@ -36,9 +36,9 @@ class CustomTextFormField extends StatelessWidget {
         fillColor: AppColor.textField,
         hintText: hintText,
         hintStyle: GoogleFonts.poppins(
-          fontSize: 16,
+          fontSize: 12,
           fontWeight: FontWeight.w600,
-          color: AppColor.textSecondary.withOpacity(0.9),
+          color: Color(0xFF9C766E).withOpacity(0.9),
         ),
       ),
     );
