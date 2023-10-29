@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           color: Colors.transparent,
         ),
       ),
-      home: const DetailHeadphoneScreen(),
+      home: const WelcomeScreen(),
     );
   }
 }

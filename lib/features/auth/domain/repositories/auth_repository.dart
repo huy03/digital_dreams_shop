@@ -7,10 +7,22 @@ abstract class AuthRepository {
     required String email,
     required String password,
   });
+
   ResultFuture<void> logInWithGoogle();
+
   ResultFuture<void> logInWithFacebook();
-  ResultFuture<void> signUpWithEmailAndPassword(String email, String password);
+
+  ResultFuture<void> signUp({
+    required String email,
+    required String password,
+    required int phoneNumber,
+  });
+
+  ResultFuture<void> forgotPassword(String email);
+
+  ResultFuture<void> updateUser();
+
   ResultFuture<void> signOut();
-  ResultFuture<bool> isSignedIn();
+
   ResultFuture<String> getUser();
 }

@@ -12,7 +12,6 @@ class UserModel extends User {
     required super.password,
     required super.avatarUrl,
     required super.birthDate,
-    required super.gender,
     required super.addresses,
   });
 
@@ -30,7 +29,6 @@ class UserModel extends User {
           birthDate: map['birthDate'] != null
               ? DateTime.parse(map['birthDate'])
               : null,
-          gender: map['gender'] != null ? Gender.values[map['gender']] : null,
           addresses: map['addresses'] != null
               ? List<Object>.from(map['addresses'])
               : null,
@@ -44,7 +42,6 @@ class UserModel extends User {
         'password': password,
         'avatarUrl': avatarUrl,
         'birthday': birthDate?.toIso8601String(),
-        'gender': gender?.index,
         'addresses': addresses,
       };
 
@@ -69,7 +66,6 @@ class UserModel extends User {
       password: password ?? this.password,
       avatarUrl: avatarUrl ?? this.avatarUrl,
       birthDate: birthDate ?? this.birthDate,
-      gender: gender ?? this.gender,
       addresses: addresses ?? this.addresses,
     );
   }
