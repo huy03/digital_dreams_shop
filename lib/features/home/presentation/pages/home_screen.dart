@@ -1,4 +1,6 @@
-import 'package:digital_dreams_shop/core/constraints/constraints.dart';
+import 'package:digital_dreams_shop/features/home/presentation/widgets/inkwell_categories.dart';
+import 'package:digital_dreams_shop/features/home/presentation/widgets/product_item.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -137,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   borderRadius: BorderRadius.circular(20.0),
                                   image: const DecorationImage(
                                     image: AssetImage(
-                                        MediaResource.advertisementOne),
+                                        MediaResource.advertisementTwo),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -148,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Text(
                                 'boAT Watch Xtend',
                                 style: GoogleFonts.poppins(
-                                  fontSize: 14,
+                                  fontSize: 15,
                                   fontWeight: FontWeight.w700,
                                   color: AppColor.text,
                                 ),
@@ -203,6 +205,50 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkwellCategoriesBtn(content: 'Phone'),
+                    InkwellCategoriesBtn(content: 'Tablet'),
+                    InkwellCategoriesBtn(content: 'Laptop'),
+                  ],
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'Popular',
+                      style: GoogleFonts.poppins(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: AppColor.text,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      'View All',
+                      style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: AppColor.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: 3,
+                  itemBuilder: (ctx, index) => const ProductItem(),
                 ),
               ],
             ),

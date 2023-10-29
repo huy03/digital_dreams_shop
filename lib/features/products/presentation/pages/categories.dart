@@ -1,3 +1,6 @@
+import 'package:digital_dreams_shop/config/theme/colors.dart';
+import 'package:digital_dreams_shop/config/theme/media_resource.dart';
+import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/search_textformfield.dart';
 import 'package:digital_dreams_shop/features/products/presentation/widgets/categories_box_left.dart';
 import 'package:digital_dreams_shop/features/products/presentation/widgets/categories_box_right.dart';
@@ -19,78 +22,44 @@ class CategoriesScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 42),
-                    decoration: BoxDecoration(),
+                  SizedBox(
                     height: 45,
                     width: 45,
                     child: IconButton(
                       onPressed: () {},
-                      icon: SvgPicture.asset('assets/svgIcons/arrow_back.svg'),
+                      icon: SvgPicture.asset(MediaResource.arrowBack),
                       style: IconButton.styleFrom(
-                          backgroundColor: Color(0xFF87220F), elevation: 2),
+                          backgroundColor: AppColor.primary, elevation: 2),
                     ),
                   ),
                   const SizedBox(
                     width: 20,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 45),
-                    child: Text(
-                      'Categories',
-                      style: GoogleFonts.poppins(
-                        fontSize: 23,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF000000),
-                      ),
+                  Text(
+                    'Categories',
+                    style: GoogleFonts.poppins(
+                      fontSize: 23,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF000000),
                     ),
                   ),
                   const SizedBox(
-                    width: 50,
+                    width: 43,
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 42),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0xFF000000).withOpacity(0.1),
-                          spreadRadius: 0,
-                          blurRadius: 17,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    height: 45,
-                    width: 45,
-                    child: IconButton(
-                      onPressed: () {},
-                      icon:
-                          SvgPicture.asset('assets/svgIcons/message_icon.svg'),
-                      style: IconButton.styleFrom(
-                          backgroundColor: Color(0xFFFFFFFF), elevation: 2),
-                    ),
-                  ),
-                  Spacer(),
-                  Container(
-                    margin: EdgeInsets.only(top: 42),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0xFF000000).withOpacity(0.1),
-                          spreadRadius: 0,
-                          blurRadius: 17,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    height: 45,
-                    width: 45,
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: SvgPicture.asset('assets/svgIcons/cart_icon.svg'),
-                      style: IconButton.styleFrom(
-                          backgroundColor: Color(0xFFFFFFFF), elevation: 2),
-                    ),
+                  Row(
+                    children: [
+                      CustomSuffixIcon(
+                        svgImg: MediaResource.message,
+                        onPressed: () {},
+                      ),
+                      const SizedBox(
+                        width: 18,
+                      ),
+                      CustomSuffixIcon(
+                        svgImg: MediaResource.cart,
+                        onPressed: () {},
+                      )
+                    ],
                   ),
                 ],
               ),

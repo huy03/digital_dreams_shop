@@ -9,8 +9,11 @@ class MediaResource {
   static const home = '$_baseIcons/menu_home_icon.svg';
   static const cart = '$_baseIcons/cart_icon.svg';
   static const message = '$_baseIcons/message_icon.svg';
+  static const filter = '$_baseIcons/filter_icon.svg';
 
   static const search = '$_baseIcons/search.svg';
+  static const cartBuy = '$_baseIcons/cart_btnbuy.svg';
+
 
   //Social
   static const facebook = '$_baseIcons/fb.svg';
@@ -30,6 +33,7 @@ class MediaResource {
   static const advertisementOne = '$_baseImages/50%_off_image.png';
   static const advertisementTwo = '$_baseImages/advertise_image.png';
 
+
   //Categories
   static const phoneCategoryBackground = '$_baseImages/phone_categories.png';
   static const tabletCategoryBackground = '$_baseImages/tablet_categories.png';
@@ -38,4 +42,17 @@ class MediaResource {
   static const headphoneCategoryBackground =
       '$_baseImages/headphone_categories.png';
   static const cameraCategoryBackground = '$_baseImages/camera_categories.png';
+
+  //Arrival Product
+   static const productOne = '$_baseImages/product_1.jpg';
+
+   //Popular Product
+   static const popularProductOne = '$_baseImages/headphone_1.jpg';
+   static const popularProductTwo = '$_baseImages/headphone_2.jpg';
+
+   //Deatail Product
+   static const detailHeadphone = '$_baseImages/detailheadphone.png';
+
+
+  
 }
