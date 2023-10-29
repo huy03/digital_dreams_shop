@@ -1,6 +1,8 @@
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
-import 'package:digital_dreams_shop/features/auth/presentation/widgets/custom_inkwellbtn.dart';
+import 'package:digital_dreams_shop/features/auth/presentation/pages/signup.dart';
+import 'package:digital_dreams_shop/features/auth/presentation/widgets/custom_inkwell_button.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:digital_dreams_shop/config/theme/colors.dart';
@@ -132,27 +134,33 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 75, right: 75),
-                  child: Row(
-                    children: [
-                      Text(
-                        "Do you have an account?",
-                        style: GoogleFonts.lexend(
-                          fontSize: 12,
-                          color: Color(0xFF9FA29E).withOpacity(0.9),
-                          fontWeight: FontWeight.w600,
-                        ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Do you have an account?",
+                      style: GoogleFonts.lexend(
+                        fontSize: 12,
+                        color: AppColor.textSecondary.withOpacity(0.9),
+                        fontWeight: FontWeight.w600,
                       ),
-                      Spacer(),
-                      CusInwellBtn(
-                        colortext: AppColor.primary.withOpacity(0.9),
-                        content: 'Sign up',
-                        height: 18,
-                        width: 50,
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    CusInkwellBtn(
+                      textColor: AppColor.primary.withOpacity(0.9),
+                      content: 'Sign up',
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignUpScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),

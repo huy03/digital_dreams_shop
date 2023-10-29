@@ -29,3 +29,13 @@ final advertisements = [
     code: 'FSCREATION',
   ),
 ];
+
+enum UserInfo {
+  userName,
+  phoneNumber,
+  email,
+  password,
+  avatarUrl,
+  birthDate,
+  addresses,
+}

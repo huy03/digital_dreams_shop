@@ -26,8 +26,17 @@ class OnBoardingRepositoryImpl extends OnBoardingRepository {
   }
 
   @override
-  ResultFuture<bool> isFirstTimer() {
-    // TODO: implement isFirstTimer
-    throw UnimplementedError();
+  ResultFuture<bool> isFirstTimer() async {
+    try {
+      final result = await _localDataSource.isFirstTimer();
+      return Right(result);
+    } on CacheException catch (e) {
+      return Left(
+        CacheFailure(
+          message: e.message,
+          statusCode: e.statusCode,
+        ),
+      );
+    }
   }
 }

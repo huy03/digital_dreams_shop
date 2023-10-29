@@ -33,12 +33,6 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  ResultFuture<bool> isSignedIn() {
-    // TODO: implement isSignedIn
-    throw UnimplementedError();
-  }
-
-  @override
   ResultFuture<void> logInWithFacebook() {
     // TODO: implement signInWithFacebook
     throw UnimplementedError();
@@ -57,8 +51,24 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  ResultFuture<void> signUpWithEmailAndPassword(String email, String password) {
+  ResultFuture<void> signUp({
+    required String email,
+    required String password,
+    required int phoneNumber,
+  }) {
     // TODO: implement signUpWithEmailAndPassword
+    throw UnimplementedError();
+  }
+
+  @override
+  ResultFuture<void> forgotPassword(String email) {
+    // TODO: implement forgotPassword
+    throw UnimplementedError();
+  }
+
+  @override
+  ResultFuture<void> updateUser() {
+    // TODO: implement updateUser
     throw UnimplementedError();
   }
 }

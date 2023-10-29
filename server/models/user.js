@@ -43,13 +43,6 @@ const userSchema = mongoose.Schema(
     birthday: {
       type: Date,
     },
-    gender: {
-      type: String,
-      enum: {
-        values: ["male", "female"],
-        message: "Gender is either male or female!",
-      },
-    },
     address: {
       type: String,
     },
