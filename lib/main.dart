@@ -1,4 +1,5 @@
 import 'package:digital_dreams_shop/config/theme/colors.dart';
+import 'package:digital_dreams_shop/features/home/presentation/pages/home_screen.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
           color: Colors.transparent,
         ),
       ),
-      home: const WelcomeScreen(),
+      home: const HomeScreen(),
     );
   }
 }

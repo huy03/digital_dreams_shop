@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class InkwellCategoriesBtn extends StatelessWidget {
-  InkwellCategoriesBtn({super.key, required this.content});
+  const InkwellCategoriesBtn({super.key, required this.content});
   final String content;
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return InkWell(
       onTap: () {},
       child: Ink(
