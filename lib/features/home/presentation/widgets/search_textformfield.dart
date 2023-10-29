@@ -12,6 +12,7 @@ class SearchTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      
       controller: controller,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(18),
