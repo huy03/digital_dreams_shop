@@ -37,7 +37,7 @@ class _MainOnboardScreenState extends State<MainOnboardScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
+          builder: (context) => const LoginScreen(),
         ),
       );
     }

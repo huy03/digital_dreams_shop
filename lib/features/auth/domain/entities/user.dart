@@ -11,7 +11,6 @@ class User extends Equatable {
   final String password;
   final String avatarUrl;
   final DateTime? birthDate;
-  final Gender? gender;
   final List<Object>? addresses;
 
   const User({
@@ -22,7 +21,6 @@ class User extends Equatable {
     required this.password,
     required this.avatarUrl,
     this.birthDate,
-    this.gender,
     this.addresses,
   });
 
@@ -32,9 +30,5 @@ class User extends Equatable {
         userName,
         phoneNumber,
         email,
-        password,
-        avatarUrl,
-        birthDate,
-        gender,
       ];
 }
