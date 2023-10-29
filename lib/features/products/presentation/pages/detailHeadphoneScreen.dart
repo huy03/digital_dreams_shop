@@ -260,7 +260,7 @@ class DetailHeadphoneScreen extends StatelessWidget {
                             children: [
                               SvgPicture.asset('assets/icons/cart_btnbuy.svg'),
                               const SizedBox(
-                                width: 13,
+                                width: 10,
                               ),
                               Text(
                                 'Add to cart',
