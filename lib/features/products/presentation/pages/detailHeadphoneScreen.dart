@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:iconsax/iconsax.dart';
 
 class DetailHeadphoneScreen extends StatelessWidget {
   const DetailHeadphoneScreen({super.key});
@@ -107,7 +108,7 @@ class DetailHeadphoneScreen extends StatelessWidget {
                     itemCount: 5,
                     itemPadding: EdgeInsets.symmetric(horizontal: 0.5),
                     itemBuilder: (context, _) => Icon(
-                      Icons.star,
+                      Iconsax.star1,
                       color: AppColor.star,
                     ),
                     onRatingUpdate: (rating) {
