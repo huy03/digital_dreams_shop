@@ -6,20 +6,17 @@ const brandSchema = mongoose.Schema(
       type: String,
       required: [true, "Brand must have a name"],
       uppercase: true,
+      unique: true,
     },
     productCount: {
       type: Number,
       default: 0,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now(),
-    },
-    updatedAt: Date,
   },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    timestamps: true,
   }
 );
 

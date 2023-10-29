@@ -1,13 +1,21 @@
+import 'package:digital_dreams_shop/config/theme/media_resource.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/widgets/custom_social_icon.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/widgets/custom_text_form_field.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  //const GlobalKey _globalKey =
 
   @override
   Widget build(BuildContext context) {
@@ -102,11 +110,11 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     CustomSocialIcon(
-                      img: 'assets/svgIcons/fb.svg',
+                      img: MediaResource.facebook,
                       onPressed: () {},
                     ),
                     CustomSocialIcon(
-                      img: 'assets/svgIcons/google.svg',
+                      img: MediaResource.google,
                       onPressed: () {},
                     ),
                   ],

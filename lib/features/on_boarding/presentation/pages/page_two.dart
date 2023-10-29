@@ -1,3 +1,4 @@
+import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/widgets/custom_image.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/widgets/subtitle_text.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/widgets/title_text.dart';
@@ -18,7 +19,7 @@ class PageTwo extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomImage(image: 'assets/images/onboard3.png'),
+                CustomImage(image: MediaResource.onBoardTwo),
                 SizedBox(
                   height: 50,
                 ),

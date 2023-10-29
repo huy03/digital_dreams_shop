@@ -55,15 +55,11 @@ const productSchema = mongoose.Schema(
       ref: "Category",
       required: [true, "Product must belong to a category"],
     },
-    createdAt: {
-      type: Date,
-      default: Date.now(),
-      select: false,
-    },
   },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
+    timestamps: true,
   }
 );
 

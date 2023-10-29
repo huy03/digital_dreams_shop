@@ -1,6 +1,7 @@
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/pages/login.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/pages/signup.dart';
+import 'package:digital_dreams_shop/features/home/presentation/pages/home_screen.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/welcome_screen.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/page_one.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/page_two.dart';
@@ -36,7 +37,7 @@ class _MainOnboardScreenState extends State<MainOnboardScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const SignUpScreen(),
+          builder: (context) => const HomeScreen(),
         ),
       );
     }
