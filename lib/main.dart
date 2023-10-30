@@ -1,4 +1,5 @@
 import 'package:digital_dreams_shop/config/theme/colors.dart';
+import 'package:digital_dreams_shop/features/cart/presentation/pages/checkoutScreen.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/pages/mycart.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/pages/paymentMethod.dart';
 import 'package:digital_dreams_shop/features/home/presentation/pages/home_screen.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
           color: Colors.transparent,
         ),
       ),
-      home: const MyCartSreen(),
+      home: const CheckoutScreen(),
     );
   }
 }
