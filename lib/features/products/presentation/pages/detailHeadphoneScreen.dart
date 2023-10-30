@@ -234,7 +234,7 @@ class DetailHeadphoneScreen extends StatelessWidget {
                       Text(
                         '1.980.000',
                         style: GoogleFonts.poppins(
-                          fontSize: 23,
+                          fontSize: 21,
                           fontWeight: FontWeight.w700,
                           color: AppColor.text,
                         ),
@@ -242,7 +242,7 @@ class DetailHeadphoneScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(
-                    width: 15,
+                    width: 24,
                   ),
                   InkWell(
                     onTap: () {},
