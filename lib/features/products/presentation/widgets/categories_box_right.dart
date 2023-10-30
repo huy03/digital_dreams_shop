@@ -29,7 +29,7 @@ class CategoriesRightBox extends StatelessWidget {
                     image: AssetImage(image), fit: BoxFit.cover)),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 220, top: 20),
+            padding: const EdgeInsets.only(left: 200, top: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
