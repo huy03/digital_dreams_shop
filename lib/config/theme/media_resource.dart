@@ -14,6 +14,23 @@ class MediaResource {
   static const search = '$_baseIcons/search.svg';
   static const cartBuy = '$_baseIcons/cart_btnbuy.svg';
 
+  static const pen = '$_baseIcons/pen_icon.svg';
+  static const pay = '$_baseIcons/pay_icon.svg';
+  static const ship = '$_baseIcons/ship_icon.svg';
+  static const receive = '$_baseIcons/receive_icon.svg';
+  static const rate = '$_baseIcons/rate_icon.svg';
+  static const privacy = '$_baseIcons/privacy.svg';
+  static const payment = '$_baseIcons/payment.svg';
+  static const point = '$_baseIcons/point.svg';
+  static const gift = '$_baseIcons/gift.svg';
+  static const help = '$_baseIcons/help.svg';
+
+  static const next = '$_baseIcons/next.svg';
+
+  static const cash = '$_baseIcons/cash.svg';
+
+
+
 
   //Social
   static const facebook = '$_baseIcons/fb.svg';
@@ -50,8 +67,18 @@ class MediaResource {
    static const popularProductOne = '$_baseImages/headphone_1.jpg';
    static const popularProductTwo = '$_baseImages/headphone_2.jpg';
 
-   //Deatail Product
+   //Detail Product
    static const detailHeadphone = '$_baseImages/detailheadphone.png';
+
+   
+   //Profile 
+   static const profile = '$_baseImages/profile_img.png';
+
+   //Payment method
+   static const momo = '$_baseImages/momo.png';
+   static const zalo = '$_baseImages/zalo.png';
+   static const MB = '$_baseImages/MB.png';
+
 
 
   
