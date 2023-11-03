@@ -1,17 +1,18 @@
 import 'package:digital_dreams_shop/core/usecases/usecase.dart';
 import 'package:digital_dreams_shop/core/utils/typdefs.dart';
+import 'package:digital_dreams_shop/features/auth/domain/entities/user.dart';
 import 'package:digital_dreams_shop/features/auth/domain/repositories/auth_repository.dart';
 import 'package:equatable/equatable.dart';
 
 class LogInWithEmailAndPassword
-    extends UseCaseWithParams<void, LogInWithEmailAndPasswordParams> {
+    extends UseCaseWithParams<User, LogInWithEmailAndPasswordParams> {
   const LogInWithEmailAndPassword(this._authRepository);
 
   final AuthRepository _authRepository;
 
   @override
-  ResultFuture<void> call(LogInWithEmailAndPasswordParams params) async =>
-      _authRepository.logInWithEmailAndPassword(
+  ResultFuture<User> call(LogInWithEmailAndPasswordParams params) async =>
+      await _authRepository.logInWithEmailAndPassword(
         email: params.email,
         password: params.password,
       );

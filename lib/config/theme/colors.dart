@@ -8,6 +8,7 @@ class AppColor {
   static const textSecondary = Color(0xFF9FA29E);
   static const textLight = Color(0xFFFFFFFF);
   static const textField = Color(0xFFF7F0EF);
+  static const textFieldBackground = Color(0xFF9C766E);
   static const shadow = Color(0xFF000000);
   static const searchField = Color(0xFFF3F4F5);
   static const error = Color(0xFFB00020);

@@ -1,15 +1,22 @@
-import 'package:digital_dreams_shop/config/theme/colors.dart';
-import 'package:digital_dreams_shop/features/home/presentation/pages/home_screen.dart';
-import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/welcome_screen.dart';
-import 'package:digital_dreams_shop/features/products/presentation/pages/categories.dart';
-import 'package:digital_dreams_shop/features/products/presentation/pages/detailHeadphoneScreen.dart';
-import 'package:digital_dreams_shop/features/products/presentation/pages/headphoneScreen.dart';
+import 'package:digital_dreams_shop/core/utils/injection_container.dart';
+import 'package:digital_dreams_shop/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 
-import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/main_onboard.dart';
+import 'package:digital_dreams_shop/config/routes/router.dart';
+import 'package:digital_dreams_shop/config/theme/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await init();
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(
+        create: (context) => sl<AuthBloc>(),
+      ),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -18,7 +25,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: AppColor.background,
@@ -28,7 +35,7 @@ class MyApp extends StatelessWidget {
           color: Colors.transparent,
         ),
       ),
-      home: const WelcomeScreen(),
+      routerConfig: AppRouter().router,
     );
   }
 }

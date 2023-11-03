@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:digital_dreams_shop/core/utils/typdefs.dart';
+import 'package:digital_dreams_shop/features/auth/domain/entities/address.dart';
 import 'package:digital_dreams_shop/features/auth/domain/entities/user.dart';
 
 class UserModel extends User {
@@ -10,32 +11,31 @@ class UserModel extends User {
     required super.phoneNumber,
     required super.email,
     required super.password,
-    required super.avatarUrl,
-    required super.birthDate,
-    required super.addresses,
+    super.avatarUrl,
+    super.birthDate,
+    super.addresses,
+    super.token,
   });
 
   factory UserModel.fromJson(String source) =>
       UserModel.fromMap(jsonDecode(source) as DataMap);
 
   UserModel.fromMap(DataMap map)
-      : this(
-          id: map['id'],
-          userName: map['userName'],
-          phoneNumber: map['phoneNumber'],
-          email: map['email'],
-          password: map['password'],
-          avatarUrl: map['avatarUrl'],
-          birthDate: map['birthDate'] != null
-              ? DateTime.parse(map['birthDate'])
-              : null,
-          addresses: map['addresses'] != null
-              ? List<Object>.from(map['addresses'])
-              : null,
+      : super(
+          id: map['data']['user']['_id'] as String,
+          userName: map['data']['user']['username'] as String,
+          phoneNumber: map['data']['user']['phoneNumber'] as String,
+          email: map['data']['user']['email'] as String,
+          password: map['data']['user']['password'] as String,
+          // avatarUrl: map['data']['user']['avatarUrl'] as String?,
+          // birthDate: map['data']['user']['birthDate'] as DateTime?,
+          // addresses: (map['data']['user']['addresses'] as List<dynamic>)
+          //     .cast<Address>(),
+          token: map['data']['token'] as String?,
         );
 
   DataMap toMap() => {
-        'id': id,
+        '_id': id,
         'userName': userName,
         'phoneNumber': phoneNumber,
         'email': email,
@@ -55,8 +55,7 @@ class UserModel extends User {
     String? password,
     String? avatarUrl,
     DateTime? birthDate,
-    Gender? gender,
-    List<Object>? addresses,
+    List<Address>? addresses,
   }) {
     return User(
       id: id ?? this.id,
