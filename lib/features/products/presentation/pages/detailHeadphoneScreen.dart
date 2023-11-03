@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
+import 'package:digital_dreams_shop/features/products/presentation/widgets/colorInkwellBtn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -167,19 +168,28 @@ class DetailHeadphoneScreen extends StatelessWidget {
                   ],
                 ),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                        height: 25,
-                        width: 25,
-                        child: InkWell(
-                          onTap: () {},
-                          child: Ink(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: Color.fromARGB(255, 56, 56, 209),
-                            ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10, top: 11),
+                      child: Row(
+                        children: [
+                          ColorInkwellBtn(colorbg: AppColor.text),
+                          const SizedBox(
+                            width: 10,
                           ),
-                        )),
+                          ColorInkwellBtn(colorbg: Color(0xFFCCCCCC)),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          ColorInkwellBtn(colorbg: Color(0xFFCADCA7)),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          ColorInkwellBtn(colorbg: Color(0xFFF79F1F)),
+                        ],
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -224,7 +234,7 @@ class DetailHeadphoneScreen extends StatelessWidget {
                       Text(
                         '1.980.000',
                         style: GoogleFonts.poppins(
-                          fontSize: 23,
+                          fontSize: 21,
                           fontWeight: FontWeight.w700,
                           color: AppColor.text,
                         ),
@@ -232,7 +242,7 @@ class DetailHeadphoneScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(
-                    width: 15,
+                    width: 24,
                   ),
                   InkWell(
                     onTap: () {},

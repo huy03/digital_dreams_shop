@@ -79,7 +79,7 @@ class CategoriesScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 25),
                 child: CategoriesRightBox(
                   image: "assets/images/laptop_categories.png",
-                  title: "Phones",
+                  title: "Laptops",
                   subtitle: "121 Products",
                 ),
               ),
@@ -95,7 +95,7 @@ class CategoriesScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 25),
                 child: CategoriesRightBox(
                   image: "assets/images/tablet_categories.png",
-                  title: "Phones",
+                  title: "Tablets",
                   subtitle: "121 Products",
                 ),
               ),
@@ -111,7 +111,7 @@ class CategoriesScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 25),
                 child: CategoriesRightBox(
                   image: "assets/images/camera_categories.png",
-                  title: "Phones",
+                  title: "Cameras",
                   subtitle: "121 Products",
                 ),
               ),

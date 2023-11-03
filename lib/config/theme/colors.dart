@@ -13,4 +13,6 @@ class AppColor {
   static const searchField = Color(0xFFF3F4F5);
   static const error = Color(0xFFB00020);
   static const star = Color(0xFFFFAB07);
+  static const bodyText = Color(0xFF464646);
+  static const checkOutText = Color(0xFFC2BFBF);
 }
