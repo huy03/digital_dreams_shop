@@ -1,3 +1,4 @@
+import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/pages/login.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/pages/signup.dart';
@@ -8,6 +9,7 @@ import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/page
 import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/page_three.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/widgets/next_button.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class MainOnboardScreen extends StatefulWidget {
@@ -34,12 +36,7 @@ class _MainOnboardScreenState extends State<MainOnboardScreen> {
         curve: Curves.ease,
       );
     } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
-        ),
-      );
+      context.pushReplacementNamed(RouteNames.login);
     }
   }
 

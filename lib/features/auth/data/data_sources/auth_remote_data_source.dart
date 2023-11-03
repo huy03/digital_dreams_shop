@@ -1,59 +1,106 @@
+import 'dart:convert';
+
+import 'package:digital_dreams_shop/core/constraints/constraints.dart';
+import 'package:digital_dreams_shop/core/errors/exceptions.dart';
+import 'package:digital_dreams_shop/core/errors/failures.dart';
+import 'package:digital_dreams_shop/core/utils/typdefs.dart';
+import 'package:digital_dreams_shop/features/auth/data/models/user_model.dart';
+import 'package:http/http.dart' as http;
+
 abstract class AuthRemoteDataSource {
   const AuthRemoteDataSource();
 
-  Future<void> logInWithEmailAndPassword({
+  Future<UserModel> logInWithEmailAndPassword({
     required String email,
     required String password,
   });
-  Future<void> logInWithGoogle();
-  Future<void> logInWithFacebook();
-  Future<void> signUpWithEmailAndPassword(String email, String password);
-  Future<void> signOut();
-  Future<bool> isSignedIn();
-  Future<String> getUser();
+
+  // Future<void> logInWithGoogle();
+
+  // Future<void> logInWithFacebook();
+
+  // Future<void> signUp({
+  //   required String email,
+  //   required String password,
+  //   required int phoneNumber,
+  // });
+
+  // Future<void> forgotPassword(String email);
+
+  // Future<void> updateUser({
+  //   required UserInfo userInfo,
+  //   dynamic userData,
+  // });
+
+  // Future<void> signOut();
+
+  // Future<String> getUser();
 }
 
-class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
-  const AuthRemoteDataSourceImpl();
+class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
+  const AuthRemoteDataSourceImpl({required this.client});
+
+  final http.Client client;
 
   @override
-  Future<void> logInWithEmailAndPassword({
+  Future<UserModel> logInWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
-    try {} catch (e) {}
+    final url = Uri.parse('$kBaseUrl/users/login');
+    final response = await client.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({
+        'email': email,
+        'password': password,
+      }),
+    );
+    final DataMap data = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      return UserModel.fromJson(response.body);
+    }
+    throw ServerException(
+      data['message'],
+      response.statusCode,
+    );
   }
 
-  @override
-  Future<void> logInWithFacebook() async {}
+  // Future<void> logInWithFacebook() async {}
 
-  @override
-  Future<String> getUser() {
-    // TODO: implement getUser
-    throw UnimplementedError();
-  }
+  // Future<String> getUser() {
+  //   // TODO: implement getUser
+  //   throw UnimplementedError();
+  // }
 
-  @override
-  Future<bool> isSignedIn() {
-    // TODO: implement isSignedIn
-    throw UnimplementedError();
-  }
+  // Future<void> logInWithGoogle() {
+  //   // TODO: implement logInWithGoogle
+  //   throw UnimplementedError();
+  // }
 
-  @override
-  Future<void> logInWithGoogle() {
-    // TODO: implement logInWithGoogle
-    throw UnimplementedError();
-  }
+  // Future<void> signOut() {
+  //   // TODO: implement signOut
+  //   throw UnimplementedError();
+  // }
 
-  @override
-  Future<void> signOut() {
-    // TODO: implement signOut
-    throw UnimplementedError();
-  }
+  // Future<void> signUp({
+  //   required String email,
+  //   required String password,
+  //   required int phoneNumber,
+  // }) {
+  //   // TODO: implement signUpWithEmailAndPassword
+  //   throw UnimplementedError();
+  // }
 
-  @override
-  Future<void> signUpWithEmailAndPassword(String email, String password) {
-    // TODO: implement signUpWithEmailAndPassword
-    throw UnimplementedError();
-  }
+  // Future<void> forgotPassword(String email) {
+  //   // TODO: implement forgotPassword
+  //   throw UnimplementedError();
+  // }
+
+  // Future<void> updateUser({required UserInfo userInfo, userData}) {
+  //   // TODO: implement updateUser
+  //   throw UnimplementedError();
+  // }
 }

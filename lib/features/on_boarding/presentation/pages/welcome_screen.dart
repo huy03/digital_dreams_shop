@@ -1,15 +1,14 @@
+import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:flutter/material.dart';
 
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
 
-import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/main_onboard.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/widgets/subtitle_text.dart';
+import 'package:go_router/go_router.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
-
-  static const routeName = '/';
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +43,7 @@ class WelcomeScreen extends StatelessWidget {
                     height: 43,
                     text: 'Let\'s begin',
                     onPressed: () {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (ctx) => const MainOnboardScreen(),
-                        ),
-                      );
+                      context.pushReplacementNamed(RouteNames.onBoarding);
                     },
                   ),
                 ],
