@@ -9,10 +9,11 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "Please tell us your name!"],
       trim: true,
+      unique: true,
     },
     phoneNumber: {
       type: String,
-      required: [true, "Please provide a phone number!"],
+      required: [true, "Please tell us your phone number!"],
       unique: true,
     },
     email: {

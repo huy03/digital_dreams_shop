@@ -15,15 +15,16 @@ abstract class AuthRemoteDataSource {
     required String password,
   });
 
+  Future<void> signUp({
+    required String email,
+    required String password,
+    required String username,
+    required String phoneNumber,
+  });
+
   // Future<void> logInWithGoogle();
 
   // Future<void> logInWithFacebook();
-
-  // Future<void> signUp({
-  //   required String email,
-  //   required String password,
-  //   required int phoneNumber,
-  // });
 
   // Future<void> forgotPassword(String email);
 
@@ -68,6 +69,36 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
   }
 
+  @override
+  Future<void> signUp({
+    required String email,
+    required String password,
+    required String username,
+    required String phoneNumber,
+  }) async {
+    final url = Uri.parse('$kBaseUrl/users/signup');
+    final response = await client.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({
+        'username': username,
+        'email': email,
+        'password': password,
+        'phoneNumber': phoneNumber,
+      }),
+    );
+
+    final DataMap data = jsonDecode(response.body);
+    if (response.statusCode >= 400) {
+      throw ServerException(
+        data['message'],
+        response.statusCode,
+      );
+    }
+  }
+
   // Future<void> logInWithFacebook() async {}
 
   // Future<String> getUser() {
@@ -82,15 +113,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   // Future<void> signOut() {
   //   // TODO: implement signOut
-  //   throw UnimplementedError();
-  // }
-
-  // Future<void> signUp({
-  //   required String email,
-  //   required String password,
-  //   required int phoneNumber,
-  // }) {
-  //   // TODO: implement signUpWithEmailAndPassword
   //   throw UnimplementedError();
   // }
 

@@ -2,20 +2,9 @@ import 'package:digital_dreams_shop/core/utils/injection_container.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 
-import 'package:digital_dreams_shop/features/cart/presentation/pages/checkoutScreen.dart';
-import 'package:digital_dreams_shop/features/cart/presentation/pages/mycart.dart';
-import 'package:digital_dreams_shop/features/cart/presentation/pages/paymentMethod.dart';
-import 'package:digital_dreams_shop/features/home/presentation/pages/home_screen.dart';
-import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/welcome_screen.dart';
-import 'package:digital_dreams_shop/features/products/presentation/pages/categories.dart';
-import 'package:digital_dreams_shop/features/products/presentation/pages/detailHeadphoneScreen.dart';
-import 'package:digital_dreams_shop/features/products/presentation/pages/headphoneScreen.dart';
-import 'package:digital_dreams_shop/features/user/presentation/pages/profileScreen.dart';
-
 import 'package:flutter/material.dart';
 
 import 'package:digital_dreams_shop/config/routes/router.dart';
-import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 Future<void> main() async {
@@ -48,7 +37,6 @@ class MyApp extends StatelessWidget {
         ),
       ),
       routerConfig: AppRouter().router,
-
     );
   }
 }
