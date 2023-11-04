@@ -3,17 +3,15 @@ import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iconsax/iconsax.dart';
 
-class SearchTextFormField extends StatelessWidget {
-  const SearchTextFormField({super.key, this.controller});
+class SearchField extends StatelessWidget {
+  const SearchField({super.key, this.controller});
 
   final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      
       controller: controller,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(18),

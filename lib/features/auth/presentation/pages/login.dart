@@ -1,5 +1,7 @@
 import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
+import 'package:digital_dreams_shop/core/constraints/constraints.dart';
+import 'package:digital_dreams_shop/core/utils/injection_container.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/widgets/custom_inkwell_button.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,7 @@ import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/widgets/custom_social_icon.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/widgets/custom_text_form_field.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -32,13 +35,15 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void logIn() {
+  void logIn() async {
     final isValidate = _formKey.currentState!.validate();
     if (isValidate) {
-      BlocProvider.of<AuthBloc>(context).add(SignInWithEmailAndPasswordEvent(
-        email: _emailController.text,
-        password: _passwordController.text,
-      ));
+      BlocProvider.of<AuthBloc>(context).add(
+        SignInWithEmailAndPasswordEvent(
+          email: _emailController.text,
+          password: _passwordController.text,
+        ),
+      );
     }
   }
 

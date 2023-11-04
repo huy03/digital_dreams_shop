@@ -9,7 +9,7 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 15),
+      padding: const EdgeInsets.only(bottom: 15),
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -17,7 +17,7 @@ class ProductItem extends StatelessWidget {
           color: AppColor.background,
           boxShadow: [
             BoxShadow(
-              color: Color(0xFF969696).withOpacity(0.1),
+              color: AppColor.shadowSecondary.withOpacity(0.1),
               offset: const Offset(0, 11),
               blurRadius: 24,
               spreadRadius: 0,

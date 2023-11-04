@@ -1,6 +1,7 @@
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
-import 'package:digital_dreams_shop/features/home/presentation/widgets/inkwell_categories.dart';
+import 'package:digital_dreams_shop/features/home/presentation/widgets/categoriy_button.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/product_item.dart';
+import 'package:digital_dreams_shop/features/home/presentation/widgets/show_all_button.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,7 +12,7 @@ import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 
 import 'package:digital_dreams_shop/features/home/presentation/widgets/advertisement_item.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
-import 'package:digital_dreams_shop/features/home/presentation/widgets/search_textformfield.dart';
+import 'package:digital_dreams_shop/core/common/widgets/search_field.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -86,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 25,
                 ),
-                const SearchTextFormField(),
+                const SearchField(),
                 const SizedBox(
                   height: 24,
                 ),
@@ -114,13 +115,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     const Spacer(),
-                    Text(
-                      'View All',
-                      style: GoogleFonts.poppins(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: AppColor.textSecondary,
-                      ),
+                    ShowAllButton(
+                      text: 'View All',
+                      onPressed: () {},
                     ),
                   ],
                 ),
@@ -197,25 +194,21 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     const Spacer(),
-                    Text(
-                      'View All',
-                      style: GoogleFonts.poppins(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: AppColor.textSecondary,
-                      ),
+                    ShowAllButton(
+                      text: 'View All',
+                      onPressed: () {},
                     ),
                   ],
                 ),
                 const SizedBox(
                   height: 15,
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    InkwellCategoriesBtn(content: 'Phone'),
-                    InkwellCategoriesBtn(content: 'Tablet'),
-                    InkwellCategoriesBtn(content: 'Laptop'),
+                    CategoryButton(content: 'Phone'),
+                    CategoryButton(content: 'Tablet'),
+                    CategoryButton(content: 'Laptop'),
                   ],
                 ),
                 const SizedBox(
@@ -232,24 +225,23 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     const Spacer(),
-                    Text(
-                      'View All',
-                      style: GoogleFonts.poppins(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: AppColor.textSecondary,
-                      ),
+                    ShowAllButton(
+                      text: 'View All',
+                      onPressed: () {},
                     ),
                   ],
                 ),
                 const SizedBox(
                   height: 15,
                 ),
-                ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: 3,
-                  itemBuilder: (ctx, index) => const ProductItem(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: 3,
+                    itemBuilder: (ctx, index) => const ProductItem(),
+                  ),
                 ),
               ],
             ),
