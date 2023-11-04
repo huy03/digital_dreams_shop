@@ -1,4 +1,3 @@
-import 'package:digital_dreams_shop/core/utils/typdefs.dart';
 import 'package:digital_dreams_shop/features/auth/domain/entities/address.dart';
 import 'package:equatable/equatable.dart';
 

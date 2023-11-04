@@ -4,6 +4,7 @@ import 'package:digital_dreams_shop/features/auth/data/data_sources/auth_remote_
 import 'package:digital_dreams_shop/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:digital_dreams_shop/features/auth/domain/repositories/auth_repository.dart';
 import 'package:digital_dreams_shop/features/auth/domain/usecases/log_in_with_email_and_password.dart';
+import 'package:digital_dreams_shop/features/auth/domain/usecases/sign_up.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -15,9 +16,11 @@ final sl = GetIt.instance;
 Future<void> init() async {
   //! Features - Auth
   //Bloc
-  sl.registerFactory(() => AuthBloc(logInWithEmailAndPassword: sl()));
+  sl.registerFactory(
+      () => AuthBloc(logInWithEmailAndPassword: sl(), signUp: sl()));
   // Use cases
   sl.registerLazySingleton(() => LogInWithEmailAndPassword(sl()));
+  sl.registerLazySingleton(() => SignUp(sl()));
   // Repository
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(

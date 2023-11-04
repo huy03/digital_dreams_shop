@@ -1,4 +1,3 @@
-import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/core/utils/typdefs.dart';
 import 'package:digital_dreams_shop/features/auth/domain/entities/user.dart';
 
@@ -14,11 +13,12 @@ abstract class AuthRepository {
 
   // ResultFuture<void> logInWithFacebook();
 
-  // ResultFuture<void> signUp({
-  //   required String email,
-  //   required String password,
-  //   required int phoneNumber,
-  // });
+  ResultFuture<void> signUp({
+    required String email,
+    required String password,
+    required String username,
+    required String phoneNumber,
+  });
 
   // ResultFuture<void> forgotPassword(String email);
 

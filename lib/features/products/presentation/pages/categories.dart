@@ -1,7 +1,7 @@
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
-import 'package:digital_dreams_shop/features/home/presentation/widgets/search_textformfield.dart';
+import 'package:digital_dreams_shop/core/common/widgets/search_field.dart';
 import 'package:digital_dreams_shop/features/products/presentation/widgets/categories_box_left.dart';
 import 'package:digital_dreams_shop/features/products/presentation/widgets/categories_box_right.dart';
 import 'package:flutter/material.dart';
@@ -63,9 +63,9 @@ class CategoriesScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 25),
-                child: SearchTextFormField(),
+              const Padding(
+                padding: EdgeInsets.only(top: 25),
+                child: SearchField(),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 25),

@@ -31,7 +31,7 @@ class UserModel extends User {
           // birthDate: map['data']['user']['birthDate'] as DateTime?,
           // addresses: (map['data']['user']['addresses'] as List<dynamic>)
           //     .cast<Address>(),
-          token: map['data']['token'] as String?,
+          token: map['token'] as String?,
         );
 
   DataMap toMap() => {

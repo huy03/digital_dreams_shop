@@ -42,7 +42,28 @@ class AuthRepositoryImpl extends AuthRepository {
     //       statusCode: 503,
     //     ),
     //   );
-    // }
+    //}
+  }
+
+  @override
+  ResultFuture<void> signUp({
+    required String email,
+    required String password,
+    required String username,
+    required String phoneNumber,
+  }) async {
+    try {
+      await remoteDataSource.signUp(
+        username: username,
+        email: email,
+        password: password,
+        phoneNumber: phoneNumber,
+      );
+
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
   }
 
   // @override
@@ -66,16 +87,6 @@ class AuthRepositoryImpl extends AuthRepository {
   // @override
   // ResultFuture<void> signOut() {
   //   // TODO: implement signOut
-  //   throw UnimplementedError();
-  // }
-
-  // @override
-  // ResultFuture<void> signUp({
-  //   required String email,
-  //   required String password,
-  //   required int phoneNumber,
-  // }) {
-  //   // TODO: implement signUpWithEmailAndPassword
   //   throw UnimplementedError();
   // }
 
