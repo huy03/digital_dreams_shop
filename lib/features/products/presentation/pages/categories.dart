@@ -1,23 +1,40 @@
+import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
+import 'package:digital_dreams_shop/core/common/widgets/shimmer_widget.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:digital_dreams_shop/core/common/widgets/search_field.dart';
-import 'package:digital_dreams_shop/features/products/presentation/widgets/categories_box_left.dart';
-import 'package:digital_dreams_shop/features/products/presentation/widgets/categories_box_right.dart';
+import 'package:digital_dreams_shop/features/products/presentation/cubit/categories_cubit.dart';
+import 'package:digital_dreams_shop/features/products/presentation/widgets/categories_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CategoriesScreen extends StatelessWidget {
+class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({super.key});
+
+  @override
+  State<CategoriesScreen> createState() => _CategoriesScreenState();
+}
+
+class _CategoriesScreenState extends State<CategoriesScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<CategoriesCubit>().fetchAllCategories();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 30, right: 30, top: 42),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 30,
+            vertical: 16,
+          ),
           child: Column(
             children: [
               Row(
@@ -26,7 +43,9 @@ class CategoriesScreen extends StatelessWidget {
                     height: 45,
                     width: 45,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.pop();
+                      },
                       icon: SvgPicture.asset(MediaResource.arrowBack),
                       style: IconButton.styleFrom(
                           backgroundColor: AppColor.primary, elevation: 2),
@@ -40,7 +59,7 @@ class CategoriesScreen extends StatelessWidget {
                     style: GoogleFonts.poppins(
                       fontSize: 23,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF000000),
+                      color: AppColor.text,
                     ),
                   ),
                   const SizedBox(
@@ -67,52 +86,50 @@ class CategoriesScreen extends StatelessWidget {
                 padding: EdgeInsets.only(top: 25),
                 child: SearchField(),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 25),
-                child: CategoriesLeftBox(
-                  image: "assets/images/phone_categories.png",
-                  title: "Phones",
-                  subtitle: "121 Products",
-                ),
+              const SizedBox(
+                height: 25,
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 25),
-                child: CategoriesRightBox(
-                  image: "assets/images/laptop_categories.png",
-                  title: "Laptops",
-                  subtitle: "121 Products",
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 25),
-                child: CategoriesLeftBox(
-                  image: "assets/images/watch_categories.png",
-                  title: "Watchs",
-                  subtitle: "121 Products",
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 25),
-                child: CategoriesRightBox(
-                  image: "assets/images/tablet_categories.png",
-                  title: "Tablets",
-                  subtitle: "121 Products",
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 25),
-                child: CategoriesLeftBox(
-                  image: "assets/images/headphone_categories.png",
-                  title: "Headphones",
-                  subtitle: "46 Products",
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 25),
-                child: CategoriesRightBox(
-                  image: "assets/images/camera_categories.png",
-                  title: "Cameras",
-                  subtitle: "121 Products",
+              Expanded(
+                child: BlocBuilder<CategoriesCubit, CategoriesState>(
+                  builder: (context, state) {
+                    if (state is CategoriesLoading) {
+                      return ListView.builder(
+                        itemCount: 5,
+                        shrinkWrap: true,
+                        itemBuilder: (ctx, index) {
+                          return const ShimmerWidget(
+                            height: 150,
+                            width: double.infinity,
+                            radius: 27,
+                          );
+                        },
+                      );
+                    }
+                    if (state is CategoriesFailure) {
+                      return Center(
+                        child: Text(state.message),
+                      );
+                    }
+                    if (state is CategoriesSuccess) {
+                      final categories = state.categories;
+                      return ListView.builder(
+                        itemCount: categories.length,
+                        shrinkWrap: true,
+                        itemBuilder: (ctx, index) {
+                          return CategoriesItem(
+                            isEven: index.isEven,
+                            image: categories[index].image,
+                            category: categories[index].name,
+                            totalProducts: categories[index].productCount,
+                            onTap: () {
+                              context.goNamed(RouteNames.productByCategory);
+                            },
+                          );
+                        },
+                      );
+                    }
+                    return const SizedBox();
+                  },
                 ),
               ),
             ],

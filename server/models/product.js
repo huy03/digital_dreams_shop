@@ -27,6 +27,7 @@ const productSchema = mongoose.Schema(
       type: Map,
       default: null,
     },
+    imageCover: String,
     images: [String],
     description: {
       type: String,
@@ -47,8 +48,9 @@ const productSchema = mongoose.Schema(
       default: 0,
     },
     brand: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Brand",
+      type: "String",
+      required: [true, "Product must have a brand"],
+      uppercase: true,
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
@@ -76,7 +78,7 @@ productSchema.virtual("reviews", {
   localField: "_id",
 });
 
-productSchema.statics.calcAverageRatings = async function (categoryId) {
+productSchema.statics.calcTotalCategories = async function (categoryId) {
   const stats = await this.aggregate([
     {
       $match: { category: categoryId },
@@ -101,18 +103,7 @@ productSchema.statics.calcAverageRatings = async function (categoryId) {
 };
 
 productSchema.post("save", function () {
-  this.constructor.calcAverageRatings(this.category);
-});
-
-productSchema.pre(/^findOneAnd/, async function (next) {
-  this.p = await this.clone().findOne();
-
-  next();
-});
-
-productSchema.post(/^findOneAnd/, async function () {
-  // await this.findOne(); does NOT work here, query has already executed
-  await this.p.constructor.calcAverageRatings(this.p.category);
+  this.constructor.calcTotalCategories(this.category);
 });
 
 const Product = mongoose.model("Product", productSchema);

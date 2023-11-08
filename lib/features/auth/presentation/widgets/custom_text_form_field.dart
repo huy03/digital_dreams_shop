@@ -22,6 +22,7 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      obscureText: hintText == 'Password' ? true : false,
       keyboardType: keyboardType,
       enabled: enabled,
       validator: validator,

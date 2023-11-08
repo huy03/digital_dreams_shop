@@ -7,10 +7,21 @@ const categorySchema = new mongoose.Schema(
       required: [true, "A category must have a name!"],
       unique: true,
     },
+    brandCount: {
+      type: Number,
+      default: 0,
+    },
     productCount: {
       type: Number,
       default: 0,
     },
+    image: String,
+    brand: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "Category",
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
