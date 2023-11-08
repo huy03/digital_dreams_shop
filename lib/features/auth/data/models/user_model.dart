@@ -11,7 +11,7 @@ class UserModel extends User {
     required super.phoneNumber,
     required super.email,
     required super.password,
-    super.avatarUrl,
+    super.avatar,
     super.birthDate,
     super.addresses,
     super.token,
@@ -27,7 +27,7 @@ class UserModel extends User {
           phoneNumber: map['data']['user']['phoneNumber'] as String,
           email: map['data']['user']['email'] as String,
           password: map['data']['user']['password'] as String,
-          // avatarUrl: map['data']['user']['avatarUrl'] as String?,
+          avatar: map['data']['user']['avatar'] as String?,
           // birthDate: map['data']['user']['birthDate'] as DateTime?,
           // addresses: (map['data']['user']['addresses'] as List<dynamic>)
           //     .cast<Address>(),
@@ -40,7 +40,7 @@ class UserModel extends User {
         'phoneNumber': phoneNumber,
         'email': email,
         'password': password,
-        'avatarUrl': avatarUrl,
+        'avatar': avatar,
         'birthday': birthDate?.toIso8601String(),
         'addresses': addresses,
       };
@@ -53,7 +53,7 @@ class UserModel extends User {
     String? phoneNumber,
     String? email,
     String? password,
-    String? avatarUrl,
+    String? avatar,
     DateTime? birthDate,
     List<Address>? addresses,
   }) {
@@ -63,7 +63,7 @@ class UserModel extends User {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       email: email ?? this.email,
       password: password ?? this.password,
-      avatarUrl: avatarUrl ?? this.avatarUrl,
+      avatar: avatar ?? this.avatar,
       birthDate: birthDate ?? this.birthDate,
       addresses: addresses ?? this.addresses,
     );

@@ -5,4 +5,6 @@ class RouteNames {
   static String signUp = 'signUp';
   static String forgotPassword = 'forgotPassword';
   static String home = 'home';
+  static String category = 'category';
+  static String productByCategory = 'productByCategory';
 }

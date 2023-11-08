@@ -6,14 +6,16 @@ import 'package:digital_dreams_shop/features/auth/presentation/pages/signup.dart
 import 'package:digital_dreams_shop/features/home/presentation/pages/home_screen.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/main_onboard.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/welcome_screen.dart';
+import 'package:digital_dreams_shop/features/products/presentation/pages/categories.dart';
+import 'package:digital_dreams_shop/features/products/presentation/pages/detail_category.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppRouter {
   GoRouter router = GoRouter(
-    initialLocation:
-        sl<SharedPreferences>().getString(kAuthToken) == null ? '/' : '/home',
+    // initialLocation:
+    //     sl<SharedPreferences>().getString(kAuthToken) == null ? '/' : '/home',
     routes: [
       GoRoute(
         name: RouteNames.welcome,
@@ -60,6 +62,28 @@ class AppRouter {
         path: '/home',
         pageBuilder: (context, state) => CustomTransitionPage(
           child: const HomeScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return buildTransition(
+                context, animation, secondaryAnimation, child);
+          },
+        ),
+      ),
+      GoRoute(
+        name: RouteNames.category,
+        path: '/category',
+        pageBuilder: (context, state) => CustomTransitionPage(
+          child: const CategoriesScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return buildTransition(
+                context, animation, secondaryAnimation, child);
+          },
+        ),
+      ),
+      GoRoute(
+        name: RouteNames.productByCategory,
+        path: '/productByCategory',
+        pageBuilder: (context, state) => CustomTransitionPage(
+          child: const DetailCategoryScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return buildTransition(
                 context, animation, secondaryAnimation, child);

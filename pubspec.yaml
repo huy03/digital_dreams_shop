@@ -51,6 +51,8 @@ dependencies:
   get_it: ^7.6.4
   internet_connection_checker: ^1.0.0+1
   email_validator: ^2.1.17
+  transparent_image: ^2.0.1
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

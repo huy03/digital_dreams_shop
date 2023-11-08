@@ -1,16 +1,23 @@
-import 'package:digital_dreams_shop/core/constraints/constraints.dart';
+import 'package:digital_dreams_shop/config/routes/route_names.dart';
+import 'package:digital_dreams_shop/features/home/presentation/cubit/coupon_cubit.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/categoriy_button.dart';
+import 'package:digital_dreams_shop/core/common/widgets/shimmer_widget.dart';
+import 'package:digital_dreams_shop/features/home/presentation/widgets/new_product_item.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/product_item.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/show_all_button.dart';
+import 'package:digital_dreams_shop/features/products/presentation/cubit/categories_cubit.dart';
+import 'package:digital_dreams_shop/features/products/presentation/cubit/popular_categories_cubit.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 
-import 'package:digital_dreams_shop/features/home/presentation/widgets/advertisement_item.dart';
+import 'package:digital_dreams_shop/features/home/presentation/widgets/coupon_item.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:digital_dreams_shop/core/common/widgets/search_field.dart';
 
@@ -23,12 +30,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
+  void initState() {
+    super.initState();
+    context.read<CouponCubit>().fetchAllCoupons();
+    context.read<PopularCategoriesCubit>().fetchPopularCategories();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -93,12 +107,37 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 SizedBox(
                   height: 180,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemCount: advertisements.length,
-                    itemBuilder: (ctx, index) =>
-                        AdvertisementItem(advertisement: advertisements[index]),
+                  child: BlocBuilder<CouponCubit, CouponState>(
+                    builder: (context, state) {
+                      if (state is CouponLoading) {
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: 5,
+                          itemBuilder: (ctx, index) => const ShimmerWidget(
+                            height: 180,
+                            width: 260,
+                            radius: 20,
+                          ),
+                        );
+                      }
+                      if (state is CouponError) {
+                        return Text(state.message);
+                      }
+                      if (state is CouponSuccess) {
+                        final coupons = state.coupons;
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: coupons.length,
+                          itemBuilder: (ctx, index) => CouponItem(
+                            coupon: coupons[index],
+                            onTap: () {},
+                          ),
+                        );
+                      }
+                      return const SizedBox();
+                    },
                   ),
                 ),
                 const SizedBox(
@@ -121,63 +160,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ],
                 ),
+                const SizedBox(
+                  height: 14,
+                ),
                 SizedBox(
                   height: 260,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: 5,
-                    itemBuilder: ((ctx, index) => Padding(
-                          padding: const EdgeInsets.only(right: 17, top: 15),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 170,
-                                height: 170,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  image: const DecorationImage(
-                                    image: AssetImage(
-                                        MediaResource.advertisementTwo),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 12,
-                              ),
-                              Text(
-                                'boAT Watch Xtend',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColor.text,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 3,
-                              ),
-                              Text(
-                                'Smart Watch',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColor.textSecondary,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 3,
-                              ),
-                              Text(
-                                '1.195.000',
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w800,
-                                  color: AppColor.text,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )),
+                    itemBuilder: (ctx, index) => const Padding(
+                      padding: EdgeInsets.only(right: 16),
+                      child: NewProductItem(),
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -196,20 +190,48 @@ class _HomeScreenState extends State<HomeScreen> {
                     const Spacer(),
                     ShowAllButton(
                       text: 'View All',
-                      onPressed: () {},
+                      onPressed: () {
+                        context.pushNamed(RouteNames.category);
+                      },
                     ),
                   ],
                 ),
                 const SizedBox(
                   height: 15,
                 ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CategoryButton(content: 'Phone'),
-                    CategoryButton(content: 'Tablet'),
-                    CategoryButton(content: 'Laptop'),
-                  ],
+                BlocBuilder<PopularCategoriesCubit, PopularCategoriesState>(
+                  builder: (context, state) {
+                    if (state is PopularCategoriesLoading) {
+                      return SizedBox(
+                        height: 36,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: 3,
+                          itemBuilder: (ctx, index) => const ShimmerWidget(
+                            height: 35,
+                            width: 100,
+                            radius: 20,
+                          ),
+                        ),
+                      );
+                    }
+                    if (state is PopularCategoriesFailure) {
+                      return Text(state.message);
+                    }
+                    if (state is PopularCategoriesSuccess) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: state.categories
+                            .map((category) => CategoryButton(
+                                  content: category.name,
+                                  onTap: () {},
+                                ))
+                            .toList(),
+                      );
+                    }
+                    return const SizedBox();
+                  },
                 ),
                 const SizedBox(
                   height: 20,

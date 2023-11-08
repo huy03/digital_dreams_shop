@@ -91,7 +91,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     final DataMap data = jsonDecode(response.body);
-    if (response.statusCode >= 400) {
+    if (data['status'] == 'fail') {
       throw ServerException(
         data['message'],
         response.statusCode,

@@ -13,7 +13,7 @@ const userSchema = mongoose.Schema(
     },
     phoneNumber: {
       type: String,
-      required: [true, "Please tell us your phone number!"],
+      required: [true, "Please provide a phone number!"],
       unique: true,
     },
     email: {
@@ -44,10 +44,19 @@ const userSchema = mongoose.Schema(
     birthday: {
       type: Date,
     },
-    address: {
-      type: String,
-    },
-    avatarImgUrl: {
+    wishlist: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "Product",
+      },
+    ],
+    address: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "Address",
+      },
+    ],
+    avatar: {
       type: String,
       default:
         "https://www.testhouse.net/wp-content/uploads/2021/11/default-avatar.jpg",
