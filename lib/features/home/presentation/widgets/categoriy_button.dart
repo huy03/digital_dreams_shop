@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CategoryButton extends StatelessWidget {
-  const CategoryButton({super.key, required this.content});
+  const CategoryButton({super.key, required this.content, this.onTap});
   final String content;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class CategoryButton extends StatelessWidget {
         color: const Color(0xFFF6F6F7),
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: onTap,
         borderRadius: BorderRadius.circular(16),
         child: Center(
           child: Text(

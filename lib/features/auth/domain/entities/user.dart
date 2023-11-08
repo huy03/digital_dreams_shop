@@ -9,7 +9,7 @@ class User extends Equatable {
   final String phoneNumber;
   final String email;
   final String password;
-  final String? avatarUrl;
+  final String? avatar;
   final DateTime? birthDate;
   final List<Address>? addresses;
   final String? token;
@@ -20,7 +20,7 @@ class User extends Equatable {
     required this.phoneNumber,
     required this.email,
     required this.password,
-    this.avatarUrl = '',
+    this.avatar = '',
     this.birthDate,
     this.addresses,
     this.token,

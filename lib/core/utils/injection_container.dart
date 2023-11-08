@@ -6,6 +6,18 @@ import 'package:digital_dreams_shop/features/auth/domain/repositories/auth_repos
 import 'package:digital_dreams_shop/features/auth/domain/usecases/log_in_with_email_and_password.dart';
 import 'package:digital_dreams_shop/features/auth/domain/usecases/sign_up.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:digital_dreams_shop/features/home/data/data_sources/coupon_remote_datasource.dart';
+import 'package:digital_dreams_shop/features/home/data/repositories/coupon_repository_impl.dart';
+import 'package:digital_dreams_shop/features/home/domain/repositories/coupon_respository.dart';
+import 'package:digital_dreams_shop/features/home/domain/usecases/get_all_coupons.dart';
+import 'package:digital_dreams_shop/features/home/presentation/cubit/coupon_cubit.dart';
+import 'package:digital_dreams_shop/features/products/data/datasources/category_remote_datasources.dart';
+import 'package:digital_dreams_shop/features/products/data/repositories/category_repository_impl.dart';
+import 'package:digital_dreams_shop/features/products/domain/repositories/category_repository.dart';
+import 'package:digital_dreams_shop/features/products/domain/usecases/get_all_categories.dart';
+import 'package:digital_dreams_shop/features/products/domain/usecases/get_popular_categories.dart';
+import 'package:digital_dreams_shop/features/products/presentation/cubit/categories_cubit.dart';
+import 'package:digital_dreams_shop/features/products/presentation/cubit/popular_categories_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:http/http.dart' as http;
@@ -35,6 +47,39 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<AuthLocalDataSource>(
       () => AuthLocalDataSourceImpl(sl()));
+
+  //! Features - Home
+  // Cubit
+  sl.registerFactory(() => CouponCubit(getAllCoupons: sl()));
+  // Use cases
+  sl.registerLazySingleton(() => GetAllCoupons(sl()));
+  // Repository
+  sl.registerLazySingleton<CouponRepository>(() => CouponRepositoryImpl(sl()));
+  // Data sources
+  sl.registerLazySingleton<CouponRemoteDataSource>(
+      () => CouponRemoteDataSourceImpl(client: sl()));
+
+  //! Features - Products
+  // Cubit
+  sl.registerFactory(
+    () => CategoriesCubit(
+      getAllCategories: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => PopularCategoriesCubit(
+      getPopularCategories: sl(),
+    ),
+  );
+  // Use cases
+  sl.registerLazySingleton(() => GetAllCategories(sl()));
+  sl.registerLazySingleton(() => GetPopularCategories(sl()));
+  // Repository
+  sl.registerLazySingleton<CategoryRepository>(
+      () => CategoryRepositoryImpl(sl()));
+  // Data sources
+  sl.registerLazySingleton<CategoryRemoteDataSource>(
+      () => CategoryRemoteDataSourceImpl(client: sl()));
 
   //! Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));

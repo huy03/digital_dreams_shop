@@ -88,6 +88,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 24,
+                    vertical: 12,
                   ),
                   child: Form(
                     key: _formKey,
@@ -122,6 +123,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Phone number is required!';
+                            }
+                            var regExp = RegExp(r'^(?:[+0][1-9])?[0-9]{10}$');
+                            if (!regExp.hasMatch(value)) {
+                              return 'Please enter a valid phone number!';
                             }
                             return null;
                           },
