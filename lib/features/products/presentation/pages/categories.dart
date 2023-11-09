@@ -122,7 +122,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             category: categories[index].name,
                             totalProducts: categories[index].productCount,
                             onTap: () {
-                              context.goNamed(RouteNames.productByCategory);
+                              context.pushNamed(
+                                RouteNames.productByCategory,
+                                pathParameters: {
+                                  'categoryId': categories[index].name,
+                                  'category': categories[index].name,
+                                },
+                              );
                             },
                           );
                         },

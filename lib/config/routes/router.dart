@@ -81,9 +81,12 @@ class AppRouter {
       ),
       GoRoute(
         name: RouteNames.productByCategory,
-        path: '/productByCategory',
+        path: '/productByCategory/:category/:categoryId',
         pageBuilder: (context, state) => CustomTransitionPage(
-          child: const DetailCategoryScreen(),
+          child: DetailCategoryScreen(
+            category: state.pathParameters['category']!,
+            categoryId: state.pathParameters['categoryId']!,
+          ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return buildTransition(
                 context, animation, secondaryAnimation, child);
