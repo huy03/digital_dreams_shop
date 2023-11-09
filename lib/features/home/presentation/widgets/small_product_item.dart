@@ -3,8 +3,8 @@ import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class NewProductItem extends StatelessWidget {
-  const NewProductItem({super.key});
+class SmallProductItem extends StatelessWidget {
+  const SmallProductItem({super.key});
 
   @override
   Widget build(BuildContext context) {

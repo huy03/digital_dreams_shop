@@ -2,7 +2,7 @@ import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:digital_dreams_shop/core/common/widgets/search_field.dart';
-import 'package:digital_dreams_shop/features/home/presentation/widgets/new_product_item.dart';
+import 'package:digital_dreams_shop/features/home/presentation/widgets/small_product_item.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -111,7 +111,7 @@ class _DetailCategoryScreenState extends State<DetailCategoryScreen> {
                     crossAxisSpacing: 20,
                     mainAxisSpacing: 16,
                   ),
-                  itemBuilder: (ctx, index) => const NewProductItem(),
+                  itemBuilder: (ctx, index) => const SmallProductItem(),
                 ),
               )
             ],
