@@ -225,7 +225,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: state.categories
                             .map((category) => CategoryButton(
                                   content: category.name,
-                                  onTap: () {},
+                                  onTap: () {
+                                    context.pushNamed(
+                                      RouteNames.productByCategory,
+                                      pathParameters: {
+                                        'categoryId': category.name,
+                                        'category': category.name,
+                                      },
+                                    );
+                                  },
                                 ))
                             .toList(),
                       );
