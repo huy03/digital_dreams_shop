@@ -1,10 +1,14 @@
+import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
+import 'package:digital_dreams_shop/core/common/widgets/shimmer_widget.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:digital_dreams_shop/core/common/widgets/search_field.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/small_product_item.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/category.dart';
+import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,6 +28,16 @@ class DetailCategoryScreen extends StatefulWidget {
 }
 
 class _DetailCategoryScreenState extends State<DetailCategoryScreen> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<ProductsBloc>(context).add(
+      GetAllProductsByCategoryEvent(
+        widget.categoryId,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,15 +117,84 @@ class _DetailCategoryScreenState extends State<DetailCategoryScreen> {
                 height: 25,
               ),
               Expanded(
-                child: GridView.builder(
-                  itemCount: 10,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.65,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 16,
-                  ),
-                  itemBuilder: (ctx, index) => const SmallProductItem(),
+                child: BlocBuilder<ProductsBloc, ProductsState>(
+                  builder: (context, state) {
+                    if (state is ProductsLoading) {
+                      return GridView.builder(
+                        itemCount: 8,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.65,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 16,
+                        ),
+                        itemBuilder: (ctx, index) {
+                          return const Column(
+                            children: [
+                              ShimmerWidget(
+                                height: 170,
+                                width: 170,
+                                radius: 20,
+                              ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              ShimmerWidget(
+                                height: 16,
+                                width: 100,
+                                radius: 20,
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              ShimmerWidget(
+                                height: 15,
+                                width: 60,
+                                radius: 20,
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              ShimmerWidget(
+                                height: 15,
+                                width: 80,
+                                radius: 20,
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                    if (state is ProductsError) {
+                      return Center(
+                        child: Text(state.message),
+                      );
+                    }
+                    if (state is ProductsSuccess) {
+                      final products = state.products;
+                      return GridView.builder(
+                        itemCount: products.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.65,
+                          crossAxisSpacing: 20,
+                          mainAxisSpacing: 16,
+                        ),
+                        itemBuilder: (ctx, index) => SmallProductItem(
+                          product: products[index],
+                          onTap: () {
+                            context.pushNamed(
+                              RouteNames.productDetail,
+                              extra: products[index],
+                            );
+                          },
+                        ),
+                      );
+                    }
+                    return const SizedBox();
+                  },
                 ),
               )
             ],

@@ -12,10 +12,15 @@ import 'package:digital_dreams_shop/features/home/domain/repositories/coupon_res
 import 'package:digital_dreams_shop/features/home/domain/usecases/get_all_coupons.dart';
 import 'package:digital_dreams_shop/features/home/presentation/cubit/coupon_cubit.dart';
 import 'package:digital_dreams_shop/features/products/data/datasources/category_remote_datasources.dart';
+import 'package:digital_dreams_shop/features/products/data/datasources/product_remote_datasources.dart';
 import 'package:digital_dreams_shop/features/products/data/repositories/category_repository_impl.dart';
+import 'package:digital_dreams_shop/features/products/data/repositories/product_repository_impl.dart';
 import 'package:digital_dreams_shop/features/products/domain/repositories/category_repository.dart';
-import 'package:digital_dreams_shop/features/products/domain/usecases/get_all_categories.dart';
-import 'package:digital_dreams_shop/features/products/domain/usecases/get_popular_categories.dart';
+import 'package:digital_dreams_shop/features/products/domain/repositories/product_repository.dart';
+import 'package:digital_dreams_shop/features/products/domain/usecases/category/get_all_categories.dart';
+import 'package:digital_dreams_shop/features/products/domain/usecases/category/get_popular_categories.dart';
+import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_all_products_by_category.dart';
+import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/categories_cubit.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/popular_categories_cubit.dart';
 import 'package:get_it/get_it.dart';
@@ -59,7 +64,7 @@ Future<void> init() async {
   sl.registerLazySingleton<CouponRemoteDataSource>(
       () => CouponRemoteDataSourceImpl(client: sl()));
 
-  //! Features - Products
+  //! Features - Categories
   // Cubit
   sl.registerFactory(
     () => CategoriesCubit(
@@ -80,6 +85,18 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<CategoryRemoteDataSource>(
       () => CategoryRemoteDataSourceImpl(client: sl()));
+
+  //! Features - Products
+  // Bloc
+  sl.registerFactory(() => ProductsBloc(getAllProductsByCategory: sl()));
+  // Use cases
+  sl.registerLazySingleton(() => GetAllProductsByCategory(sl()));
+  // Repository
+  sl.registerLazySingleton<ProductRepository>(
+      () => ProductRepositoryImpl(sl()));
+  // Data sources
+  sl.registerLazySingleton<ProductRemoteDataSource>(
+      () => ProductRemoteDataSourceImpl(client: sl()));
 
   //! Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));

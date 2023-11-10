@@ -6,7 +6,9 @@ import 'package:digital_dreams_shop/features/auth/presentation/pages/signup.dart
 import 'package:digital_dreams_shop/features/home/presentation/pages/home_screen.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/main_onboard.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/welcome_screen.dart';
+import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
 import 'package:digital_dreams_shop/features/products/presentation/pages/categories.dart';
+import 'package:digital_dreams_shop/features/products/presentation/pages/product_detail.dart';
 import 'package:digital_dreams_shop/features/products/presentation/pages/detail_category.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -86,6 +88,19 @@ class AppRouter {
           child: DetailCategoryScreen(
             category: state.pathParameters['category']!,
             categoryId: state.pathParameters['categoryId']!,
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return buildTransition(
+                context, animation, secondaryAnimation, child);
+          },
+        ),
+      ),
+      GoRoute(
+        name: RouteNames.productDetail,
+        path: '/productDetail',
+        pageBuilder: (context, state) => CustomTransitionPage(
+          child: ProductDetailScreen(
+            product: state.extra as Product,
           ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return buildTransition(
