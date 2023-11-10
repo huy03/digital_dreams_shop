@@ -7,4 +7,5 @@ class RouteNames {
   static String home = 'home';
   static String category = 'category';
   static String productByCategory = 'productByCategory';
+  static String productDetail = 'productDetail';
 }

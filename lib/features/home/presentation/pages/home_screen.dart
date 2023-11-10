@@ -5,6 +5,7 @@ import 'package:digital_dreams_shop/core/common/widgets/shimmer_widget.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/small_product_item.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/product_item.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/show_all_button.dart';
+import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/categories_cubit.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/popular_categories_cubit.dart';
 
@@ -170,7 +171,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: 5,
                     itemBuilder: (ctx, index) => const Padding(
                       padding: EdgeInsets.only(right: 16),
-                      child: SmallProductItem(),
+                      child: SmallProductItem(
+                        product: Product(
+                          id: '1234',
+                          name: 'Iphone',
+                          regularPrice: 1000000,
+                          colors: [],
+                          description: 'description',
+                          quantity: 5,
+                          imageCover:
+                              'https://res.cloudinary.com/daitxafuw/image/upload/v1699455770/categories/camera_categories_ucmxh7.png',
+                          brand: 'brand',
+                          ratingsAverage: 5,
+                          ratingsQuantity: 5,
+                          category: 'categoryId',
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -229,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     context.pushNamed(
                                       RouteNames.productByCategory,
                                       pathParameters: {
-                                        'categoryId': category.name,
+                                        'categoryId': category.id,
                                         'category': category.name,
                                       },
                                     );

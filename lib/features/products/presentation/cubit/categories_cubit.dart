@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/category.dart';
-import 'package:digital_dreams_shop/features/products/domain/usecases/get_all_categories.dart';
+import 'package:digital_dreams_shop/features/products/domain/usecases/category/get_all_categories.dart';
 import 'package:equatable/equatable.dart';
 
 part 'categories_state.dart';
