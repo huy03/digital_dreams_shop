@@ -125,7 +125,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               context.pushNamed(
                                 RouteNames.productByCategory,
                                 pathParameters: {
-                                  'categoryId': categories[index].name,
+                                  'categoryId': categories[index].id,
                                   'category': categories[index].name,
                                 },
                               );

@@ -2,6 +2,9 @@ import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+
+final currency = NumberFormat('#,##0', 'vi-VN');
 
 class ProductItem extends StatelessWidget {
   const ProductItem({super.key});
@@ -65,6 +68,17 @@ class ProductItem extends StatelessWidget {
                       fontSize: 11,
                       fontWeight: FontWeight.w400,
                       color: AppColor.textSecondary,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    currency.format(21990000).toString(),
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                      color: AppColor.text,
                     ),
                   ),
                 ],

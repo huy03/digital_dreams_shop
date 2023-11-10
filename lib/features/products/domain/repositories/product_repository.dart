@@ -4,7 +4,7 @@ import 'package:digital_dreams_shop/features/products/domain/entities/product.da
 abstract class ProductRepository {
   const ProductRepository();
 
-  ResultFuture<List<Product>> getAllProductsByCategory();
-  ResultFuture<List<Product>> getRecentProducts();
-  ResultFuture<List<Product>> getPopularProducts();
+  ResultFuture<List<Product>> getAllProductsByCategory(String id);
+  ResultFuture<List<Product>> getProductById();
+  ResultFuture<List<Product>> getProductByName();
 }
