@@ -1,14 +1,13 @@
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
-import 'package:digital_dreams_shop/features/cart/presentation/widgets/bottomWidget.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MyCartSreen extends StatelessWidget {
-  const MyCartSreen({super.key});
+class MyCartScreen extends StatelessWidget {
+  const MyCartScreen({super.key});
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -40,7 +39,7 @@ class MyCartSreen extends StatelessWidget {
                       style: GoogleFonts.poppins(
                         fontSize: 23,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF000000),
+                        color: const Color(0xFF000000),
                       ),
                     ),
                     const SizedBox(
@@ -81,7 +80,7 @@ class MyCartSreen extends StatelessWidget {
                               color: AppColor.background,
                               boxShadow: [
                                 BoxShadow(
-                                  color: Color(0xFF969696).withOpacity(0.1),
+                                  color: const Color(0xFF969696).withOpacity(0.1),
                                   offset: const Offset(0, 0),
                                   blurRadius: 24,
                                   spreadRadius: 0,
@@ -173,7 +172,7 @@ class MyCartSreen extends StatelessWidget {
                       blurRadius: 24.0,
                       spreadRadius: 0)
                 ],
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(24),
                   topRight: Radius.circular(24),
                 ),
@@ -192,7 +191,7 @@ class MyCartSreen extends StatelessWidget {
                             color: AppColor.checkOutText,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text(
                           '500.000',
                           style: GoogleFonts.poppins(
@@ -216,7 +215,7 @@ class MyCartSreen extends StatelessWidget {
                             color: AppColor.checkOutText,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text(
                           '30.000',
                           style: GoogleFonts.poppins(
@@ -240,7 +239,7 @@ class MyCartSreen extends StatelessWidget {
                             color: AppColor.text,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Text(
                           '530.000',
                           style: GoogleFonts.poppins(

@@ -5,8 +5,8 @@ import 'package:digital_dreams_shop/core/common/widgets/shimmer_widget.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:digital_dreams_shop/core/common/widgets/search_field.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/small_product_item.dart';
-import 'package:digital_dreams_shop/features/products/domain/entities/category.dart';
 import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
+import 'package:digital_dreams_shop/features/products/presentation/widgets/small_product_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -130,39 +130,7 @@ class _DetailCategoryScreenState extends State<DetailCategoryScreen> {
                           mainAxisSpacing: 16,
                         ),
                         itemBuilder: (ctx, index) {
-                          return const Column(
-                            children: [
-                              ShimmerWidget(
-                                height: 170,
-                                width: 170,
-                                radius: 20,
-                              ),
-                              SizedBox(
-                                height: 12,
-                              ),
-                              ShimmerWidget(
-                                height: 16,
-                                width: 100,
-                                radius: 20,
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              ShimmerWidget(
-                                height: 15,
-                                width: 60,
-                                radius: 20,
-                              ),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              ShimmerWidget(
-                                height: 15,
-                                width: 80,
-                                radius: 20,
-                              ),
-                            ],
-                          );
+                          return const SmallProductLoading();
                         },
                       );
                     }
@@ -184,12 +152,6 @@ class _DetailCategoryScreenState extends State<DetailCategoryScreen> {
                         ),
                         itemBuilder: (ctx, index) => SmallProductItem(
                           product: products[index],
-                          onTap: () {
-                            context.pushNamed(
-                              RouteNames.productDetail,
-                              extra: products[index],
-                            );
-                          },
                         ),
                       );
                     }

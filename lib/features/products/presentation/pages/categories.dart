@@ -97,10 +97,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                         itemCount: 5,
                         shrinkWrap: true,
                         itemBuilder: (ctx, index) {
-                          return const ShimmerWidget(
-                            height: 150,
-                            width: double.infinity,
-                            radius: 27,
+                          return const Padding(
+                            padding: EdgeInsets.only(bottom: 20.0),
+                            child: ShimmerWidget(
+                              height: 150,
+                              width: double.infinity,
+                              radius: 27,
+                            ),
                           );
                         },
                       );

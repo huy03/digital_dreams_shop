@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/core/errors/exceptions.dart';
-import 'package:digital_dreams_shop/core/errors/failures.dart';
 import 'package:digital_dreams_shop/core/utils/typdefs.dart';
 import 'package:digital_dreams_shop/features/auth/data/models/user_model.dart';
 import 'package:http/http.dart' as http;
