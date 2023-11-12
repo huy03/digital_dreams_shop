@@ -1,6 +1,8 @@
+import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:intl/intl.dart';
@@ -16,7 +18,13 @@ class SmallProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      onTap: () {
+        context.pushNamed(
+          RouteNames.productDetail,
+          extra: product,
+        );
+      },
       child: Column(
         children: [
           Card(
@@ -24,25 +32,32 @@ class SmallProductItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             clipBehavior: Clip.hardEdge,
-            child: FadeInImage(
-              placeholder: MemoryImage(kTransparentImage),
-              image: NetworkImage(product.imageCover),
-              fit: BoxFit.cover,
-              width: 170,
-              height: 170,
+            child: Hero(
+              tag: product.id,
+              child: FadeInImage(
+                placeholder: MemoryImage(kTransparentImage),
+                image: NetworkImage(product.imageCover),
+                fit: BoxFit.cover,
+                width: 170,
+                height: 170,
+              ),
             ),
           ),
           const SizedBox(
             height: 12,
           ),
-          Text(
-            product.name,
-            softWrap: true,
-            overflow: TextOverflow.ellipsis,
-            style: GoogleFonts.poppins(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: AppColor.text,
+          SizedBox(
+            width: 140,
+            child: Text(
+              product.name,
+              softWrap: true,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.poppins(
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: AppColor.text,
+              ),
             ),
           ),
           const SizedBox(

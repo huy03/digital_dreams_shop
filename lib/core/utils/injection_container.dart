@@ -20,6 +20,9 @@ import 'package:digital_dreams_shop/features/products/domain/repositories/produc
 import 'package:digital_dreams_shop/features/products/domain/usecases/category/get_all_categories.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/category/get_popular_categories.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_all_products_by_category.dart';
+import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_new_arrivals_product.dart';
+import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_popular_products.dart';
+import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_product_by_Id.dart';
 import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/categories_cubit.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/popular_categories_cubit.dart';
@@ -88,9 +91,17 @@ Future<void> init() async {
 
   //! Features - Products
   // Bloc
-  sl.registerFactory(() => ProductsBloc(getAllProductsByCategory: sl()));
+  sl.registerFactory(() => ProductsBloc(
+        getAllProductsByCategory: sl(),
+        getProductById: sl(),
+        getNewArrivalProducts: sl(),
+        getPopularProducts: sl(),
+      ));
   // Use cases
   sl.registerLazySingleton(() => GetAllProductsByCategory(sl()));
+  sl.registerLazySingleton(() => GetProductById(sl()));
+  sl.registerLazySingleton(() => GetNewArrivalProducts(sl()));
+  sl.registerLazySingleton(() => GetPopularProducts(sl()));
   // Repository
   sl.registerLazySingleton<ProductRepository>(
       () => ProductRepositoryImpl(sl()));

@@ -6,8 +6,11 @@ import 'package:digital_dreams_shop/features/home/presentation/widgets/small_pro
 import 'package:digital_dreams_shop/features/home/presentation/widgets/product_item.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/show_all_button.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
+import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_popular_products.dart';
+import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/categories_cubit.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/popular_categories_cubit.dart';
+import 'package:digital_dreams_shop/features/products/presentation/widgets/small_product_loading.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,11 +33,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final List<Product> newArrivalProducts = [];
+  final List<Product> popularProducts = [];
+
   @override
   void initState() {
     super.initState();
     context.read<CouponCubit>().fetchAllCoupons();
     context.read<PopularCategoriesCubit>().fetchPopularCategories();
+    context.read<ProductsBloc>().add(const GetNewArrivalProductsEvent());
+    context.read<ProductsBloc>().add(const GetPopularProductsEvent());
   }
 
   @override
@@ -133,7 +141,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemCount: coupons.length,
                           itemBuilder: (ctx, index) => CouponItem(
                             coupon: coupons[index],
-                            onTap: () {},
                           ),
                         );
                       }
@@ -166,28 +173,39 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 SizedBox(
                   height: 260,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 5,
-                    itemBuilder: (ctx, index) => const Padding(
-                      padding: EdgeInsets.only(right: 16),
-                      child: SmallProductItem(
-                        product: Product(
-                          id: '1234',
-                          name: 'Iphone',
-                          regularPrice: 1000000,
-                          colors: [],
-                          description: 'description',
-                          quantity: 5,
-                          imageCover:
-                              'https://res.cloudinary.com/daitxafuw/image/upload/v1699455770/categories/camera_categories_ucmxh7.png',
-                          brand: 'brand',
-                          ratingsAverage: 5,
-                          ratingsQuantity: 5,
-                          category: 'categoryId',
+                  child: BlocConsumer<ProductsBloc, ProductsState>(
+                    listener: (context, state) {
+                      if (state is NewArrivalProductsSuccess) {
+                        newArrivalProducts.clear();
+                        newArrivalProducts.addAll(state.products);
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is ProductsLoading) {
+                        return ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: 5,
+                          itemBuilder: (ctx, index) => const Padding(
+                            padding: EdgeInsets.only(right: 16.0),
+                            child: SmallProductLoading(),
+                          ),
+                        );
+                      }
+                      if (state is ProductsError) {
+                        return Text(state.message);
+                      }
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: newArrivalProducts.length,
+                        itemBuilder: (ctx, index) => Padding(
+                          padding: const EdgeInsets.only(right: 16),
+                          child: SmallProductItem(
+                            product: newArrivalProducts[index],
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(
@@ -282,11 +300,73 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 3,
-                    itemBuilder: (ctx, index) => const ProductItem(),
+                  child: BlocConsumer<ProductsBloc, ProductsState>(
+                    listener: (context, state) {
+                      if (state is PopularProductsSuccess) {
+                        popularProducts.clear();
+                        popularProducts.addAll(state.products);
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is ProductsLoading) {
+                        return const Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 16),
+                              child: ShimmerWidget(
+                                height: 100,
+                                width: double.infinity,
+                                radius: 20,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 16),
+                              child: ShimmerWidget(
+                                height: 100,
+                                width: double.infinity,
+                                radius: 20,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 16),
+                              child: ShimmerWidget(
+                                height: 100,
+                                width: double.infinity,
+                                radius: 20,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 16),
+                              child: ShimmerWidget(
+                                height: 100,
+                                width: double.infinity,
+                                radius: 20,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 16),
+                              child: ShimmerWidget(
+                                height: 100,
+                                width: double.infinity,
+                                radius: 20,
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                      if (state is ProductsError) {
+                        return Text(state.message);
+                      }
+                      return Column(
+                        children: popularProducts
+                            .map(
+                              (product) => ProductItem(
+                                product: product,
+                              ),
+                            )
+                            .toList(),
+                      );
+                    },
                   ),
                 ),
               ],
