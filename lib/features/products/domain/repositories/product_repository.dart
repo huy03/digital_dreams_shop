@@ -5,6 +5,8 @@ abstract class ProductRepository {
   const ProductRepository();
 
   ResultFuture<List<Product>> getAllProductsByCategory(String id);
-  ResultFuture<List<Product>> getProductById();
+  ResultFuture<Product> getProductById(String id);
+  ResultFuture<List<Product>> getNewArrivalProducts();
+  ResultFuture<List<Product>> getPopularProducts();
   ResultFuture<List<Product>> getProductByName();
 }

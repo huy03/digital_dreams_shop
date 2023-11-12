@@ -4,11 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-class CouponItem extends StatelessWidget {
-  const CouponItem({super.key, required this.coupon, this.onTap});
+class CouponItem extends StatefulWidget {
+  const CouponItem({super.key, required this.coupon});
 
   final Coupon coupon;
-  final void Function()? onTap;
+
+  @override
+  State<CouponItem> createState() => _CouponItemState();
+}
+
+class _CouponItemState extends State<CouponItem> {
+  bool isClicked = false;
+  String collectCoupon = 'Get now';
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +29,7 @@ class CouponItem extends StatelessWidget {
         children: [
           FadeInImage(
             placeholder: MemoryImage(kTransparentImage),
-            image: NetworkImage(coupon.imageCover),
+            image: NetworkImage(widget.coupon.imageCover),
             fit: BoxFit.cover,
             height: 180,
             width: 260,
@@ -35,7 +42,7 @@ class CouponItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${coupon.discountValue}% Off',
+                  '${widget.coupon.discountValue}% Off',
                   style: GoogleFonts.poppins(
                     fontSize: 25,
                     fontWeight: FontWeight.w700,
@@ -46,7 +53,7 @@ class CouponItem extends StatelessWidget {
                   height: 2,
                 ),
                 Text(
-                  coupon.subtitle,
+                  widget.coupon.subtitle,
                   style: GoogleFonts.poppins(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
@@ -57,7 +64,7 @@ class CouponItem extends StatelessWidget {
                   height: 10,
                 ),
                 Text(
-                  'With code: ${coupon.code}',
+                  'With code: ${widget.coupon.code}',
                   style: GoogleFonts.poppins(
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
@@ -68,15 +75,23 @@ class CouponItem extends StatelessWidget {
                   height: 10,
                 ),
                 ElevatedButton(
-                  onPressed: onTap,
+                  onPressed: isClicked
+                      ? null
+                      : () {
+                          setState(() {
+                            isClicked = true;
+                            collectCoupon = 'Collected';
+                          });
+                        },
                   style: ElevatedButton.styleFrom(
+                    disabledBackgroundColor: AppColor.secondary,
                     backgroundColor: AppColor.primary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                   child: Text(
-                    'Get now',
+                    collectCoupon,
                     style: GoogleFonts.poppins(
                       fontSize: 12,
                       color: AppColor.textLight,

@@ -20,6 +20,33 @@ final class ProductsSuccess extends ProductsState {
   List<Object> get props => [products];
 }
 
+final class NewArrivalProductsSuccess extends ProductsState {
+  final List<Product> products;
+
+  const NewArrivalProductsSuccess({required this.products});
+
+  @override
+  List<Object> get props => [products];
+}
+
+final class PopularProductsSuccess extends ProductsState {
+  final List<Product> products;
+
+  const PopularProductsSuccess({required this.products});
+
+  @override
+  List<Object> get props => [products];
+}
+
+final class ProductSuccess extends ProductsState {
+  final Product product;
+
+  const ProductSuccess({required this.product});
+
+  @override
+  List<Object> get props => [product];
+}
+
 final class ProductsError extends ProductsState {
   final String message;
 

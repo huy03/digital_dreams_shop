@@ -16,8 +16,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AppRouter {
   GoRouter router = GoRouter(
-    // initialLocation:
-    //     sl<SharedPreferences>().getString(kAuthToken) == null ? '/' : '/home',
+    initialLocation:
+        sl<SharedPreferences>().getString(kAuthToken) == null ? '/' : '/home',
     routes: [
       GoRoute(
         name: RouteNames.welcome,

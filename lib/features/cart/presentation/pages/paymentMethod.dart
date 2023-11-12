@@ -3,7 +3,6 @@ import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/widgets/paybyCashbtn.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/widgets/paymentBtn.dart';
-import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
