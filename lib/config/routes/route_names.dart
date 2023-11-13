@@ -8,4 +8,7 @@ class RouteNames {
   static String category = 'category';
   static String productByCategory = 'productByCategory';
   static String productDetail = 'productDetail';
+  static String cart = 'cart';
+  static String checkout = 'checkout';
+  static String search = 'search';
 }

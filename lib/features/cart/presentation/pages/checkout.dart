@@ -5,13 +5,13 @@ import 'package:digital_dreams_shop/features/cart/presentation/widgets/rowInform
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       backgroundColor: AppColor.background,
       body: SingleChildScrollView(
@@ -26,7 +26,9 @@ class CheckoutScreen extends StatelessWidget {
                       height: 45,
                       width: 45,
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.pop();
+                        },
                         icon: SvgPicture.asset(MediaResource.arrowBack),
                         style: IconButton.styleFrom(
                             backgroundColor: AppColor.primary, elevation: 2),

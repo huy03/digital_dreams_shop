@@ -4,7 +4,6 @@ import 'package:digital_dreams_shop/core/errors/failures.dart';
 import 'package:digital_dreams_shop/core/utils/typdefs.dart';
 import 'package:digital_dreams_shop/features/products/data/datasources/product_remote_datasources.dart';
 import 'package:digital_dreams_shop/features/products/data/models/product_model.dart';
-import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
 import 'package:digital_dreams_shop/features/products/domain/repositories/product_repository.dart';
 
 class ProductRepositoryImpl extends ProductRepository {
@@ -33,9 +32,25 @@ class ProductRepositoryImpl extends ProductRepository {
   }
 
   @override
-  ResultFuture<List<ProductModel>> getProductByName() {
-    // TODO: implement getProductByName
-    throw UnimplementedError();
+  ResultFuture<List<ProductModel>> searchProductByName(String text) async {
+    try {
+      final result = await remoteDataSource.searchProductByName(text);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<List<ProductModel>> searchProductsByNamePerCategory(
+      String id, String text) async {
+    try {
+      final result =
+          await remoteDataSource.searchProductsByNamePerCategory(id, text);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
   }
 
   @override

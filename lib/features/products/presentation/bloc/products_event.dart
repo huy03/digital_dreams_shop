@@ -38,3 +38,22 @@ class GetPopularProductsEvent extends ProductsEvent {
   @override
   List<Object> get props => [];
 }
+
+class SearchProductsByNameEvent extends ProductsEvent {
+  const SearchProductsByNameEvent(this.text);
+
+  final String text;
+
+  @override
+  List<Object> get props => [text];
+}
+
+class SearchProductsByNamePerCategoryEvent extends ProductsEvent {
+  const SearchProductsByNamePerCategoryEvent(this.id, this.text);
+
+  final String id;
+  final String text;
+
+  @override
+  List<Object> get props => [id, text];
+}

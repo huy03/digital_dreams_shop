@@ -1,16 +1,18 @@
+import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MyCartScreen extends StatelessWidget {
   const MyCartScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       backgroundColor: AppColor.background,
       body: SingleChildScrollView(
@@ -25,7 +27,9 @@ class MyCartScreen extends StatelessWidget {
                       height: 45,
                       width: 45,
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          context.pop();
+                        },
                         icon: SvgPicture.asset(MediaResource.arrowBack),
                         style: IconButton.styleFrom(
                             backgroundColor: AppColor.primary, elevation: 2),
@@ -42,23 +46,10 @@ class MyCartScreen extends StatelessWidget {
                         color: const Color(0xFF000000),
                       ),
                     ),
-                    const SizedBox(
-                      width: 85,
-                    ),
-                    Row(
-                      children: [
-                        CustomSuffixIcon(
-                          svgImg: MediaResource.message,
-                          onPressed: () {},
-                        ),
-                        const SizedBox(
-                          width: 18,
-                        ),
-                        CustomSuffixIcon(
-                          svgImg: MediaResource.cart,
-                          onPressed: () {},
-                        )
-                      ],
+                    const Spacer(),
+                    CustomSuffixIcon(
+                      svgImg: MediaResource.message,
+                      onPressed: () {},
                     ),
                   ],
                 ),
@@ -74,13 +65,13 @@ class MyCartScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 15),
                           child: Container(
                             width: double.infinity,
-                            height: 110,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20.0),
                               color: AppColor.background,
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFF969696).withOpacity(0.1),
+                                  color:
+                                      const Color(0xFF969696).withOpacity(0.1),
                                   offset: const Offset(0, 0),
                                   blurRadius: 24,
                                   spreadRadius: 0,
@@ -254,10 +245,13 @@ class MyCartScreen extends StatelessWidget {
                       height: 25,
                     ),
                     CustomButton(
-                        width: double.infinity,
-                        height: 45,
-                        text: 'Checkout',
-                        onPressed: () {})
+                      width: double.infinity,
+                      height: 45,
+                      text: 'Checkout',
+                      onPressed: () {
+                        context.pushNamed(RouteNames.checkout);
+                      },
+                    )
                   ],
                 ),
               ),

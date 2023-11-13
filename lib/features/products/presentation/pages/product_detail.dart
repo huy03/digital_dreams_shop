@@ -293,7 +293,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 style: GoogleFonts.poppins(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
-                                  color: Color(0xFF9FA29E),
+                                  color: const Color(0xFF9FA29E),
                                 ),
                               ),
                             ],
@@ -310,7 +310,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         height: 55,
                         decoration: BoxDecoration(
                           color: AppColor.primary,
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(20.0),
                             bottomRight: Radius.circular(20.0),
                           ),
