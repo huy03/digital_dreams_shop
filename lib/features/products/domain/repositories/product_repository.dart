@@ -8,5 +8,7 @@ abstract class ProductRepository {
   ResultFuture<Product> getProductById(String id);
   ResultFuture<List<Product>> getNewArrivalProducts();
   ResultFuture<List<Product>> getPopularProducts();
-  ResultFuture<List<Product>> getProductByName();
+  ResultFuture<List<Product>> searchProductByName(String text);
+  ResultFuture<List<Product>> searchProductsByNamePerCategory(
+      String id, String text);
 }

@@ -24,8 +24,8 @@ class CustomSuffixIcon extends StatelessWidget {
           ),
         ],
       ),
-      height: 45,
-      width: 45,
+      height: 40,
+      width: 40,
       child: IconButton(
         onPressed: onPressed,
         icon: SvgPicture.asset(svgImg),

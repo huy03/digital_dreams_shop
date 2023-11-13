@@ -1,51 +1,42 @@
-import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
-import 'package:digital_dreams_shop/core/common/widgets/shimmer_widget.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
-import 'package:digital_dreams_shop/core/common/widgets/search_field.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/small_product_item.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
-import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
 import 'package:digital_dreams_shop/features/products/presentation/widgets/small_product_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
-class DetailCategoryScreen extends StatefulWidget {
-  const DetailCategoryScreen({
-    super.key,
-    required this.category,
-    required this.categoryId,
-  });
+import '../bloc/products_bloc.dart';
 
-  final String category;
-  final String categoryId;
+final currency = NumberFormat('#,##0', 'vi-VN');
+
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key, required this.text});
+
+  final String text;
 
   @override
-  State<DetailCategoryScreen> createState() => _DetailCategoryScreenState();
+  State<SearchScreen> createState() {
+    return _SearchScreenState();
+  }
 }
 
-class _DetailCategoryScreenState extends State<DetailCategoryScreen> {
-  final TextEditingController searchController = TextEditingController();
-  final List<Product> productsByCategory = [];
+class _SearchScreenState extends State<SearchScreen> {
+  final List<Product> searchProducts = [];
 
   @override
   void initState() {
     super.initState();
     BlocProvider.of<ProductsBloc>(context).add(
-      GetAllProductsByCategoryEvent(
-        widget.categoryId,
+      SearchProductsByNameEvent(
+        widget.text,
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    searchController.dispose();
-    super.dispose();
   }
 
   @override
@@ -62,8 +53,8 @@ class _DetailCategoryScreenState extends State<DetailCategoryScreen> {
               Row(
                 children: [
                   SizedBox(
-                    height: 45,
-                    width: 45,
+                    height: 40,
+                    width: 40,
                     child: IconButton(
                       onPressed: () {
                         context.pop();
@@ -74,14 +65,19 @@ class _DetailCategoryScreenState extends State<DetailCategoryScreen> {
                     ),
                   ),
                   const SizedBox(
-                    width: 20,
+                    width: 12,
                   ),
-                  Text(
-                    widget.category,
-                    style: GoogleFonts.poppins(
-                      fontSize: 23,
-                      fontWeight: FontWeight.bold,
-                      color: AppColor.text,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.48,
+                    child: Text(
+                      'Search for \'${widget.text}\'',
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: AppColor.text,
+                      ),
                     ),
                   ),
                   const Spacer(),
@@ -92,7 +88,7 @@ class _DetailCategoryScreenState extends State<DetailCategoryScreen> {
                         onPressed: () {},
                       ),
                       const SizedBox(
-                        width: 18,
+                        width: 12,
                       ),
                       CustomSuffixIcon(
                         svgImg: MediaResource.cart,
@@ -102,52 +98,15 @@ class _DetailCategoryScreenState extends State<DetailCategoryScreen> {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 25),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: SearchField(
-                        controller: searchController,
-                        onSubmitted: (value) {
-                          BlocProvider.of<ProductsBloc>(context).add(
-                            SearchProductsByNamePerCategoryEvent(
-                              widget.categoryId,
-                              value,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 40,
-                    ),
-                    SizedBox(
-                      height: 50,
-                      width: 50,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: SvgPicture.asset(MediaResource.filter),
-                        style: IconButton.styleFrom(
-                            backgroundColor: AppColor.primary, elevation: 2),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               const SizedBox(
                 height: 25,
               ),
               Expanded(
                 child: BlocConsumer<ProductsBloc, ProductsState>(
                   listener: (context, state) {
-                    if (state is ProductsSuccess) {
-                      productsByCategory.clear();
-                      productsByCategory.addAll(state.products);
-                    }
-                    if (state is SearchProductsPerCategorySuccess) {
-                      productsByCategory.clear();
-                      productsByCategory.addAll(state.products);
+                    if (state is SearchProductsSuccess) {
+                      searchProducts.clear();
+                      searchProducts.addAll(state.products);
                     }
                   },
                   builder: (context, state) {
@@ -171,20 +130,22 @@ class _DetailCategoryScreenState extends State<DetailCategoryScreen> {
                         child: Text(state.message),
                       );
                     }
-                    if (productsByCategory.isEmpty) {
+                    if (searchProducts.isEmpty) {
                       return Center(
                         child: Text(
-                          'No products found',
+                          'No products found for \'${widget.text}\'',
+                          softWrap: true,
+                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: AppColor.text,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       );
                     }
+
                     return GridView.builder(
-                      itemCount: productsByCategory.length,
+                      itemCount: searchProducts.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
@@ -193,7 +154,7 @@ class _DetailCategoryScreenState extends State<DetailCategoryScreen> {
                         mainAxisSpacing: 16,
                       ),
                       itemBuilder: (ctx, index) => SmallProductItem(
-                        product: productsByCategory[index],
+                        product: searchProducts[index],
                       ),
                     );
                   },

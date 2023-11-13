@@ -38,6 +38,24 @@ final class PopularProductsSuccess extends ProductsState {
   List<Object> get props => [products];
 }
 
+final class SearchProductsSuccess extends ProductsState {
+  final List<Product> products;
+
+  const SearchProductsSuccess({required this.products});
+
+  @override
+  List<Object> get props => [products];
+}
+
+final class SearchProductsPerCategorySuccess extends ProductsState {
+  final List<Product> products;
+
+  const SearchProductsPerCategorySuccess({required this.products});
+
+  @override
+  List<Object> get props => [products];
+}
+
 final class ProductSuccess extends ProductsState {
   final Product product;
 
