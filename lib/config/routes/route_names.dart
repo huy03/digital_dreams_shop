@@ -11,4 +11,5 @@ class RouteNames {
   static String cart = 'cart';
   static String checkout = 'checkout';
   static String search = 'search';
+  static String wishlist = 'wishlist';
 }
