@@ -11,7 +11,6 @@ class PaymentMethodScreen extends StatelessWidget {
   const PaymentMethodScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       backgroundColor: AppColor.background,
       body: SingleChildScrollView(

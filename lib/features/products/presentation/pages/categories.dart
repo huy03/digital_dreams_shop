@@ -20,10 +20,18 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
+  final TextEditingController searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     context.read<CategoriesCubit>().fetchAllCategories();
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -82,9 +90,20 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   ),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 25),
-                child: SearchField(),
+              const SizedBox(
+                height: 25,
+              ),
+              SearchField(
+                controller: searchController,
+                onSubmitted: (value) {
+                  context.pushNamed(
+                    RouteNames.search,
+                    pathParameters: {
+                      'text': value,
+                    },
+                  );
+                  searchController.clear();
+                },
               ),
               const SizedBox(
                 height: 25,

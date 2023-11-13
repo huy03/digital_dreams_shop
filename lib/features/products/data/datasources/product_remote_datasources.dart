@@ -11,7 +11,9 @@ abstract class ProductRemoteDataSource {
 
   Future<List<ProductModel>> getAllProductsByCategory(String id);
   Future<ProductModel> getProductById(String id);
-  Future<List<ProductModel>> getProductByName();
+  Future<List<ProductModel>> searchProductByName(String text);
+  Future<List<ProductModel>> searchProductsByNamePerCategory(
+      String id, String text);
   Future<List<ProductModel>> getNewArrivalProducts();
   Future<List<ProductModel>> getPopularProducts();
 }
@@ -42,13 +44,6 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
       return products;
     }
 
-    if (products.isEmpty) {
-      throw ServerException(
-        'No products found',
-        response.statusCode,
-      );
-    }
-
     throw ServerException(
       data['message'],
       response.statusCode,
@@ -77,9 +72,58 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
   }
 
   @override
-  Future<List<ProductModel>> getProductByName() {
-    // TODO: implement getProductByName
-    throw UnimplementedError();
+  Future<List<ProductModel>> searchProductByName(String text) async {
+    final url = Uri.parse('$kBaseUrl/products?search=$text');
+    final response = await client.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+    final DataMap data = jsonDecode(response.body);
+    final List<ProductModel> products = [];
+    if (response.statusCode == 200) {
+      for (final product in data['data']['data']) {
+        products.add(
+          ProductModel.fromJson(product),
+        );
+      }
+
+      return products;
+    }
+
+    throw ServerException(
+      data['message'],
+      response.statusCode,
+    );
+  }
+
+  @override
+  Future<List<ProductModel>> searchProductsByNamePerCategory(
+      String id, String text) async {
+    final url = Uri.parse('$kBaseUrl/categories/$id/products?search=$text');
+    final response = await client.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+    final DataMap data = jsonDecode(response.body);
+    final List<ProductModel> products = [];
+    if (response.statusCode == 200) {
+      for (final product in data['data']['data']) {
+        products.add(
+          ProductModel.fromJson(product),
+        );
+      }
+
+      return products;
+    }
+
+    throw ServerException(
+      data['message'],
+      response.statusCode,
+    );
   }
 
   @override
@@ -101,13 +145,6 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
       }
 
       return products;
-    }
-
-    if (products.isEmpty) {
-      throw ServerException(
-        'No products found',
-        response.statusCode,
-      );
     }
 
     throw ServerException(
@@ -136,13 +173,6 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
       }
 
       return products;
-    }
-
-    if (products.isEmpty) {
-      throw ServerException(
-        'No products found',
-        response.statusCode,
-      );
     }
 
     throw ServerException(
