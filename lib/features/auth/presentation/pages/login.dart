@@ -14,7 +14,6 @@ import 'package:digital_dreams_shop/features/auth/presentation/widgets/custom_so
 import 'package:digital_dreams_shop/features/auth/presentation/widgets/custom_text_form_field.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -52,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
-            context.goNamed(RouteNames.home);
+            context.goNamed(RouteNames.application);
           }
           if (state is AuthError) {
             ScaffoldMessenger.of(context).clearSnackBars();

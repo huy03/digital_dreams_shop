@@ -1,13 +1,15 @@
 import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
+import 'package:digital_dreams_shop/config/theme/media_resource.dart';
+import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
+import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:intl/intl.dart';
-
-final currency = NumberFormat('#,##0', 'vi-VN');
 
 class SmallProductItem extends StatelessWidget {
   const SmallProductItem({super.key, required this.product, this.onTap});
@@ -32,15 +34,40 @@ class SmallProductItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             clipBehavior: Clip.hardEdge,
-            child: Hero(
-              tag: product.id,
-              child: FadeInImage(
-                placeholder: MemoryImage(kTransparentImage),
-                image: NetworkImage(product.imageCover),
-                fit: BoxFit.cover,
-                width: 170,
-                height: 170,
-              ),
+            child: Stack(
+              children: [
+                Hero(
+                  tag: product.id,
+                  child: FadeInImage(
+                    placeholder: MemoryImage(kTransparentImage),
+                    image: NetworkImage(product.imageCover),
+                    fit: BoxFit.cover,
+                    width: 170,
+                    height: 170,
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  right: 4,
+                  child: IconButton(
+                    onPressed: () {
+                      BlocProvider.of<ProductsBloc>(context).add(
+                        AddOrRemoveProductWishListEvent(product.id),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Product added to wishlist'),
+                          duration: Duration(milliseconds: 500),
+                        ),
+                      );
+                    },
+                    icon: SvgPicture.asset(
+                      MediaResource.love,
+                      width: 22,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(

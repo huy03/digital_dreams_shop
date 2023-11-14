@@ -28,6 +28,14 @@ router
     productController.deleteProduct
   );
 
+router
+  .route("/:id/wishlist")
+  .patch(
+    authController.protect,
+    authController.restrictTo("user"),
+    productController.addToWishlist
+  );
+
 router.use("/:productId/reviews", reviewRouter);
 
 module.exports = router;
