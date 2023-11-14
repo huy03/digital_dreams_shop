@@ -6,14 +6,14 @@ import 'package:digital_dreams_shop/features/on_boarding/data/data_sources/on_bo
 import 'package:digital_dreams_shop/features/on_boarding/domain/repositories/on_boarding_repos.dart';
 
 class OnBoardingRepositoryImpl extends OnBoardingRepository {
-  const OnBoardingRepositoryImpl(this._localDataSource);
+  const OnBoardingRepositoryImpl(this.localDataSource);
 
-  final OnBoardingLocalDataSource _localDataSource;
+  final OnBoardingLocalDataSource localDataSource;
 
   @override
   ResultFuture<void> cacheFirstTimer() async {
     try {
-      await _localDataSource.cacheFirstTimer();
+      await localDataSource.cacheFirstTimer();
       return const Right(null);
     } on CacheException catch (e) {
       return Left(
@@ -28,7 +28,7 @@ class OnBoardingRepositoryImpl extends OnBoardingRepository {
   @override
   ResultFuture<bool> isFirstTimer() async {
     try {
-      final result = await _localDataSource.isFirstTimer();
+      final result = await localDataSource.isFirstTimer();
       return Right(result);
     } on CacheException catch (e) {
       return Left(

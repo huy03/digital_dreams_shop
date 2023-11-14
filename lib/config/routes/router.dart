@@ -1,3 +1,4 @@
+import 'package:digital_dreams_shop/application.dart';
 import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_bottom_navigation_bar.dart';
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
@@ -6,7 +7,8 @@ import 'package:digital_dreams_shop/features/auth/presentation/pages/login.dart'
 import 'package:digital_dreams_shop/features/auth/presentation/pages/signup.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/pages/checkout.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/pages/my_cart.dart';
-import 'package:digital_dreams_shop/features/cart/presentation/pages/wishlist.dart';
+import 'package:digital_dreams_shop/features/on_boarding/data/data_sources/on_boarding_local_data_sources.dart';
+import 'package:digital_dreams_shop/features/wishlist/presentation/pages/wishlist.dart';
 import 'package:digital_dreams_shop/features/home/presentation/pages/home_screen.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/main_onboard.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/welcome_screen.dart';
@@ -21,9 +23,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AppRouter {
   GoRouter router = GoRouter(
-    initialLocation:
-     '/navigatecustom',
-        // sl<SharedPreferences>().getString(kAuthToken) == null ? '/' : '/home',
+    initialLocation: //'/application',
+        sl<SharedPreferences>().getBool(kFirstTimer) == false
+            ? '/'
+            : (sl<SharedPreferences>().getString(kAuthToken) == ''
+                ? '/logIn'
+                : '/application'),
     routes: [
       GoRoute(
         name: RouteNames.welcome,
@@ -153,7 +158,7 @@ class AppRouter {
         name: RouteNames.wishlist,
         path: '/wishlist',
         pageBuilder: (context, state) => CustomTransitionPage(
-          child: WishlistScreen(),
+          child: const WishlistScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return buildTransition(
                 context, animation, secondaryAnimation, child);
@@ -161,10 +166,10 @@ class AppRouter {
         ),
       ),
       GoRoute(
-        name: RouteNames.navigatecustom,
-        path: '/navigatecustom',
+        name: RouteNames.application,
+        path: '/application',
         pageBuilder: (context, state) => CustomTransitionPage(
-          child: CustomNavigationBar(),
+          child: const ApplicationScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return buildTransition(
                 context, animation, secondaryAnimation, child);

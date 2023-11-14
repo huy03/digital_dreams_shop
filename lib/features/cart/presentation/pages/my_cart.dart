@@ -14,141 +14,141 @@ class MyCartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.background,
-      body: SingleChildScrollView(
-        child: Stack(children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30, top: 42),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    SizedBox(
-                      height: 45,
-                      width: 45,
-                      child: IconButton(
-                        onPressed: () {
-                          context.pop();
-                        },
-                        icon: SvgPicture.asset(MediaResource.arrowBack),
-                        style: IconButton.styleFrom(
-                            backgroundColor: AppColor.primary, elevation: 2),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                right: 30.0,
+                left: 30,
+                top: 24,
+              ),
+              child: Row(
+                children: [
+                  SizedBox(
+                    height: 45,
+                    width: 45,
+                    child: IconButton(
+                      onPressed: () {
+                        context.pop();
+                      },
+                      icon: SvgPicture.asset(MediaResource.arrowBack),
+                      style: IconButton.styleFrom(
+                        backgroundColor: AppColor.primary,
+                        elevation: 2,
                       ),
                     ),
-                    const SizedBox(
-                      width: 20,
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    'My cart',
+                    style: GoogleFonts.poppins(
+                      fontSize: 23,
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFF000000),
                     ),
-                    Text(
-                      'My cart',
-                      style: GoogleFonts.poppins(
-                        fontSize: 23,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF000000),
+                  ),
+                  const Spacer(),
+                  CustomSuffixIcon(
+                    svgImg: MediaResource.message,
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            Expanded(
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: 10,
+                itemBuilder: ((ctx, index) => Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 30,
+                        vertical: 8,
                       ),
-                    ),
-                    const Spacer(),
-                    CustomSuffixIcon(
-                      svgImg: MediaResource.message,
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                SizedBox(
-                  height: 550,
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: 10,
-                    itemBuilder: ((ctx, index) => Padding(
-                          padding: const EdgeInsets.only(bottom: 15),
-                          child: Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.0),
-                              color: AppColor.background,
-                              boxShadow: [
-                                BoxShadow(
-                                  color:
-                                      const Color(0xFF969696).withOpacity(0.1),
-                                  offset: const Offset(0, 0),
-                                  blurRadius: 24,
-                                  spreadRadius: 0,
-                                ),
-                              ],
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
+                          color: AppColor.background,
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF969696).withOpacity(0.1),
+                              offset: const Offset(0, 0),
+                              blurRadius: 24,
+                              spreadRadius: 0,
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 12,
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 12,
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 85,
+                                height: 85,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  image: const DecorationImage(
+                                    image: AssetImage(
+                                        MediaResource.popularProductTwo),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
-                              child: Row(
+                              const SizedBox(
+                                width: 16,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    width: 85,
-                                    height: 85,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      image: const DecorationImage(
-                                        image: AssetImage(
-                                            MediaResource.popularProductTwo),
-                                        fit: BoxFit.cover,
-                                      ),
+                                  Text(
+                                    'Apple Watch',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColor.text,
                                     ),
                                   ),
                                   const SizedBox(
-                                    width: 16,
+                                    height: 4,
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Apple Watch',
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.w700,
-                                          color: AppColor.text,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 4,
-                                      ),
-                                      Text(
-                                        'Smart Watch',
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          color: AppColor.textSecondary,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        '1.982.000',
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w700,
-                                          color: AppColor.text,
-                                        ),
-                                      ),
-                                    ],
-                                  )
+                                  Text(
+                                    'Smart Watch',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColor.textSecondary,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    '1.982.000',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColor.text,
+                                    ),
+                                  ),
                                 ],
-                              ),
-                            ),
+                              )
+                            ],
                           ),
-                        )),
-                  ),
-                ),
-              ],
+                        ),
+                      ),
+                    )),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 645),
-            child: Container(
+            Container(
               width: double.infinity,
               height: 220,
               decoration: BoxDecoration(
@@ -256,8 +256,8 @@ class MyCartScreen extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-        ]),
+          ],
+        ),
       ),
     );
   }

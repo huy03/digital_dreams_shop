@@ -22,6 +22,7 @@ router.patch(
   userController.updateMe
 );
 router.delete("/deleteMe", userController.deleteMe);
+router.get("/wishlist", userController.getWishlist);
 
 router.use(authController.restrictTo("admin"));
 

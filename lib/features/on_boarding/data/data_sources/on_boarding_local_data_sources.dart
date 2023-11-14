@@ -18,7 +18,7 @@ class OnBoardingLocalDataSourceImpl extends OnBoardingLocalDataSource {
   @override
   Future<void> cacheFirstTimer() async {
     try {
-      await _preferences.setBool(kFirstTimer, false);
+      await _preferences.setBool(kFirstTimer, true);
     } catch (e) {
       throw CacheException(
         message: e.toString(),

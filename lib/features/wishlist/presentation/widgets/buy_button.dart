@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 
-class BuynowButton extends StatelessWidget {
-  const BuynowButton({
+class BuyButton extends StatelessWidget {
+  const BuyButton({
     super.key,
     required this.width,
     required this.height,

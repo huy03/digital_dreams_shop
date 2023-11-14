@@ -5,32 +5,37 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class StatusWidget extends StatelessWidget {
-  StatusWidget({
+  const StatusWidget({
     super.key,
-    required this.iconbg,
-    required this.imgIcon,
+    required this.color,
+    required this.icon,
     required this.content,
+    this.onPressed,
   });
-  @override
-  final Color iconbg;
-  final String imgIcon;
+
+  final Color color;
+  final String icon;
   final String content;
+  final void Function()? onPressed;
+
+  @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Column(
       children: [
         Container(
           height: 48,
           width: 48,
           decoration: BoxDecoration(
-            color: iconbg,
+            color: color,
             borderRadius: BorderRadius.circular(100),
           ),
           child: IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset(imgIcon),
+            onPressed: onPressed,
+            icon: SvgPicture.asset(icon),
             style: IconButton.styleFrom(
-                backgroundColor: iconbg, elevation: 2),
+              backgroundColor: color,
+              elevation: 2,
+            ),
           ),
         ),
         const SizedBox(

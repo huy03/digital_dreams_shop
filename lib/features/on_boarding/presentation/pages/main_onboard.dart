@@ -1,15 +1,16 @@
 import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
-import 'package:digital_dreams_shop/features/auth/presentation/pages/login.dart';
-import 'package:digital_dreams_shop/features/auth/presentation/pages/signup.dart';
-import 'package:digital_dreams_shop/features/home/presentation/pages/home_screen.dart';
-import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/welcome_screen.dart';
+import 'package:digital_dreams_shop/core/utils/injection_container.dart';
+import 'package:digital_dreams_shop/features/on_boarding/data/data_sources/on_boarding_local_data_sources.dart';
+import 'package:digital_dreams_shop/features/on_boarding/presentation/cubit/on_boarding_cubit.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/page_one.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/page_two.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/page_three.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/widgets/next_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class MainOnboardScreen extends StatefulWidget {
@@ -22,6 +23,12 @@ class MainOnboardScreen extends StatefulWidget {
 class _MainOnboardScreenState extends State<MainOnboardScreen> {
   final PageController _pageController = PageController();
   var isLastPage = false;
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<OnBoardingCubit>(context).cacheFirstTimer();
+  }
 
   @override
   void dispose() {
@@ -37,6 +44,7 @@ class _MainOnboardScreenState extends State<MainOnboardScreen> {
       );
     } else {
       context.pushReplacementNamed(RouteNames.login);
+      print(sl<SharedPreferences>().getBool(kFirstTimer));
     }
   }
 
