@@ -74,4 +74,10 @@ class MediaResource {
   static const momo = '$_baseImages/momo.png';
   static const zalo = '$_baseImages/zalo.png';
   static const MB = '$_baseImages/MB.png';
+
+  //Navigation Bottom
+  static const homenav = '$_baseIcons/home.svg';
+  static const heartnav = '$_baseIcons/heart.svg';
+  static const notinav = '$_baseIcons/notification.svg';
+  static const profilenav = '$_baseIcons/profile.svg';
 }

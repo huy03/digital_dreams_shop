@@ -1,10 +1,12 @@
 import 'package:digital_dreams_shop/config/routes/route_names.dart';
+import 'package:digital_dreams_shop/core/common/widgets/custom_bottom_navigation_bar.dart';
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/core/utils/injection_container.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/pages/login.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/pages/signup.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/pages/checkout.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/pages/my_cart.dart';
+import 'package:digital_dreams_shop/features/cart/presentation/pages/wishlist.dart';
 import 'package:digital_dreams_shop/features/home/presentation/pages/home_screen.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/main_onboard.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/welcome_screen.dart';
@@ -20,7 +22,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppRouter {
   GoRouter router = GoRouter(
     initialLocation:
-        sl<SharedPreferences>().getString(kAuthToken) == null ? '/' : '/home',
+     '/navigatecustom',
+        // sl<SharedPreferences>().getString(kAuthToken) == null ? '/' : '/home',
     routes: [
       GoRoute(
         name: RouteNames.welcome,
@@ -140,6 +143,28 @@ class AppRouter {
           child: SearchScreen(
             text: state.pathParameters['text']!,
           ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return buildTransition(
+                context, animation, secondaryAnimation, child);
+          },
+        ),
+      ),
+      GoRoute(
+        name: RouteNames.wishlist,
+        path: '/wishlist',
+        pageBuilder: (context, state) => CustomTransitionPage(
+          child: WishlistScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return buildTransition(
+                context, animation, secondaryAnimation, child);
+          },
+        ),
+      ),
+      GoRoute(
+        name: RouteNames.navigatecustom,
+        path: '/navigatecustom',
+        pageBuilder: (context, state) => CustomTransitionPage(
+          child: CustomNavigationBar(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return buildTransition(
                 context, animation, secondaryAnimation, child);
