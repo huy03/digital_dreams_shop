@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class InformationBtn extends StatelessWidget {
-  InformationBtn({super.key, required this.content, required this.imgIcon});
-  @override
-  final String imgIcon;
+class InformationItem extends StatelessWidget {
+  const InformationItem({super.key, required this.content, required this.icon});
+
+  final String icon;
   final String content;
+
+  @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
       width: double.infinity,
       height: 60,
@@ -35,7 +36,7 @@ class InformationBtn extends StatelessWidget {
               width: 40,
               child: IconButton(
                 onPressed: () {},
-                icon: SvgPicture.asset(imgIcon),
+                icon: SvgPicture.asset(icon),
                 style: IconButton.styleFrom(
                     backgroundColor: Color(0xFFF4F4F4), elevation: 2),
               ),

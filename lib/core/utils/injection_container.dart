@@ -11,6 +11,12 @@ import 'package:digital_dreams_shop/features/home/data/repositories/coupon_repos
 import 'package:digital_dreams_shop/features/home/domain/repositories/coupon_respository.dart';
 import 'package:digital_dreams_shop/features/home/domain/usecases/get_all_coupons.dart';
 import 'package:digital_dreams_shop/features/home/presentation/cubit/coupon_cubit.dart';
+import 'package:digital_dreams_shop/features/on_boarding/data/data_sources/on_boarding_local_data_sources.dart';
+import 'package:digital_dreams_shop/features/on_boarding/data/repositories/on_boarding_repos_impl.dart';
+import 'package:digital_dreams_shop/features/on_boarding/domain/repositories/on_boarding_repos.dart';
+import 'package:digital_dreams_shop/features/on_boarding/domain/usecases/cache_first_timer.dart';
+import 'package:digital_dreams_shop/features/on_boarding/domain/usecases/is_first_timer.dart';
+import 'package:digital_dreams_shop/features/on_boarding/presentation/cubit/on_boarding_cubit.dart';
 import 'package:digital_dreams_shop/features/products/data/datasources/category_remote_datasources.dart';
 import 'package:digital_dreams_shop/features/products/data/datasources/product_remote_datasources.dart';
 import 'package:digital_dreams_shop/features/products/data/repositories/category_repository_impl.dart';
@@ -19,6 +25,7 @@ import 'package:digital_dreams_shop/features/products/domain/repositories/catego
 import 'package:digital_dreams_shop/features/products/domain/repositories/product_repository.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/category/get_all_categories.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/category/get_popular_categories.dart';
+import 'package:digital_dreams_shop/features/products/domain/usecases/product/add_or_remove_product_wishlist.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_all_products_by_category.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_new_arrivals_product.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_popular_products.dart';
@@ -28,6 +35,11 @@ import 'package:digital_dreams_shop/features/products/domain/usecases/product/se
 import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/categories_cubit.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/popular_categories_cubit.dart';
+import 'package:digital_dreams_shop/features/wishlist/data/datasources/wishlist_remote_datasource.dart';
+import 'package:digital_dreams_shop/features/wishlist/data/repository/wishlist_repository_impl.dart';
+import 'package:digital_dreams_shop/features/wishlist/domain/repository/wishlist_repository.dart';
+import 'package:digital_dreams_shop/features/wishlist/domain/usecases/get_wishlist.dart';
+import 'package:digital_dreams_shop/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:http/http.dart' as http;
@@ -36,6 +48,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  //! Features - OnBoarding
+  // Bloc
+  sl.registerFactory(
+      () => OnBoardingCubit(cacheFirstTimer: sl(), isFirstTimer: sl()));
+  // Use cases
+  sl.registerLazySingleton(() => CacheFirstTimer(sl()));
+  sl.registerLazySingleton(() => IsFirstTimer(sl()));
+  // Repository
+  sl.registerLazySingleton<OnBoardingRepository>(
+    () => OnBoardingRepositoryImpl(
+      sl(),
+    ),
+  );
+  // Data sources
+  sl.registerLazySingleton<OnBoardingLocalDataSource>(
+    () => OnBoardingLocalDataSourceImpl(sl()),
+  );
+
   //! Features - Auth
   //Bloc
   sl.registerFactory(
@@ -100,6 +130,7 @@ Future<void> init() async {
         getPopularProducts: sl(),
         searchProductsByName: sl(),
         searchProductsByNamePerCategory: sl(),
+        addOrRemoveProductWishList: sl(),
       ));
   // Use cases
   sl.registerLazySingleton(() => GetAllProductsByCategory(sl()));
@@ -108,12 +139,29 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetPopularProducts(sl()));
   sl.registerLazySingleton(() => SearchProductsByName(sl()));
   sl.registerLazySingleton(() => SearchProductsByNamePerCategory(sl()));
+  sl.registerLazySingleton(() => AddOrRemoveProductWishList(sl()));
   // Repository
   sl.registerLazySingleton<ProductRepository>(
       () => ProductRepositoryImpl(sl()));
   // Data sources
   sl.registerLazySingleton<ProductRemoteDataSource>(
       () => ProductRemoteDataSourceImpl(client: sl()));
+
+  //! Wishlist
+  // Cubit
+  sl.registerFactory(
+    () => WishlistCubit(
+      getWishlist: sl(),
+    ),
+  );
+  // Use cases
+  sl.registerLazySingleton(() => GetWishlist(sl()));
+  // Repository
+  sl.registerLazySingleton<WishlistRepository>(
+      () => WishlistRepositoryImpl(sl()));
+  // Data sources
+  sl.registerLazySingleton<WishListRemoteDataSource>(
+      () => WishlistRemoteDataSourceImpl(client: sl()));
 
   //! Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
@@ -123,41 +171,4 @@ Future<void> init() async {
   sl.registerLazySingleton(() => preferences);
   sl.registerLazySingleton(() => InternetConnectionChecker());
   sl.registerLazySingleton(() => http.Client());
-
-  // Use cases
-  // sl.registerLazySingleton(() => LogInWithEmailAndPassword(sl()));
-  // sl.registerLazySingleton(() => LogInWithFacebook(sl()));
-  // sl.registerLazySingleton(() => LogInWithGoogle(sl()));
-  // sl.registerLazySingleton(() => SignUp(sl()));
-  // sl.registerLazySingleton(() => ForgotPassword(sl()));
-  // sl.registerLazySingleton(() => UpdateUser(sl()));
-  // sl.registerLazySingleton(() => SignOut(sl()));
-  // sl.registerLazySingleton(() => GetUser(sl()));
-
-  // Repository
-  // sl.registerLazySingleton<AuthRepository>(
-  //   () => AuthRepositoryImpl(
-  //     sl(),
-  //   ),
-  // );
-
-  // Data sources
-  // sl.registerLazySingleton<AuthRemoteDataSource>(
-  //   () => AuthRemoteDataSourceImpl(
-  //     firebaseAuth: sl(),
-  //     googleSignIn: sl(),
-  //     facebookLogin: sl(),
-  //   ),
-  // );
-
-  // Core
-  // sl.registerLazySingleton(() => InputConverter());
-  // sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
-
-  // External
-  // sl.registerLazySingleton(() => FirebaseAuth.instance);
-  // sl.registerLazySingleton(() => GoogleSignIn());
-  // sl.registerLazySingleton(() => FacebookLogin());
-  // sl.registerLazySingleton(() => Connectivity());
-  // sl.registerLazySingleton(() => DataConnectionChecker());
 }

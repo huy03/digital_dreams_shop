@@ -11,4 +11,6 @@ abstract class ProductRepository {
   ResultFuture<List<Product>> searchProductByName(String text);
   ResultFuture<List<Product>> searchProductsByNamePerCategory(
       String id, String text);
+
+  ResultFuture<void> addOrRemoveProductWishlist(String id);
 }

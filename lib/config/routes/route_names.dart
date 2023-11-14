@@ -4,6 +4,7 @@ class RouteNames {
   static String login = 'login';
   static String signUp = 'signUp';
   static String forgotPassword = 'forgotPassword';
+  static String application = 'application';
   static String home = 'home';
   static String category = 'category';
   static String productByCategory = 'productByCategory';
@@ -12,5 +13,4 @@ class RouteNames {
   static String checkout = 'checkout';
   static String search = 'search';
   static String wishlist = 'wishlist';
-  static String navigatecustom = 'navigatecustom';
 }
