@@ -151,10 +151,11 @@ class AppRouter {
 }
 
 SlideTransition buildTransition(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child) {
+  BuildContext context,
+  Animation<double> animation,
+  Animation<double> secondaryAnimation,
+  Widget child,
+) {
   final tween = Tween(begin: const Offset(1, 0), end: Offset.zero).animate(
     CurvedAnimation(parent: animation, curve: Curves.easeInOut),
   );

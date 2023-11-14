@@ -36,7 +36,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 30, right: 30, top: 24),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 30,
+            vertical: 24,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -232,9 +235,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   color: const Color(0xFF666666),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const Spacer(),
               Row(
                 children: [
                   Column(

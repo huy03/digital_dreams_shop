@@ -1,7 +1,9 @@
 import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
+import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -32,15 +34,32 @@ class SmallProductItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
             clipBehavior: Clip.hardEdge,
-            child: Hero(
-              tag: product.id,
-              child: FadeInImage(
-                placeholder: MemoryImage(kTransparentImage),
-                image: NetworkImage(product.imageCover),
-                fit: BoxFit.cover,
-                width: 170,
-                height: 170,
-              ),
+            child: Stack(
+              children: [
+                Hero(
+                  tag: product.id,
+                  child: FadeInImage(
+                    placeholder: MemoryImage(kTransparentImage),
+                    image: NetworkImage(product.imageCover),
+                    fit: BoxFit.cover,
+                    width: 170,
+                    height: 170,
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  right: 4,
+                  child: IconButton(
+                    onPressed: () {
+                      print('Love');
+                    },
+                    icon: SvgPicture.asset(
+                      MediaResource.love,
+                      width: 22,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(

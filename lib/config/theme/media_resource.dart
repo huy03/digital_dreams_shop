@@ -10,6 +10,7 @@ class MediaResource {
   static const cart = '$_baseIcons/cart_icon.svg';
   static const message = '$_baseIcons/message_icon.svg';
   static const filter = '$_baseIcons/filter_icon.svg';
+  static const love = '$_baseIcons/love.svg';
 
   static const search = '$_baseIcons/search.svg';
   static const cartBuy = '$_baseIcons/cart_btnbuy.svg';
@@ -29,9 +30,6 @@ class MediaResource {
 
   static const cash = '$_baseIcons/cash.svg';
 
-
-
-
   //Social
   static const facebook = '$_baseIcons/fb.svg';
   static const google = '$_baseIcons/google.svg';
@@ -50,7 +48,6 @@ class MediaResource {
   static const advertisementOne = '$_baseImages/50%_off_image.png';
   static const advertisementTwo = '$_baseImages/advertise_image.png';
 
-
   //Categories
   static const phoneCategoryBackground = '$_baseImages/phone_categories.png';
   static const tabletCategoryBackground = '$_baseImages/tablet_categories.png';
@@ -61,25 +58,20 @@ class MediaResource {
   static const cameraCategoryBackground = '$_baseImages/camera_categories.png';
 
   //Arrival Product
-   static const productOne = '$_baseImages/product_1.jpg';
+  static const productOne = '$_baseImages/product_1.jpg';
 
-   //Popular Product
-   static const popularProductOne = '$_baseImages/headphone_1.jpg';
-   static const popularProductTwo = '$_baseImages/headphone_2.jpg';
+  //Popular Product
+  static const popularProductOne = '$_baseImages/headphone_1.jpg';
+  static const popularProductTwo = '$_baseImages/headphone_2.jpg';
 
-   //Detail Product
-   static const detailHeadphone = '$_baseImages/detailheadphone.png';
+  //Detail Product
+  static const detailHeadphone = '$_baseImages/detailheadphone.png';
 
-   
-   //Profile 
-   static const profile = '$_baseImages/profile_img.png';
+  //Profile
+  static const profile = '$_baseImages/profile_img.png';
 
-   //Payment method
-   static const momo = '$_baseImages/momo.png';
-   static const zalo = '$_baseImages/zalo.png';
-   static const MB = '$_baseImages/MB.png';
-
-
-
-  
+  //Payment method
+  static const momo = '$_baseImages/momo.png';
+  static const zalo = '$_baseImages/zalo.png';
+  static const MB = '$_baseImages/MB.png';
 }
