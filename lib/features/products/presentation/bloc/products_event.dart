@@ -57,12 +57,3 @@ class SearchProductsByNamePerCategoryEvent extends ProductsEvent {
   @override
   List<Object> get props => [id, text];
 }
-
-class AddOrRemoveProductWishListEvent extends ProductsEvent {
-  const AddOrRemoveProductWishListEvent(this.id);
-
-  final String id;
-
-  @override
-  List<Object> get props => [id];
-}
