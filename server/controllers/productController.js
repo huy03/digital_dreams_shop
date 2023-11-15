@@ -15,10 +15,10 @@ exports.addToWishlist = catchAsync(async (req, res, next) => {
     return next(new AppError("No product found with that ID", 404));
   }
 
-  if (req.user.wishlist.includes(req.params.id)) {
+  if (req.user.wishlist.find((e) => e.id === req.params.id)) {
     req.user.wishlist.pull(req.params.id);
   } else {
-    req.user.wishlist.push(req.params.id);
+    req.user.wishlist.unshift(product);
   }
 
   await req.user.save({ validateBeforeSave: false });

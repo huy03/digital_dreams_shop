@@ -117,7 +117,6 @@ exports.getWishlist = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user.id).populate({
     path: "wishlist",
   });
-
   res.status(200).json({
     status: "success",
     result: user.wishlist.length,

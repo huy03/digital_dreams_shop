@@ -98,6 +98,12 @@ userSchema.pre(/^find/, function (next) {
   next();
 });
 
+userSchema.pre(/^find/, function (next) {
+  // this points to the current query
+  this.populate({ path: "wishlist" });
+  next();
+});
+
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword

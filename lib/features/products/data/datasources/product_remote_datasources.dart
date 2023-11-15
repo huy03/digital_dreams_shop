@@ -6,7 +6,6 @@ import 'package:digital_dreams_shop/core/utils/injection_container.dart';
 import 'package:digital_dreams_shop/core/utils/typdefs.dart';
 import 'package:digital_dreams_shop/features/products/data/models/product_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class ProductRemoteDataSource {
   const ProductRemoteDataSource();
@@ -18,7 +17,6 @@ abstract class ProductRemoteDataSource {
       String id, String text);
   Future<List<ProductModel>> getNewArrivalProducts();
   Future<List<ProductModel>> getPopularProducts();
-  Future<void> addOrRemoveProductWishlist(String id);
 }
 
 class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
@@ -176,29 +174,6 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
       }
 
       return products;
-    }
-
-    throw ServerException(
-      data['message'],
-      response.statusCode,
-    );
-  }
-
-  @override
-  Future<void> addOrRemoveProductWishlist(String id) async {
-    final url = Uri.parse('$kBaseUrl/products/$id/wishlist');
-    final response = await client.patch(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization':
-            'Bearer ${sl<SharedPreferences>().getString(kAuthToken)}',
-      },
-    );
-    final DataMap data = jsonDecode(response.body);
-
-    if (response.statusCode == 200) {
-      return;
     }
 
     throw ServerException(
