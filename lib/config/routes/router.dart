@@ -24,9 +24,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppRouter {
   GoRouter router = GoRouter(
     initialLocation: //'/application',
-        sl<SharedPreferences>().getBool(kFirstTimer) == false
+        (sl<SharedPreferences>().getBool(kFirstTimer) == null ||
+                sl<SharedPreferences>().getBool(kFirstTimer) == false)
             ? '/'
-            : (sl<SharedPreferences>().getString(kAuthToken) == ''
+            : ((sl<SharedPreferences>().getString(kAuthToken) == null ||
+                    sl<SharedPreferences>().getString(kAuthToken) == '')
                 ? '/logIn'
                 : '/application'),
     routes: [
