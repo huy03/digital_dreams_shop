@@ -72,14 +72,4 @@ class ProductRepositoryImpl extends ProductRepository {
       return Left(ServerFailure.fromException(e));
     }
   }
-
-  @override
-  ResultFuture<void> addOrRemoveProductWishlist(String id) async {
-    try {
-      await remoteDataSource.addOrRemoveProductWishlist(id);
-      return const Right(null);
-    } on ServerException catch (e) {
-      return Left(ServerFailure.fromException(e));
-    }
-  }
 }

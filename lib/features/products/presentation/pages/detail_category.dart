@@ -4,7 +4,7 @@ import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/common/widgets/shimmer_widget.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:digital_dreams_shop/core/common/widgets/search_field.dart';
-import 'package:digital_dreams_shop/features/home/presentation/widgets/small_product_item.dart';
+import 'package:digital_dreams_shop/features/products/presentation/widgets/small_product_item.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
 import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
 import 'package:digital_dreams_shop/features/products/presentation/widgets/small_product_loading.dart';

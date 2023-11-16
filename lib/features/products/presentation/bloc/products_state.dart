@@ -65,13 +65,6 @@ final class ProductSuccess extends ProductsState {
   List<Object> get props => [product];
 }
 
-final class AddOrRemoveProductWishlistSuccess extends ProductsState {
-  const AddOrRemoveProductWishlistSuccess();
-
-  @override
-  List<Object> get props => [];
-}
-
 final class ProductsError extends ProductsState {
   final String message;
 

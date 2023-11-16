@@ -25,7 +25,6 @@ import 'package:digital_dreams_shop/features/products/domain/repositories/catego
 import 'package:digital_dreams_shop/features/products/domain/repositories/product_repository.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/category/get_all_categories.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/category/get_popular_categories.dart';
-import 'package:digital_dreams_shop/features/products/domain/usecases/product/add_or_remove_product_wishlist.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_all_products_by_category.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_new_arrivals_product.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_popular_products.dart';
@@ -38,6 +37,7 @@ import 'package:digital_dreams_shop/features/products/presentation/cubit/popular
 import 'package:digital_dreams_shop/features/wishlist/data/datasources/wishlist_remote_datasource.dart';
 import 'package:digital_dreams_shop/features/wishlist/data/repository/wishlist_repository_impl.dart';
 import 'package:digital_dreams_shop/features/wishlist/domain/repository/wishlist_repository.dart';
+import 'package:digital_dreams_shop/features/wishlist/domain/usecases/add_or_remove_product_from_wishlist.dart';
 import 'package:digital_dreams_shop/features/wishlist/domain/usecases/get_wishlist.dart';
 import 'package:digital_dreams_shop/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:get_it/get_it.dart';
@@ -130,7 +130,6 @@ Future<void> init() async {
         getPopularProducts: sl(),
         searchProductsByName: sl(),
         searchProductsByNamePerCategory: sl(),
-        addOrRemoveProductWishList: sl(),
       ));
   // Use cases
   sl.registerLazySingleton(() => GetAllProductsByCategory(sl()));
@@ -139,7 +138,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetPopularProducts(sl()));
   sl.registerLazySingleton(() => SearchProductsByName(sl()));
   sl.registerLazySingleton(() => SearchProductsByNamePerCategory(sl()));
-  sl.registerLazySingleton(() => AddOrRemoveProductWishList(sl()));
+
   // Repository
   sl.registerLazySingleton<ProductRepository>(
       () => ProductRepositoryImpl(sl()));
@@ -152,10 +151,12 @@ Future<void> init() async {
   sl.registerFactory(
     () => WishlistCubit(
       getWishlist: sl(),
+      addOrRemoveProductFromWishlist: sl(),
     ),
   );
   // Use cases
   sl.registerLazySingleton(() => GetWishlist(sl()));
+  sl.registerLazySingleton(() => AddOrRemoveProductFromWishlist(sl()));
   // Repository
   sl.registerLazySingleton<WishlistRepository>(
       () => WishlistRepositoryImpl(sl()));

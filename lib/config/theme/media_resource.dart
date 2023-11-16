@@ -11,6 +11,7 @@ class MediaResource {
   static const message = '$_baseIcons/message_icon.svg';
   static const filter = '$_baseIcons/filter_icon.svg';
   static const love = '$_baseIcons/love.svg';
+  static const delete = '$_baseIcons/delete.svg';
 
   static const search = '$_baseIcons/search.svg';
   static const cartBuy = '$_baseIcons/cart_btnbuy.svg';

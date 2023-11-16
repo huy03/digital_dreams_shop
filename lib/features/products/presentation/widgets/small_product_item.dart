@@ -4,18 +4,27 @@ import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
 import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
+import 'package:digital_dreams_shop/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-class SmallProductItem extends StatelessWidget {
+class SmallProductItem extends StatefulWidget {
   const SmallProductItem({super.key, required this.product, this.onTap});
 
   final Product product;
   final void Function()? onTap;
+
+  @override
+  State<SmallProductItem> createState() => _SmallProductItemState();
+}
+
+class _SmallProductItemState extends State<SmallProductItem> {
+  bool isAddedToWishlist = false;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +33,7 @@ class SmallProductItem extends StatelessWidget {
       onTap: () {
         context.pushNamed(
           RouteNames.productDetail,
-          extra: product,
+          extra: widget.product,
         );
       },
       child: Column(
@@ -37,10 +46,10 @@ class SmallProductItem extends StatelessWidget {
             child: Stack(
               children: [
                 Hero(
-                  tag: product.id,
+                  tag: widget.product.id,
                   child: FadeInImage(
                     placeholder: MemoryImage(kTransparentImage),
-                    image: NetworkImage(product.imageCover),
+                    image: NetworkImage(widget.product.imageCover),
                     fit: BoxFit.cover,
                     width: 170,
                     height: 170,
@@ -49,22 +58,38 @@ class SmallProductItem extends StatelessWidget {
                 Positioned(
                   top: 0,
                   right: 4,
-                  child: IconButton(
-                    onPressed: () {
-                      BlocProvider.of<ProductsBloc>(context).add(
-                        AddOrRemoveProductWishListEvent(product.id),
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Product added to wishlist'),
-                          duration: Duration(milliseconds: 500),
-                        ),
+                  child: BlocBuilder<WishlistCubit, WishlistState>(
+                    builder: (context, state) {
+                      if (state is WishlistSuccess) {
+                        isAddedToWishlist =
+                            state.products.contains(widget.product);
+                      }
+                      return IconButton(
+                        onPressed: () {
+                          BlocProvider.of<WishlistCubit>(context)
+                              .addOrRemoveProduct(widget.product.id);
+
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: !isAddedToWishlist
+                                  ? const Text('Product added to wishlist')
+                                  : const Text('Product removed from wishlist'),
+                              duration: const Duration(milliseconds: 500),
+                            ),
+                          );
+                        },
+                        icon: isAddedToWishlist
+                            ? const Icon(
+                                Iconsax.heart5,
+                                color: AppColor.background,
+                              )
+                            : SvgPicture.asset(
+                                MediaResource.love,
+                                width: 22,
+                              ),
                       );
                     },
-                    icon: SvgPicture.asset(
-                      MediaResource.love,
-                      width: 22,
-                    ),
                   ),
                 ),
               ],
@@ -76,7 +101,7 @@ class SmallProductItem extends StatelessWidget {
           SizedBox(
             width: 140,
             child: Text(
-              product.name,
+              widget.product.name,
               softWrap: true,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
@@ -91,7 +116,7 @@ class SmallProductItem extends StatelessWidget {
             height: 3,
           ),
           Text(
-            product.category,
+            widget.product.category,
             style: GoogleFonts.poppins(
               fontSize: 11,
               fontWeight: FontWeight.w400,
@@ -102,7 +127,7 @@ class SmallProductItem extends StatelessWidget {
             height: 3,
           ),
           Text(
-            currency.format(product.regularPrice).toString(),
+            currency.format(widget.product.regularPrice).toString(),
             style: GoogleFonts.poppins(
               fontSize: 14,
               fontWeight: FontWeight.w800,

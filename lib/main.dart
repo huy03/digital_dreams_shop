@@ -11,38 +11,44 @@ import 'package:digital_dreams_shop/features/wishlist/presentation/cubit/wishlis
 import 'package:flutter/material.dart';
 
 import 'package:digital_dreams_shop/config/routes/router.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
-  runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => sl<OnBoardingCubit>(),
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
+    (fn) {
+      runApp(
+        MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => sl<OnBoardingCubit>(),
+            ),
+            BlocProvider(
+              create: (context) => sl<AuthBloc>(),
+            ),
+            BlocProvider(
+              create: (context) => sl<CouponCubit>(),
+            ),
+            BlocProvider(
+              create: (context) => sl<CategoriesCubit>(),
+            ),
+            BlocProvider(
+              create: (context) => sl<PopularCategoriesCubit>(),
+            ),
+            BlocProvider(
+              create: (context) => sl<ProductsBloc>(),
+            ),
+            BlocProvider(
+              create: (context) => sl<WishlistCubit>()..fetchWishlist(),
+            ),
+          ],
+          child: const MyApp(),
         ),
-        BlocProvider(
-          create: (context) => sl<AuthBloc>(),
-        ),
-        BlocProvider(
-          create: (context) => sl<CouponCubit>(),
-        ),
-        BlocProvider(
-          create: (context) => sl<CategoriesCubit>(),
-        ),
-        BlocProvider(
-          create: (context) => sl<PopularCategoriesCubit>(),
-        ),
-        BlocProvider(
-          create: (context) => sl<ProductsBloc>(),
-        ),
-        BlocProvider(
-          create: (context) => sl<WishlistCubit>(),
-        ),
-      ],
-      child: const MyApp(),
-    ),
+      );
+    },
   );
 }
 

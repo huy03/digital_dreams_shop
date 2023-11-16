@@ -5,4 +5,5 @@ abstract class WishlistRepository {
   const WishlistRepository();
 
   ResultFuture<List<Product>> getWishlist();
+  ResultFuture<List<Product>> addOrRemoveProductFromWishlist(String id);
 }

@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
-import 'package:digital_dreams_shop/features/products/domain/usecases/product/add_or_remove_product_wishlist.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_all_products_by_category.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_new_arrivals_product.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_popular_products.dart';
@@ -20,7 +19,6 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   final GetPopularProducts getPopularProducts;
   final SearchProductsByName searchProductsByName;
   final SearchProductsByNamePerCategory searchProductsByNamePerCategory;
-  final AddOrRemoveProductWishList addOrRemoveProductWishList;
 
   ProductsBloc({
     required this.getAllProductsByCategory,
@@ -29,7 +27,6 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     required this.getPopularProducts,
     required this.searchProductsByName,
     required this.searchProductsByNamePerCategory,
-    required this.addOrRemoveProductWishList,
   }) : super(ProductsInitial()) {
     on<ProductsEvent>((event, emit) {
       // TODO: implement event handler
@@ -97,19 +94,6 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         (failure) => emit(ProductsError(failure.errorMessage)),
         (products) => emit(
           SearchProductsPerCategorySuccess(products: products),
-        ),
-      );
-    });
-
-    on<AddOrRemoveProductWishListEvent>((event, emit) async {
-      final result = await addOrRemoveProductWishList.call(
-        event.id,
-      );
-
-      result.fold(
-        (failure) => emit(ProductsError(failure.errorMessage)),
-        (_) => emit(
-          const AddOrRemoveProductWishlistSuccess(),
         ),
       );
     });
