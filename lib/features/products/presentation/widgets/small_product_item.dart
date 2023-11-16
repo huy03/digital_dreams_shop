@@ -27,11 +27,6 @@ class _SmallProductItemState extends State<SmallProductItem> {
   bool isAddedToWishlist = false;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(20),

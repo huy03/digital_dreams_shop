@@ -2,7 +2,7 @@ import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/features/home/presentation/cubit/coupon_cubit.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/categoriy_button.dart';
 import 'package:digital_dreams_shop/core/common/widgets/shimmer_widget.dart';
-import 'package:digital_dreams_shop/features/home/presentation/widgets/small_product_item.dart';
+import 'package:digital_dreams_shop/features/products/presentation/widgets/small_product_item.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/product_item.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/show_all_button.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';

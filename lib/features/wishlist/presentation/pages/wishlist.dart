@@ -3,6 +3,7 @@ import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/common/widgets/shimmer_widget.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
+import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
 import 'package:digital_dreams_shop/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:digital_dreams_shop/features/wishlist/presentation/widgets/wishlist_product_item.dart';
 import 'package:flutter/material.dart';
@@ -18,11 +19,7 @@ class WishlistScreen extends StatefulWidget {
 }
 
 class _WishlistScreenState extends State<WishlistScreen> {
-  @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<WishlistCubit>(context).fetchWishlist();
-  }
+  List<Product> wishlistProducts = [];
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +87,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                       );
                     }
                     if (state is WishlistSuccess) {
-                      final wishlistProducts = state.products;
+                      wishlistProducts = state.products;
                       if (state.products.isEmpty) {
                         return const Center(
                           child: Text('No products in wishlist'),

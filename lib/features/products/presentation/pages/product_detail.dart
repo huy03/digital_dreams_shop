@@ -4,7 +4,8 @@ import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_su
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_product_by_Id.dart';
 import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
-import 'package:digital_dreams_shop/features/products/presentation/widgets/colorInkwellBtn.dart';
+import 'package:digital_dreams_shop/features/products/presentation/widgets/color_button.dart';
+import 'package:digital_dreams_shop/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -26,10 +27,7 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  bool isAddedToWishlist = false;
 
   @override
   Widget build(BuildContext context) {
@@ -78,19 +76,62 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               const SizedBox(
                 height: 25,
               ),
-              Hero(
-                tag: widget.product.id,
-                child: Container(
-                  width: double.infinity,
-                  height: 300,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
-                      image: NetworkImage(widget.product.imageCover),
-                      fit: BoxFit.cover,
+              Stack(
+                children: [
+                  Hero(
+                    tag: widget.product.id,
+                    child: Container(
+                      width: double.infinity,
+                      height: 300,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        image: DecorationImage(
+                          image: NetworkImage(widget.product.imageCover),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  Positioned(
+                    bottom: 12,
+                    left: 16,
+                    child: BlocBuilder<WishlistCubit, WishlistState>(
+                      builder: (context, state) {
+                        if (state is WishlistSuccess) {
+                          isAddedToWishlist =
+                              state.products.contains(widget.product);
+                        }
+                        return IconButton(
+                            onPressed: () {
+                              BlocProvider.of<WishlistCubit>(context)
+                                  .addOrRemoveProduct(widget.product.id);
+
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: !isAddedToWishlist
+                                      ? const Text('Product added to wishlist')
+                                      : const Text(
+                                          'Product removed from wishlist'),
+                                  duration: const Duration(milliseconds: 500),
+                                ),
+                              );
+                            },
+                            icon: isAddedToWishlist
+                                ? const Icon(
+                                    Iconsax.heart5,
+                                    color: AppColor.background,
+                                    size: 30,
+                                  )
+                                : const Icon(
+                                    Iconsax.heart,
+                                    color: AppColor.background,
+                                    size: 30,
+                                  ));
+                      },
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 20,
@@ -126,15 +167,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     minRating: 0,
                     direction: Axis.horizontal,
                     allowHalfRating: true,
+                    ignoreGestures: true,
                     itemCount: 5,
                     itemPadding: const EdgeInsets.symmetric(horizontal: 0.5),
                     itemBuilder: (context, _) => const Icon(
                       Iconsax.star1,
                       color: AppColor.star,
                     ),
-                    onRatingUpdate: (rating) {
-                      print(rating);
-                    },
+                    onRatingUpdate: (rating) {},
                   ),
                   const SizedBox(
                     width: 5,
@@ -149,7 +189,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                   const Spacer(),
                   Text(
-                    'Available in stock',
+                    widget.product.quantity != 0
+                        ? 'Available in stock'
+                        : 'Out of stock',
                     style: GoogleFonts.poppins(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
@@ -180,7 +222,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   color: AppColor.background,
                   boxShadow: [
                     BoxShadow(
-                      color: Color(0x000000).withOpacity(0.08),
+                      color: const Color(0xFF000000).withOpacity(0.08),
                       offset: const Offset(0, 0),
                       blurRadius: 20,
                       spreadRadius: 0,
@@ -194,19 +236,31 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       padding: const EdgeInsets.only(left: 10, top: 11),
                       child: Row(
                         children: [
-                          ColorInkwellBtn(colorbg: AppColor.text),
+                          ColorButton(
+                            color: AppColor.text,
+                            onTap: () {},
+                          ),
                           const SizedBox(
                             width: 10,
                           ),
-                          ColorInkwellBtn(colorbg: Color(0xFFCCCCCC)),
+                          ColorButton(
+                            color: const Color(0xFFCCCCCC),
+                            onTap: () {},
+                          ),
                           const SizedBox(
                             width: 10,
                           ),
-                          ColorInkwellBtn(colorbg: Color(0xFFCADCA7)),
+                          ColorButton(
+                            color: const Color(0xFFCADCA7),
+                            onTap: () {},
+                          ),
                           const SizedBox(
                             width: 10,
                           ),
-                          ColorInkwellBtn(colorbg: Color(0xFFF79F1F)),
+                          ColorButton(
+                            color: const Color(0xFFF79F1F),
+                            onTap: () {},
+                          ),
                         ],
                       ),
                     )
