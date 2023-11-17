@@ -6,4 +6,5 @@ abstract class WishlistRepository {
 
   ResultFuture<List<Product>> getWishlist();
   ResultFuture<List<Product>> addOrRemoveProductFromWishlist(String id);
+  ResultFuture<List<Product>> removeProductFromWishlist(String id);
 }

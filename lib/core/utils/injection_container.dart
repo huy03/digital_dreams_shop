@@ -39,6 +39,7 @@ import 'package:digital_dreams_shop/features/wishlist/data/repository/wishlist_r
 import 'package:digital_dreams_shop/features/wishlist/domain/repository/wishlist_repository.dart';
 import 'package:digital_dreams_shop/features/wishlist/domain/usecases/add_or_remove_product_from_wishlist.dart';
 import 'package:digital_dreams_shop/features/wishlist/domain/usecases/get_wishlist.dart';
+import 'package:digital_dreams_shop/features/wishlist/domain/usecases/remove_product_from_wishlist.dart';
 import 'package:digital_dreams_shop/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -152,11 +153,13 @@ Future<void> init() async {
     () => WishlistCubit(
       getWishlist: sl(),
       addOrRemoveProductFromWishlist: sl(),
+      removeProductFromWishlist: sl(),
     ),
   );
   // Use cases
   sl.registerLazySingleton(() => GetWishlist(sl()));
   sl.registerLazySingleton(() => AddOrRemoveProductFromWishlist(sl()));
+  sl.registerLazySingleton(() => RemoveProductFromWishlist(sl()));
   // Repository
   sl.registerLazySingleton<WishlistRepository>(
       () => WishlistRepositoryImpl(sl()));

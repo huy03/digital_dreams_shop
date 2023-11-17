@@ -20,6 +20,15 @@ final class WishlistSuccess extends WishlistState {
   List<Object> get props => [products];
 }
 
+final class DeleteFromWishlistSuccess extends WishlistState {
+  final List<Product> products;
+
+  const DeleteFromWishlistSuccess({required this.products});
+
+  @override
+  List<Object> get props => [products];
+}
+
 final class WishlistFailure extends WishlistState {
   final String message;
 
