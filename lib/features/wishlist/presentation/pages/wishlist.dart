@@ -22,6 +22,12 @@ class _WishlistScreenState extends State<WishlistScreen> {
   List<Product> wishlistProducts = [];
 
   @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<WishlistCubit>(context).fetchWishlist();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -63,7 +69,17 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 height: 24,
               ),
               Expanded(
-                child: BlocBuilder<WishlistCubit, WishlistState>(
+                child: BlocConsumer<WishlistCubit, WishlistState>(
+                  listener: (context, state) {
+                    if (state is WishlistSuccess) {
+                      wishlistProducts.clear();
+                      wishlistProducts.addAll(state.products);
+                    }
+                    if (state is DeleteFromWishlistSuccess) {
+                      wishlistProducts.clear();
+                      wishlistProducts.addAll(state.products);
+                    }
+                  },
                   builder: (context, state) {
                     if (state is WishlistLoading) {
                       return ListView.builder(
@@ -86,24 +102,21 @@ class _WishlistScreenState extends State<WishlistScreen> {
                         child: Text(state.message),
                       );
                     }
-                    if (state is WishlistSuccess) {
-                      wishlistProducts = state.products;
-                      if (state.products.isEmpty) {
-                        return const Center(
-                          child: Text('No products in wishlist'),
-                        );
-                      }
-                      return ListView.builder(
-                        itemCount: wishlistProducts.length,
-                        itemBuilder: (ctx, index) => Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          child: WishlistProductItem(
-                            product: wishlistProducts[index],
-                          ),
+
+                    return ListView.builder(
+                      itemCount: wishlistProducts.length,
+                      itemBuilder: (ctx, index) => Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: WishlistProductItem(
+                          product: wishlistProducts[index],
+                          onDelete: () {
+                            setState(() {
+                              wishlistProducts.removeAt(index);
+                            });
+                          },
                         ),
-                      );
-                    }
-                    return const SizedBox();
+                      ),
+                    );
                   },
                 ),
               ),
