@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
 import 'package:digital_dreams_shop/features/wishlist/domain/usecases/add_or_remove_product_from_wishlist.dart';
 import 'package:digital_dreams_shop/features/wishlist/domain/usecases/get_wishlist.dart';
+import 'package:digital_dreams_shop/features/wishlist/domain/usecases/remove_product_from_wishlist.dart';
 import 'package:equatable/equatable.dart';
 
 part 'wishlist_state.dart';
@@ -9,10 +10,12 @@ part 'wishlist_state.dart';
 class WishlistCubit extends Cubit<WishlistState> {
   final GetWishlist getWishlist;
   final AddOrRemoveProductFromWishlist addOrRemoveProductFromWishlist;
+  final RemoveProductFromWishlist removeProductFromWishlist;
 
   WishlistCubit({
     required this.getWishlist,
     required this.addOrRemoveProductFromWishlist,
+    required this.removeProductFromWishlist,
   }) : super(WishlistInitial());
 
   Future<void> fetchWishlist() async {
@@ -39,6 +42,18 @@ class WishlistCubit extends Cubit<WishlistState> {
       ),
       (products) => emit(
         WishlistSuccess(products: products),
+      ),
+    );
+  }
+
+  Future<void> removeProduct(String id) async {
+    final result = await removeProductFromWishlist.call(id);
+    result.fold(
+      (failure) => emit(
+        WishlistFailure(message: failure.errorMessage),
+      ),
+      (products) => emit(
+        DeleteFromWishlistSuccess(products: products),
       ),
     );
   }

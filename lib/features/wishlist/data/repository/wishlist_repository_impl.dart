@@ -31,4 +31,14 @@ class WishlistRepositoryImpl extends WishlistRepository {
       return Left(ServerFailure.fromException(e));
     }
   }
+
+  @override
+  ResultFuture<List<Product>> removeProductFromWishlist(String id) async {
+    try {
+      final result = await remoteDataSource.removeProductFromWishlist(id);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
 }

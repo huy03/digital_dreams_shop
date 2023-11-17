@@ -13,6 +13,7 @@ abstract class WishListRemoteDataSource {
 
   Future<List<ProductModel>> getWishlist();
   Future<List<ProductModel>> addOrRemoveProductFromWishlist(String id);
+  Future<List<ProductModel>> removeProductFromWishlist(String id);
 }
 
 class WishlistRemoteDataSourceImpl extends WishListRemoteDataSource {
@@ -57,6 +58,38 @@ class WishlistRemoteDataSourceImpl extends WishListRemoteDataSource {
   @override
   Future<List<ProductModel>> addOrRemoveProductFromWishlist(String id) async {
     final url = Uri.parse('$kBaseUrl/products/$id/wishlist');
+    try {
+      final response = await client.patch(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':
+              'Bearer ${sl<SharedPreferences>().getString(kAuthToken)}',
+        },
+      );
+      final DataMap data = jsonDecode(response.body);
+      final List<ProductModel> products = [];
+      if (response.statusCode == 200) {
+        for (final product in data['data']['data']['wishlist']) {
+          products.add(
+            ProductModel.fromJson(product),
+          );
+        }
+        return products;
+      }
+
+      throw ServerException(
+        data['message'],
+        response.statusCode,
+      );
+    } catch (e) {
+      throw ServerException(e.toString(), 500);
+    }
+  }
+
+  @override
+  Future<List<ProductModel>> removeProductFromWishlist(String id) async {
+    final url = Uri.parse('$kBaseUrl/products/$id/deleteFromWishlist');
     try {
       final response = await client.patch(
         url,

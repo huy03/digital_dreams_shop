@@ -30,3 +30,27 @@ exports.addToWishlist = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.removeFromWishlist = catchAsync(async (req, res, next) => {
+  const product = await Product.findById(req.params.id);
+  if (!product) {
+    return next(new AppError("No product found with that ID", 404));
+  }
+
+  if (req.user.wishlist.find((e) => e.id === req.params.id)) {
+    req.user.wishlist.pull(req.params.id);
+  } else {
+    return next(
+      new AppError("You have not added this product to wishlist", 404)
+    );
+  }
+
+  await req.user.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      data: req.user,
+    },
+  });
+});

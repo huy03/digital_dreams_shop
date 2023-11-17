@@ -19,9 +19,11 @@ class WishlistProductItem extends StatelessWidget {
   const WishlistProductItem({
     super.key,
     required this.product,
+    required this.onDelete,
   });
 
   final Product product;
+  final void Function() onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +34,8 @@ class WishlistProductItem extends StatelessWidget {
         extentRatio: 0.25,
         dismissible: DismissiblePane(
           onDismissed: () {
-            BlocProvider.of<WishlistCubit>(context)
-                .addOrRemoveProduct(product.id);
+            BlocProvider.of<WishlistCubit>(context).removeProduct(product.id);
+            onDelete();
           },
         ),
         children: [
@@ -42,8 +44,8 @@ class WishlistProductItem extends StatelessWidget {
             foregroundColor: Colors.white,
             borderRadius: BorderRadius.circular(12),
             onPressed: (context) {
-              BlocProvider.of<WishlistCubit>(context)
-                  .addOrRemoveProduct(product.id);
+              BlocProvider.of<WishlistCubit>(context).removeProduct(product.id);
+              onDelete();
             },
             child: SvgPicture.asset(
               MediaResource.delete,

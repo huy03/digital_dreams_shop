@@ -64,6 +64,10 @@ class _SmallProductItemState extends State<SmallProductItem> {
                         isAddedToWishlist =
                             state.products.contains(widget.product);
                       }
+                      if (state is DeleteFromWishlistSuccess) {
+                        isAddedToWishlist =
+                            state.products.contains(widget.product);
+                      }
                       return IconButton(
                         onPressed: () {
                           BlocProvider.of<WishlistCubit>(context)
