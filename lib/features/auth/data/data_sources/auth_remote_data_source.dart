@@ -59,6 +59,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }),
     );
     final DataMap data = jsonDecode(response.body);
+
     if (response.statusCode == 200) {
       return UserModel.fromJson(response.body);
     }

@@ -102,6 +102,11 @@ class _WishlistScreenState extends State<WishlistScreen> {
                         child: Text(state.message),
                       );
                     }
+                    if (wishlistProducts.isEmpty) {
+                      return const Center(
+                        child: Text('No products in wishlist'),
+                      );
+                    }
 
                     return ListView.builder(
                       itemCount: wishlistProducts.length,
