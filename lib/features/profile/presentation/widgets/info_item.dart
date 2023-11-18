@@ -20,7 +20,7 @@ class InformationItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: Color(0xFFD8D8D8).withOpacity(0.25),
+            color: const Color(0xFFD8D8D8).withOpacity(0.25),
             offset: const Offset(0, 1),
             blurRadius: 12,
             spreadRadius: 0,

@@ -2,9 +2,10 @@ import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
+import 'package:digital_dreams_shop/core/common/widgets/shimmer_widget.dart';
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/core/utils/injection_container.dart';
-import 'package:digital_dreams_shop/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:digital_dreams_shop/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:digital_dreams_shop/features/profile/presentation/widgets/info_item.dart';
 import 'package:digital_dreams_shop/features/profile/presentation/widgets/status_widget.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,19 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<ProfileCubit>(context).loadProfile();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +42,41 @@ class ProfileScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                BlocBuilder<AuthBloc, AuthState>(
+                BlocBuilder<ProfileCubit, ProfileState>(
                   builder: (context, state) {
-                    if (state is AuthSuccess) {
+                    if (state is ProfileLoading) {
+                      return const Row(
+                        children: [
+                          ShimmerWidget(
+                            width: 80,
+                            height: 80,
+                            radius: 100,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 15, top: 15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ShimmerWidget(
+                                  width: 50,
+                                  height: 20,
+                                  radius: 10,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 10),
+                                  child: ShimmerWidget(
+                                    width: 100,
+                                    height: 20,
+                                    radius: 10,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      );
+                    }
+                    if (state is ProfileLoaded) {
                       return Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
