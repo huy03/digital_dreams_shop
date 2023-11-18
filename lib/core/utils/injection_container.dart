@@ -34,6 +34,11 @@ import 'package:digital_dreams_shop/features/products/domain/usecases/product/se
 import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/categories_cubit.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/popular_categories_cubit.dart';
+import 'package:digital_dreams_shop/features/profile/data/datasources/profile_remote_datasources.dart';
+import 'package:digital_dreams_shop/features/profile/data/repository/profile_repository_impl.dart';
+import 'package:digital_dreams_shop/features/profile/domain/repositories/profile_repository.dart';
+import 'package:digital_dreams_shop/features/profile/domain/usecases/get_current_user.dart';
+import 'package:digital_dreams_shop/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:digital_dreams_shop/features/wishlist/data/datasources/wishlist_remote_datasource.dart';
 import 'package:digital_dreams_shop/features/wishlist/data/repository/wishlist_repository_impl.dart';
 import 'package:digital_dreams_shop/features/wishlist/domain/repository/wishlist_repository.dart';
@@ -166,6 +171,22 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<WishListRemoteDataSource>(
       () => WishlistRemoteDataSourceImpl(client: sl()));
+
+  //! Profile
+  // Cubit
+  sl.registerFactory(
+    () => ProfileCubit(
+      getCurrentUser: sl(),
+    ),
+  );
+  // Use cases
+  sl.registerLazySingleton(() => GetCurrentUser(sl()));
+  // Repository
+  sl.registerLazySingleton<ProfileRepository>(
+      () => ProfileRepositoryImpl(sl()));
+  // Data sources
+  sl.registerLazySingleton<ProfileRemoteDataSource>(
+      () => ProfileRemoteDataSourceImpl(client: sl()));
 
   //! Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));

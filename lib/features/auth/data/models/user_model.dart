@@ -10,7 +10,7 @@ class UserModel extends User {
     required super.userName,
     required super.phoneNumber,
     required super.email,
-    required super.password,
+    super.password,
     super.avatar,
     super.birthDate,
     super.addresses,
@@ -22,12 +22,14 @@ class UserModel extends User {
 
   UserModel.fromMap(DataMap map)
       : super(
-          id: map['data']['user']['_id'] as String,
-          userName: map['data']['user']['username'] as String,
-          phoneNumber: map['data']['user']['phoneNumber'] as String,
-          email: map['data']['user']['email'] as String,
-          password: map['data']['user']['password'] as String,
-          avatar: map['data']['user']['avatar'] as String?,
+          id: map['data']['data']['_id'] as String,
+          userName: map['data']['data']['username'] as String,
+          phoneNumber: map['data']['data']['phoneNumber'] as String,
+          email: map['data']['data']['email'] as String,
+          password: map['data']['data']['password'] == null
+              ? ''
+              : (map['data']['data']['password'] as String),
+          avatar: map['data']['data']['avatar'] as String?,
           // birthDate: map['data']['user']['birthDate'] as DateTime?,
           // addresses: (map['data']['user']['addresses'] as List<dynamic>)
           //     .cast<Address>(),
