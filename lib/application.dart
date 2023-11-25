@@ -1,5 +1,6 @@
 import 'package:digital_dreams_shop/core/common/widgets/custom_bottom_navigation_bar.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/pages/my_cart.dart';
+import 'package:digital_dreams_shop/features/notification/presentation/pages/notification.dart';
 import 'package:digital_dreams_shop/features/wishlist/presentation/pages/wishlist.dart';
 import 'package:digital_dreams_shop/features/home/presentation/pages/home_screen.dart';
 import 'package:digital_dreams_shop/features/profile/presentation/pages/profile.dart';
@@ -11,7 +12,7 @@ import 'package:iconsax/iconsax.dart';
 const screen = [
   HomeScreen(),
   WishlistScreen(),
-  MyCartScreen(),
+  NotificationScreen(),
   ProfileScreen(),
 ];
 

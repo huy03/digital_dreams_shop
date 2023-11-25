@@ -1,5 +1,7 @@
+import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
+import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_product_by_Id.dart';
@@ -14,6 +16,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
+import 'package:badges/badges.dart' as badges;
 
 final currency = NumberFormat('#,##0', 'vi-VN');
 
@@ -28,6 +31,7 @@ class ProductDetailScreen extends StatefulWidget {
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   bool isAddedToWishlist = false;
+  int quantity = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +69,35 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       const SizedBox(
                         width: 18,
                       ),
-                      CustomSuffixIcon(
-                        svgImg: MediaResource.cart,
-                        onPressed: () {},
-                      )
+                      BlocBuilder<CartCubit, CartState>(
+                        builder: (context, state) {
+                          if (state is CartLoaded) {
+                            return badges.Badge(
+                              position:
+                                  badges.BadgePosition.topEnd(top: -8, end: -5),
+                              badgeContent: Text(
+                                state.cart.cartTotalQuantity.toString(),
+                                style: GoogleFonts.poppins(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColor.textLight,
+                                ),
+                              ),
+                              badgeStyle: const badges.BadgeStyle(
+                                badgeColor: AppColor.primary,
+                                padding: EdgeInsets.all(5),
+                              ),
+                              child: CustomSuffixIcon(
+                                svgImg: MediaResource.cart,
+                                onPressed: () {
+                                  context.pushNamed(RouteNames.cart);
+                                },
+                              ),
+                            );
+                          }
+                          return const SizedBox();
+                        },
+                      ),
                     ],
                   ),
                 ],
@@ -98,6 +127,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     child: BlocBuilder<WishlistCubit, WishlistState>(
                       builder: (context, state) {
                         if (state is WishlistSuccess) {
+                          isAddedToWishlist =
+                              state.products.contains(widget.product);
+                        }
+                        if (state is DeleteFromWishlistSuccess) {
                           isAddedToWishlist =
                               state.products.contains(widget.product);
                         }
@@ -136,14 +169,97 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               const SizedBox(
                 height: 20,
               ),
-              Text(
-                widget.product.name,
-                softWrap: true,
-                style: GoogleFonts.poppins(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  color: AppColor.text,
-                ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 260,
+                    child: Text(
+                      widget.product.name,
+                      softWrap: true,
+                      style: GoogleFonts.poppins(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                        color: AppColor.text,
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: quantity == 1
+                            ? null
+                            : () {
+                                setState(() {
+                                  quantity--;
+                                });
+                              },
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            bottomLeft: Radius.circular(30)),
+                        child: Container(
+                          width: 30,
+                          height: 36,
+                          decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(30),
+                                  bottomLeft: Radius.circular(30)),
+                              color: Color(0xFFEEEEEE)),
+                          child: Center(
+                            child: Icon(
+                              Icons.remove,
+                              color:
+                                  quantity == 1 ? Colors.grey : AppColor.text,
+                              size: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 20,
+                        height: 36,
+                        color: const Color(0xFFEEEEEE),
+                        child: Center(
+                          child: Text(
+                            '$quantity',
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: AppColor.text,
+                            ),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            quantity++;
+                          });
+                        },
+                        borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(30),
+                            bottomRight: Radius.circular(30)),
+                        child: Container(
+                          width: 30,
+                          height: 36,
+                          decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(30),
+                                  bottomRight: Radius.circular(30)),
+                              color: Color(0xFFEEEEEE)),
+                          child: const Center(
+                            child: Icon(
+                              Icons.add,
+                              color: AppColor.text,
+                              size: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 8,
@@ -315,7 +431,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                   const Spacer(),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      context.read<CartCubit>().addProductToCart(
+                            product: widget.product,
+                            quantity: quantity,
+                            color: 'red',
+                          );
+                    },
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20.0),
+                      bottomLeft: Radius.circular(20.0),
+                    ),
                     child: Ink(
                       child: Container(
                         width: 130,
@@ -359,6 +485,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                   InkWell(
                     onTap: () {},
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(20.0),
+                      bottomRight: Radius.circular(20.0),
+                    ),
                     child: Ink(
                       child: Container(
                         width: 93,

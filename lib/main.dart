@@ -1,6 +1,7 @@
 import 'package:digital_dreams_shop/core/utils/injection_container.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
+import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:digital_dreams_shop/features/home/presentation/cubit/coupon_cubit.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/cubit/on_boarding_cubit.dart';
 import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
@@ -31,13 +32,14 @@ Future<void> main() async {
               create: (context) => sl<AuthBloc>(),
             ),
             BlocProvider(
-              create: (context) => sl<CouponCubit>(),
+              create: (context) => sl<CouponCubit>()..fetchAllCoupons(),
             ),
             BlocProvider(
               create: (context) => sl<CategoriesCubit>(),
             ),
             BlocProvider(
-              create: (context) => sl<PopularCategoriesCubit>(),
+              create: (context) =>
+                  sl<PopularCategoriesCubit>()..fetchPopularCategories(),
             ),
             BlocProvider(
               create: (context) => sl<ProductsBloc>(),
@@ -47,6 +49,9 @@ Future<void> main() async {
             ),
             BlocProvider(
               create: (context) => sl<ProfileCubit>(),
+            ),
+            BlocProvider(
+              create: (context) => sl<CartCubit>()..fetchCart(),
             ),
           ],
           child: const MyApp(),

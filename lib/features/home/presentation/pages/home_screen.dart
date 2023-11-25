@@ -1,4 +1,5 @@
 import 'package:digital_dreams_shop/config/routes/route_names.dart';
+import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:digital_dreams_shop/features/home/presentation/cubit/coupon_cubit.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/categoriy_button.dart';
 import 'package:digital_dreams_shop/core/common/widgets/shimmer_widget.dart';
@@ -6,9 +7,7 @@ import 'package:digital_dreams_shop/features/products/presentation/widgets/small
 import 'package:digital_dreams_shop/features/home/presentation/widgets/product_item.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/show_all_button.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
-import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_popular_products.dart';
 import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
-import 'package:digital_dreams_shop/features/products/presentation/cubit/categories_cubit.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/popular_categories_cubit.dart';
 import 'package:digital_dreams_shop/features/products/presentation/widgets/small_product_loading.dart';
 
@@ -17,6 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:badges/badges.dart' as badges;
 
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
@@ -40,8 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<CouponCubit>().fetchAllCoupons();
-    context.read<PopularCategoriesCubit>().fetchPopularCategories();
+    //context.read<CouponCubit>().fetchAllCoupons();
+    //context.read<PopularCategoriesCubit>().fetchPopularCategories();
     context.read<ProductsBloc>().add(const GetNewArrivalProductsEvent());
     context.read<ProductsBloc>().add(const GetPopularProductsEvent());
   }
@@ -86,10 +86,33 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(
                         width: 18,
                       ),
-                      CustomSuffixIcon(
-                        svgImg: MediaResource.cart,
-                        onPressed: () {
-                          context.pushNamed(RouteNames.cart);
+                      BlocBuilder<CartCubit, CartState>(
+                        builder: (context, state) {
+                          if (state is CartLoaded) {
+                            return badges.Badge(
+                              position:
+                                  badges.BadgePosition.topEnd(top: -8, end: -5),
+                              badgeContent: Text(
+                                state.cart.cartTotalQuantity.toString(),
+                                style: GoogleFonts.poppins(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColor.textLight,
+                                ),
+                              ),
+                              badgeStyle: const badges.BadgeStyle(
+                                badgeColor: AppColor.primary,
+                                padding: EdgeInsets.all(5),
+                              ),
+                              child: CustomSuffixIcon(
+                                svgImg: MediaResource.cart,
+                                onPressed: () {
+                                  context.pushNamed(RouteNames.cart);
+                                },
+                              ),
+                            );
+                          }
+                          return const SizedBox();
                         },
                       ),
                     ],
