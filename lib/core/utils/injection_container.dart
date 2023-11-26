@@ -6,6 +6,14 @@ import 'package:digital_dreams_shop/features/auth/domain/repositories/auth_repos
 import 'package:digital_dreams_shop/features/auth/domain/usecases/log_in_with_email_and_password.dart';
 import 'package:digital_dreams_shop/features/auth/domain/usecases/sign_up.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:digital_dreams_shop/features/cart/data/datasources/cart_remote_datasource.dart';
+import 'package:digital_dreams_shop/features/cart/data/repositories/cart_repository_impl.dart';
+import 'package:digital_dreams_shop/features/cart/domain/repositories/cart_repository.dart';
+import 'package:digital_dreams_shop/features/cart/domain/usecases/add_to_cart.dart';
+import 'package:digital_dreams_shop/features/cart/domain/usecases/decrease_cart_quantity.dart';
+import 'package:digital_dreams_shop/features/cart/domain/usecases/get_cart.dart';
+import 'package:digital_dreams_shop/features/cart/domain/usecases/increase_cart_quantity.dart';
+import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:digital_dreams_shop/features/home/data/data_sources/coupon_remote_datasource.dart';
 import 'package:digital_dreams_shop/features/home/data/repositories/coupon_repository_impl.dart';
 import 'package:digital_dreams_shop/features/home/domain/repositories/coupon_respository.dart';
@@ -187,6 +195,27 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<ProfileRemoteDataSource>(
       () => ProfileRemoteDataSourceImpl(client: sl()));
+
+  //! Cart
+  // Cubit
+  sl.registerFactory(
+    () => CartCubit(
+      getCart: sl(),
+      addToCart: sl(),
+      increaseCartQuantity: sl(),
+      decreaseCartQuantity: sl(),
+    ),
+  );
+  // Use cases
+  sl.registerLazySingleton(() => GetCart(sl()));
+  sl.registerLazySingleton(() => AddToCart(sl()));
+  sl.registerLazySingleton(() => IncreaseCartQuantity(sl()));
+  sl.registerLazySingleton(() => DecreaseCartQuantity(sl()));
+  // Repository
+  sl.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(sl()));
+  // Data sources
+  sl.registerLazySingleton<CartRemoteDataSource>(
+      () => CartRemoteDataSourceImpl(client: sl()));
 
   //! Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
