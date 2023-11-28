@@ -5,6 +5,7 @@ import 'package:digital_dreams_shop/features/cart/domain/usecases/add_to_cart.da
 import 'package:digital_dreams_shop/features/cart/domain/usecases/decrease_cart_quantity.dart';
 import 'package:digital_dreams_shop/features/cart/domain/usecases/get_cart.dart';
 import 'package:digital_dreams_shop/features/cart/domain/usecases/increase_cart_quantity.dart';
+import 'package:digital_dreams_shop/features/cart/domain/usecases/remove_cart_item.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
 import 'package:equatable/equatable.dart';
 
@@ -15,12 +16,14 @@ class CartCubit extends Cubit<CartState> {
   final AddToCart addToCart;
   final IncreaseCartQuantity increaseCartQuantity;
   final DecreaseCartQuantity decreaseCartQuantity;
+  final RemoveCartItem removeCartItem;
 
   CartCubit({
     required this.getCart,
     required this.addToCart,
     required this.increaseCartQuantity,
     required this.decreaseCartQuantity,
+    required this.removeCartItem,
   }) : super(CartInitial());
 
   void fetchCart() async {
@@ -119,6 +122,32 @@ class CartCubit extends Cubit<CartState> {
     Cart updatedCart = newState.cart.copyWith(
       cartTotalQuantity: newState.cart.cartTotalQuantity - 1,
       cartTotalPrice: newState.cart.cartTotalPrice - product.regularPrice,
+    );
+
+    emit(CartLoaded(cart: updatedCart));
+  }
+
+  void removeProduct({required String productId}) {
+    removeCartItem.call(productId);
+
+    int quantity = 0;
+    int price = 0;
+
+    final newState = state as CartLoaded;
+
+    final index = newState.cart.items.indexWhere((element) {
+      quantity = element.quantity;
+      price = element.price;
+      return element.product.id == productId;
+    });
+
+    if (index != -1) {
+      newState.cart.items.removeAt(index);
+    }
+
+    Cart updatedCart = newState.cart.copyWith(
+      cartTotalQuantity: newState.cart.cartTotalQuantity - quantity,
+      cartTotalPrice: newState.cart.cartTotalPrice - price * quantity,
     );
 
     emit(CartLoaded(cart: updatedCart));

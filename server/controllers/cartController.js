@@ -224,3 +224,40 @@ exports.decreaseCartQuantity = catchAsync(async (req, res, next) => {
     });
   }
 });
+
+exports.deleteCartItem = catchAsync(async (req, res, next) => {
+  try {
+    const cart = await Cart.findOne({ user: req.user.id });
+    if (!cart) {
+      return next(new AppError("No cart found with that ID", 404));
+    }
+
+    const cartItem = cart.items.find(
+      (item) => item.product.id.toString() === req.body.product
+    );
+
+    if (!cartItem) {
+      return next(new AppError("No cart item found with that ID", 404));
+    }
+
+    cart.items = cart.items.filter(
+      (item) => item.product.id.toString() !== req.body.product
+    );
+
+    cart.cartTotalQuantity -= cartItem.quantity;
+    cart.cartTotalPrice -= cartItem.price * cartItem.quantity;
+    cart.totalPriceAfterDiscount = cart.cartTotalPrice;
+
+    await cart.save();
+
+    res.status(204).json({
+      status: "success",
+      data: null,
+    });
+  } catch (e) {
+    res.status(400).json({
+      status: "fail",
+      message: e.message,
+    });
+  }
+});

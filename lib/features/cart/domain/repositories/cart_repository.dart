@@ -16,4 +16,8 @@ abstract class CartRepository {
   ResultFuture<void> decreaseCartQuantity({
     required Product product,
   });
+
+  ResultFuture<void> removeProduct({
+    required String productId,
+  });
 }

@@ -13,6 +13,7 @@ import 'package:digital_dreams_shop/features/cart/domain/usecases/add_to_cart.da
 import 'package:digital_dreams_shop/features/cart/domain/usecases/decrease_cart_quantity.dart';
 import 'package:digital_dreams_shop/features/cart/domain/usecases/get_cart.dart';
 import 'package:digital_dreams_shop/features/cart/domain/usecases/increase_cart_quantity.dart';
+import 'package:digital_dreams_shop/features/cart/domain/usecases/remove_cart_item.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:digital_dreams_shop/features/home/data/data_sources/coupon_remote_datasource.dart';
 import 'package:digital_dreams_shop/features/home/data/repositories/coupon_repository_impl.dart';
@@ -204,6 +205,7 @@ Future<void> init() async {
       addToCart: sl(),
       increaseCartQuantity: sl(),
       decreaseCartQuantity: sl(),
+      removeCartItem: sl(),
     ),
   );
   // Use cases
@@ -211,6 +213,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => AddToCart(sl()));
   sl.registerLazySingleton(() => IncreaseCartQuantity(sl()));
   sl.registerLazySingleton(() => DecreaseCartQuantity(sl()));
+  sl.registerLazySingleton(() => RemoveCartItem(sl()));
   // Repository
   sl.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(sl()));
   // Data sources
