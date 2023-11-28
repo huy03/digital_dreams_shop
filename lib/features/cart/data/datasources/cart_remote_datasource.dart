@@ -27,6 +27,9 @@ abstract class CartRemoteDataSource {
   Future<void> decreaseCartQuantity({
     required Product product,
   });
+  Future<void> removeCartItem({
+    required String productId,
+  });
 }
 
 class CartRemoteDataSourceImpl extends CartRemoteDataSource {
@@ -147,6 +150,36 @@ class CartRemoteDataSourceImpl extends CartRemoteDataSource {
         },
         body: jsonEncode({
           'product': product.id,
+        }),
+      );
+      final DataMap data = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        return;
+      }
+
+      throw ServerException(
+        data['message'],
+        response.statusCode,
+      );
+    } catch (e) {
+      throw ServerException(e.toString(), 500);
+    }
+  }
+
+  @override
+  Future<void> removeCartItem({required String productId}) async {
+    final url = Uri.parse('$kBaseUrl/carts/delete');
+    try {
+      final response = await client.patch(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':
+              'Bearer ${sl<SharedPreferences>().getString(kAuthToken)}',
+        },
+        body: jsonEncode({
+          'product': productId,
         }),
       );
       final DataMap data = jsonDecode(response.body);

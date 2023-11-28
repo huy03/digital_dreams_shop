@@ -35,7 +35,7 @@ Future<void> main() async {
               create: (context) => sl<CouponCubit>()..fetchAllCoupons(),
             ),
             BlocProvider(
-              create: (context) => sl<CategoriesCubit>(),
+              create: (context) => sl<CategoriesCubit>()..fetchAllCategories(),
             ),
             BlocProvider(
               create: (context) =>
@@ -48,7 +48,7 @@ Future<void> main() async {
               create: (context) => sl<WishlistCubit>()..fetchWishlist(),
             ),
             BlocProvider(
-              create: (context) => sl<ProfileCubit>(),
+              create: (context) => sl<ProfileCubit>()..loadProfile(),
             ),
             BlocProvider(
               create: (context) => sl<CartCubit>()..fetchCart(),

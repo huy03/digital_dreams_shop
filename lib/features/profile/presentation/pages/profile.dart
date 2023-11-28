@@ -23,11 +23,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<ProfileCubit>(context).loadProfile();
-  }
+  
 
   @override
   Widget build(BuildContext context) {

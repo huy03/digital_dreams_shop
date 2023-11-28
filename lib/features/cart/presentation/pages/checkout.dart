@@ -1,15 +1,24 @@
+import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
+import 'package:digital_dreams_shop/core/constraints/constraints.dart';
+import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:digital_dreams_shop/features/cart/presentation/widgets/check_out_item.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/widgets/rowInformation.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:badges/badges.dart' as badges;
+
+const shipCost = 30000;
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,10 +66,35 @@ class CheckoutScreen extends StatelessWidget {
                         const SizedBox(
                           width: 18,
                         ),
-                        CustomSuffixIcon(
-                          svgImg: MediaResource.cart,
-                          onPressed: () {},
-                        )
+                        BlocBuilder<CartCubit, CartState>(
+                          builder: (context, state) {
+                            if (state is CartLoaded) {
+                              return badges.Badge(
+                                position: badges.BadgePosition.topEnd(
+                                    top: -8, end: -5),
+                                badgeContent: Text(
+                                  state.cart.cartTotalQuantity.toString(),
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColor.textLight,
+                                  ),
+                                ),
+                                badgeStyle: const badges.BadgeStyle(
+                                  badgeColor: AppColor.primary,
+                                  padding: EdgeInsets.all(5),
+                                ),
+                                child: CustomSuffixIcon(
+                                  svgImg: MediaResource.cart,
+                                  onPressed: () {
+                                    context.pushNamed(RouteNames.cart);
+                                  },
+                                ),
+                              );
+                            }
+                            return const SizedBox();
+                          },
+                        ),
                       ],
                     ),
                   ],
@@ -135,133 +169,25 @@ class CheckoutScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 300,
-                  child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: 10,
-                    itemBuilder: ((ctx, index) => Padding(
-                          padding: const EdgeInsets.only(bottom: 15),
-                          child: Container(
-                            width: double.infinity,
-                            height: 130,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.0),
-                              color: AppColor.background,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color(0xFF969696).withOpacity(0.1),
-                                  offset: const Offset(0, 0),
-                                  blurRadius: 24,
-                                  spreadRadius: 0,
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 12,
-                              ),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 105,
-                                    height: 105,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      image: const DecorationImage(
-                                        image: AssetImage(
-                                            MediaResource.popularProductOne),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 16,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Apple Watch',
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.w700,
-                                          color: AppColor.text,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 4,
-                                      ),
-                                      Text(
-                                        'Smart Watch',
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: AppColor.textSecondary,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 7,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'Price: ',
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: AppColor.checkOutText,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 70,
-                                          ),
-                                          Text(
-                                            "300.000",
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColor.text,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'Quantity: ',
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: AppColor.checkOutText,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 70,
-                                          ),
-                                          Text(
-                                            "2",
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColor.text,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
+                BlocBuilder<CartCubit, CartState>(
+                  builder: (context, state) {
+                    if (state is CartLoaded) {
+                      return SizedBox(
+                        height: 300,
+                        child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: state.cart.items.length,
+                          itemBuilder: (ctx, index) => CheckoutItem(
+                            product: state.cart.items[index].product,
+                            quantity: state.cart.items[index].quantity,
+                            imageCover:
+                                state.cart.items[index].product.imageCover,
                           ),
-                        )),
-                  ),
+                        ),
+                      );
+                    }
+                    return const SizedBox();
+                  },
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 15),
@@ -275,14 +201,30 @@ class CheckoutScreen extends StatelessWidget {
                           color: AppColor.checkOutText,
                         ),
                       ),
-                      Spacer(),
-                      Text(
-                        '500.000',
-                        style: GoogleFonts.poppins(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: AppColor.text,
-                        ),
+                      const Spacer(),
+                      BlocBuilder<CartCubit, CartState>(
+                        builder: (context, state) {
+                          if (state is CartLoaded) {
+                            return Text(
+                              currency
+                                  .format(state.cart.cartTotalPrice)
+                                  .toString(),
+                              style: GoogleFonts.poppins(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: AppColor.text,
+                              ),
+                            );
+                          }
+                          return Text(
+                            '500.000',
+                            style: GoogleFonts.poppins(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: AppColor.text,
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -299,9 +241,9 @@ class CheckoutScreen extends StatelessWidget {
                           color: AppColor.checkOutText,
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Text(
-                        '40.000',
+                        currency.format(shipCost).toString(),
                         style: GoogleFonts.poppins(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -323,14 +265,30 @@ class CheckoutScreen extends StatelessWidget {
                           color: AppColor.text,
                         ),
                       ),
-                      Spacer(),
-                      Text(
-                        '530.000',
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: AppColor.text,
-                        ),
+                      const Spacer(),
+                      BlocBuilder<CartCubit, CartState>(
+                        builder: (context, state) {
+                          if (state is CartLoaded) {
+                            return Text(
+                              currency
+                                  .format(state.cart.cartTotalPrice + shipCost)
+                                  .toString(),
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: AppColor.text,
+                              ),
+                            );
+                          }
+                          return Text(
+                            '530.000',
+                            style: GoogleFonts.poppins(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: AppColor.text,
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),

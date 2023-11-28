@@ -36,4 +36,8 @@ router
     cartController.decreaseCartQuantity
   );
 
+router
+  .route("/delete")
+  .patch(authController.restrictTo("user"), cartController.deleteCartItem);
+
 module.exports = router;

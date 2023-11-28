@@ -23,12 +23,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   final TextEditingController searchController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    context.read<CategoriesCubit>().fetchAllCategories();
-  }
-
-  @override
   void dispose() {
     searchController.dispose();
     super.dispose();
