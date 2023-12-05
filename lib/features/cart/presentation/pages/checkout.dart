@@ -21,6 +21,8 @@ class CheckoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cart = (context.watch<CartCubit>().state as CartLoaded).cart;
+
     return Scaffold(
       backgroundColor: AppColor.background,
       body: SingleChildScrollView(
@@ -51,7 +53,7 @@ class CheckoutScreen extends StatelessWidget {
                       style: GoogleFonts.poppins(
                         fontSize: 23,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF000000),
+                        color: const Color(0xFF000000),
                       ),
                     ),
                     const SizedBox(
@@ -66,34 +68,27 @@ class CheckoutScreen extends StatelessWidget {
                         const SizedBox(
                           width: 18,
                         ),
-                        BlocBuilder<CartCubit, CartState>(
-                          builder: (context, state) {
-                            if (state is CartLoaded) {
-                              return badges.Badge(
-                                position: badges.BadgePosition.topEnd(
-                                    top: -8, end: -5),
-                                badgeContent: Text(
-                                  state.cart.cartTotalQuantity.toString(),
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColor.textLight,
-                                  ),
-                                ),
-                                badgeStyle: const badges.BadgeStyle(
-                                  badgeColor: AppColor.primary,
-                                  padding: EdgeInsets.all(5),
-                                ),
-                                child: CustomSuffixIcon(
-                                  svgImg: MediaResource.cart,
-                                  onPressed: () {
-                                    context.pushNamed(RouteNames.cart);
-                                  },
-                                ),
-                              );
-                            }
-                            return const SizedBox();
-                          },
+                        badges.Badge(
+                          position:
+                              badges.BadgePosition.topEnd(top: -8, end: -5),
+                          badgeContent: Text(
+                            cart.cartTotalQuantity.toString(),
+                            style: GoogleFonts.poppins(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: AppColor.textLight,
+                            ),
+                          ),
+                          badgeStyle: const badges.BadgeStyle(
+                            badgeColor: AppColor.primary,
+                            padding: EdgeInsets.all(5),
+                          ),
+                          child: CustomSuffixIcon(
+                            svgImg: MediaResource.cart,
+                            onPressed: () {
+                              context.pushNamed(RouteNames.cart);
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -169,25 +164,17 @@ class CheckoutScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                BlocBuilder<CartCubit, CartState>(
-                  builder: (context, state) {
-                    if (state is CartLoaded) {
-                      return SizedBox(
-                        height: 300,
-                        child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          itemCount: state.cart.items.length,
-                          itemBuilder: (ctx, index) => CheckoutItem(
-                            product: state.cart.items[index].product,
-                            quantity: state.cart.items[index].quantity,
-                            imageCover:
-                                state.cart.items[index].product.imageCover,
-                          ),
-                        ),
-                      );
-                    }
-                    return const SizedBox();
-                  },
+                SizedBox(
+                  height: 300,
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: cart.items.length,
+                    itemBuilder: (ctx, index) => CheckoutItem(
+                      product: cart.items[index].product,
+                      quantity: cart.items[index].quantity,
+                      imageCover: cart.items[index].product.imageCover,
+                    ),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 15),
@@ -202,29 +189,13 @@ class CheckoutScreen extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      BlocBuilder<CartCubit, CartState>(
-                        builder: (context, state) {
-                          if (state is CartLoaded) {
-                            return Text(
-                              currency
-                                  .format(state.cart.cartTotalPrice)
-                                  .toString(),
-                              style: GoogleFonts.poppins(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: AppColor.text,
-                              ),
-                            );
-                          }
-                          return Text(
-                            '500.000',
-                            style: GoogleFonts.poppins(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: AppColor.text,
-                            ),
-                          );
-                        },
+                      Text(
+                        currency.format(cart.cartTotalPrice).toString(),
+                        style: GoogleFonts.poppins(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: AppColor.text,
+                        ),
                       ),
                     ],
                   ),
@@ -266,29 +237,15 @@ class CheckoutScreen extends StatelessWidget {
                         ),
                       ),
                       const Spacer(),
-                      BlocBuilder<CartCubit, CartState>(
-                        builder: (context, state) {
-                          if (state is CartLoaded) {
-                            return Text(
-                              currency
-                                  .format(state.cart.cartTotalPrice + shipCost)
-                                  .toString(),
-                              style: GoogleFonts.poppins(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: AppColor.text,
-                              ),
-                            );
-                          }
-                          return Text(
-                            '530.000',
-                            style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: AppColor.text,
-                            ),
-                          );
-                        },
+                      Text(
+                        currency
+                            .format(cart.cartTotalPrice + shipCost)
+                            .toString(),
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: AppColor.text,
+                        ),
                       ),
                     ],
                   ),
@@ -297,15 +254,29 @@ class CheckoutScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 15),
                   child: Row(
                     children: [
-                      Text(
-                        'Total: 530.000',
-                        style: GoogleFonts.poppins(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700,
-                          color: AppColor.text,
-                        ),
+                      BlocBuilder<CartCubit, CartState>(
+                        builder: (context, state) {
+                          if (state is CartLoaded) {
+                            return Text(
+                              'Total: ${currency.format(state.cart.cartTotalPrice + shipCost).toString()}',
+                              style: GoogleFonts.poppins(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w700,
+                                color: AppColor.text,
+                              ),
+                            );
+                          }
+                          return Text(
+                            'Total: 530.000',
+                            style: GoogleFonts.poppins(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                              color: AppColor.text,
+                            ),
+                          );
+                        },
                       ),
-                      Spacer(),
+                      const Spacer(),
                       CustomButton(
                           width: 65,
                           height: 50,
