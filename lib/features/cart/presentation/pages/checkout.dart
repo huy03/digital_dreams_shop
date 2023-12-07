@@ -12,12 +12,76 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 const shipCost = 30000;
 
-class CheckoutScreen extends StatelessWidget {
+class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
+
+  @override
+  State<CheckoutScreen> createState() => _CheckoutScreenState();
+}
+
+class _CheckoutScreenState extends State<CheckoutScreen> {
+  Map<String, dynamic>? paymentIntent;
+
+  void makePayment(int amount) async {
+    try {
+      paymentIntent = await createPaymentIntent(amount);
+
+      var gpay = const PaymentSheetGooglePay(
+        merchantCountryCode: 'VN',
+        currencyCode: 'vnd',
+        testEnv: true,
+      );
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          paymentIntentClientSecret: paymentIntent!['client_secret'],
+          googlePay: gpay,
+          style: ThemeMode.dark,
+          merchantDisplayName: 'Example Inc.',
+        ),
+      );
+      displayPaymentSheet();
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  void displayPaymentSheet() async {
+    try {
+      await Stripe.instance.presentPaymentSheet();
+      context.pop();
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  createPaymentIntent(int amount) async {
+    try {
+      Map<String, dynamic> body = {
+        'amount': amount.toString(),
+        'currency': 'vnd',
+      };
+
+      http.Response response = await http.post(
+        Uri.parse('https://api.stripe.com/v1/payment_intents'),
+        body: body,
+        headers: {
+          'Authorization':
+              'Bearer sk_test_51OIwCIGJQyVtA8BL2TjbFA1j1xJFEJsi3KIEbArRbgsOtMsZV26HYXCrHBnExg5qPxgc6YEVzNHplL7fzdiEsg3m0035DCltQt',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      );
+      return json.decode(response.body);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -278,10 +342,13 @@ class CheckoutScreen extends StatelessWidget {
                       ),
                       const Spacer(),
                       CustomButton(
-                          width: 65,
-                          height: 50,
-                          text: 'Pay Now',
-                          onPressed: () {})
+                        width: 65,
+                        height: 50,
+                        text: 'Pay Now',
+                        onPressed: () {
+                          makePayment(cart.cartTotalPrice + shipCost);
+                        },
+                      ),
                     ],
                   ),
                 ),
