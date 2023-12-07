@@ -24,12 +24,6 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<ProfileCubit>(context).loadProfile();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -76,79 +70,79 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       );
                     }
-                    if (state is ProfileLoaded) {
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Stack(
-                            children: [
-                              Container(
-                                width: 80,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(100),
-                                  image: DecorationImage(
-                                    image: NetworkImage(state.user.avatar!),
-                                    fit: BoxFit.cover,
-                                  ),
+                    if (state is! ProfileLoaded) {
+                      return const Text('Something went wrong');
+                    }
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Stack(
+                          children: [
+                            Container(
+                              width: 80,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                image: DecorationImage(
+                                  image: NetworkImage(state.user.avatar!),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: Container(
-                                  height: 25,
-                                  width: 25,
-                                  decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: AppColor.text.withOpacity(0.13),
-                                        offset: const Offset(0, 3),
-                                        blurRadius: 17,
-                                        spreadRadius: 0,
-                                      ),
-                                    ],
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                  child: IconButton(
-                                    onPressed: () {},
-                                    icon: SvgPicture.asset(MediaResource.pen),
-                                    style: IconButton.styleFrom(
-                                        backgroundColor: AppColor.background,
-                                        elevation: 2),
-                                  ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Container(
+                                height: 25,
+                                width: 25,
+                                decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppColor.text.withOpacity(0.13),
+                                      offset: const Offset(0, 3),
+                                      blurRadius: 17,
+                                      spreadRadius: 0,
+                                    ),
+                                  ],
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                                child: IconButton(
+                                  onPressed: () {},
+                                  icon: SvgPicture.asset(MediaResource.pen),
+                                  style: IconButton.styleFrom(
+                                      backgroundColor: AppColor.background,
+                                      elevation: 2),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, top: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                state.user.userName,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: const Color(0xFF313131),
+                                ),
+                              ),
+                              Text(
+                                state.user.email,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xFFA9A6A6),
                                 ),
                               ),
                             ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15, top: 15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  state.user.userName,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                    color: const Color(0xFF313131),
-                                  ),
-                                ),
-                                Text(
-                                  state.user.email,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color(0xFFA9A6A6),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      );
-                    }
-                    return const SizedBox();
+                        )
+                      ],
+                    );
                   },
                 ),
                 const SizedBox(

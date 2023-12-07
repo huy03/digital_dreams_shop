@@ -1,3 +1,4 @@
+import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/core/utils/injection_container.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
@@ -11,6 +12,7 @@ import 'package:digital_dreams_shop/features/profile/presentation/cubit/profile_
 import 'package:digital_dreams_shop/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 
 import 'package:digital_dreams_shop/config/routes/router.dart';
 import 'package:flutter/services.dart';
@@ -19,6 +21,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
+
+  Stripe.publishableKey = kStripePublishKey;
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (fn) {
@@ -35,7 +39,7 @@ Future<void> main() async {
               create: (context) => sl<CouponCubit>()..fetchAllCoupons(),
             ),
             BlocProvider(
-              create: (context) => sl<CategoriesCubit>(),
+              create: (context) => sl<CategoriesCubit>()..fetchAllCategories(),
             ),
             BlocProvider(
               create: (context) =>
@@ -48,7 +52,7 @@ Future<void> main() async {
               create: (context) => sl<WishlistCubit>()..fetchWishlist(),
             ),
             BlocProvider(
-              create: (context) => sl<ProfileCubit>(),
+              create: (context) => sl<ProfileCubit>()..loadProfile(),
             ),
             BlocProvider(
               create: (context) => sl<CartCubit>()..fetchCart(),

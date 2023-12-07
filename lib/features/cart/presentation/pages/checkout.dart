@@ -1,17 +1,92 @@
+import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
+import 'package:digital_dreams_shop/core/constraints/constraints.dart';
+import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:digital_dreams_shop/features/cart/presentation/widgets/check_out_item.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/widgets/rowInformation.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:badges/badges.dart' as badges;
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class CheckoutScreen extends StatelessWidget {
+const shipCost = 30000;
+
+class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
+
+  @override
+  State<CheckoutScreen> createState() => _CheckoutScreenState();
+}
+
+class _CheckoutScreenState extends State<CheckoutScreen> {
+  Map<String, dynamic>? paymentIntent;
+
+  void makePayment(int amount) async {
+    try {
+      paymentIntent = await createPaymentIntent(amount);
+
+      var gpay = const PaymentSheetGooglePay(
+        merchantCountryCode: 'VN',
+        currencyCode: 'vnd',
+        testEnv: true,
+      );
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          paymentIntentClientSecret: paymentIntent!['client_secret'],
+          googlePay: gpay,
+          style: ThemeMode.dark,
+          merchantDisplayName: 'Example Inc.',
+        ),
+      );
+      displayPaymentSheet();
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  void displayPaymentSheet() async {
+    try {
+      await Stripe.instance.presentPaymentSheet();
+      context.pop();
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  createPaymentIntent(int amount) async {
+    try {
+      Map<String, dynamic> body = {
+        'amount': amount.toString(),
+        'currency': 'vnd',
+      };
+
+      http.Response response = await http.post(
+        Uri.parse('https://api.stripe.com/v1/payment_intents'),
+        body: body,
+        headers: {
+          'Authorization':
+              'Bearer sk_test_51OIwCIGJQyVtA8BL2TjbFA1j1xJFEJsi3KIEbArRbgsOtMsZV26HYXCrHBnExg5qPxgc6YEVzNHplL7fzdiEsg3m0035DCltQt',
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      );
+      return json.decode(response.body);
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final cart = (context.watch<CartCubit>().state as CartLoaded).cart;
+
     return Scaffold(
       backgroundColor: AppColor.background,
       body: SingleChildScrollView(
@@ -42,7 +117,7 @@ class CheckoutScreen extends StatelessWidget {
                       style: GoogleFonts.poppins(
                         fontSize: 23,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF000000),
+                        color: const Color(0xFF000000),
                       ),
                     ),
                     const SizedBox(
@@ -57,10 +132,28 @@ class CheckoutScreen extends StatelessWidget {
                         const SizedBox(
                           width: 18,
                         ),
-                        CustomSuffixIcon(
-                          svgImg: MediaResource.cart,
-                          onPressed: () {},
-                        )
+                        badges.Badge(
+                          position:
+                              badges.BadgePosition.topEnd(top: -8, end: -5),
+                          badgeContent: Text(
+                            cart.cartTotalQuantity.toString(),
+                            style: GoogleFonts.poppins(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: AppColor.textLight,
+                            ),
+                          ),
+                          badgeStyle: const badges.BadgeStyle(
+                            badgeColor: AppColor.primary,
+                            padding: EdgeInsets.all(5),
+                          ),
+                          child: CustomSuffixIcon(
+                            svgImg: MediaResource.cart,
+                            onPressed: () {
+                              context.pushNamed(RouteNames.cart);
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   ],
@@ -139,128 +232,12 @@ class CheckoutScreen extends StatelessWidget {
                   height: 300,
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
-                    itemCount: 10,
-                    itemBuilder: ((ctx, index) => Padding(
-                          padding: const EdgeInsets.only(bottom: 15),
-                          child: Container(
-                            width: double.infinity,
-                            height: 130,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.0),
-                              color: AppColor.background,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color(0xFF969696).withOpacity(0.1),
-                                  offset: const Offset(0, 0),
-                                  blurRadius: 24,
-                                  spreadRadius: 0,
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 12,
-                              ),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 105,
-                                    height: 105,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      image: const DecorationImage(
-                                        image: AssetImage(
-                                            MediaResource.popularProductOne),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 16,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Apple Watch',
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 19,
-                                          fontWeight: FontWeight.w700,
-                                          color: AppColor.text,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 4,
-                                      ),
-                                      Text(
-                                        'Smart Watch',
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: AppColor.textSecondary,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 7,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'Price: ',
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: AppColor.checkOutText,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 70,
-                                          ),
-                                          Text(
-                                            "300.000",
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColor.text,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'Quantity: ',
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: AppColor.checkOutText,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 70,
-                                          ),
-                                          Text(
-                                            "2",
-                                            style: GoogleFonts.poppins(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColor.text,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        )),
+                    itemCount: cart.items.length,
+                    itemBuilder: (ctx, index) => CheckoutItem(
+                      product: cart.items[index].product,
+                      quantity: cart.items[index].quantity,
+                      imageCover: cart.items[index].product.imageCover,
+                    ),
                   ),
                 ),
                 Padding(
@@ -275,9 +252,9 @@ class CheckoutScreen extends StatelessWidget {
                           color: AppColor.checkOutText,
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Text(
-                        '500.000',
+                        currency.format(cart.cartTotalPrice).toString(),
                         style: GoogleFonts.poppins(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -299,9 +276,9 @@ class CheckoutScreen extends StatelessWidget {
                           color: AppColor.checkOutText,
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Text(
-                        '40.000',
+                        currency.format(shipCost).toString(),
                         style: GoogleFonts.poppins(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
@@ -323,9 +300,11 @@ class CheckoutScreen extends StatelessWidget {
                           color: AppColor.text,
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Text(
-                        '530.000',
+                        currency
+                            .format(cart.cartTotalPrice + shipCost)
+                            .toString(),
                         style: GoogleFonts.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -339,20 +318,37 @@ class CheckoutScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 15),
                   child: Row(
                     children: [
-                      Text(
-                        'Total: 530.000',
-                        style: GoogleFonts.poppins(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700,
-                          color: AppColor.text,
-                        ),
+                      BlocBuilder<CartCubit, CartState>(
+                        builder: (context, state) {
+                          if (state is CartLoaded) {
+                            return Text(
+                              'Total: ${currency.format(state.cart.cartTotalPrice + shipCost).toString()}',
+                              style: GoogleFonts.poppins(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w700,
+                                color: AppColor.text,
+                              ),
+                            );
+                          }
+                          return Text(
+                            'Total: 530.000',
+                            style: GoogleFonts.poppins(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                              color: AppColor.text,
+                            ),
+                          );
+                        },
                       ),
-                      Spacer(),
+                      const Spacer(),
                       CustomButton(
-                          width: 65,
-                          height: 50,
-                          text: 'Pay Now',
-                          onPressed: () {})
+                        width: 65,
+                        height: 50,
+                        text: 'Pay Now',
+                        onPressed: () {
+                          makePayment(cart.cartTotalPrice + shipCost);
+                        },
+                      ),
                     ],
                   ),
                 ),
