@@ -24,23 +24,6 @@ class NotificationScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    SizedBox(
-                      height: 45,
-                      width: 45,
-                      child: IconButton(
-                        onPressed: () {
-                          context.pop();
-                        },
-                        icon: SvgPicture.asset(MediaResource.arrowBack),
-                        style: IconButton.styleFrom(
-                          backgroundColor: AppColor.primary,
-                          elevation: 2,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
                     Text(
                       'Notifications',
                       style: GoogleFonts.poppins(

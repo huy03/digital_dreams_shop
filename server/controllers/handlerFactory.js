@@ -67,7 +67,7 @@ exports.getOne = (Model, popOptions) =>
 
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
-    //To allow for nested GET reviews on product (hack)
+    //To allow for nested route (hack)
     let filter = {};
     if (req.params.productId) filter = { product: req.params.productId };
     if (req.params.categoryId) filter = { category: req.params.categoryId };
