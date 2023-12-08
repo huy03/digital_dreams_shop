@@ -44,23 +44,21 @@ const orderSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
-      country: {
+      city: {
         type: String,
         required: true,
       },
-      city: {
+      country: {
         type: String,
         required: true,
       },
     },
     paymentMethod: {
       type: String,
-      required: true,
       default: "Cash On Delivery",
     },
     shippingPrice: {
       type: Number,
-      required: true,
       default: 0,
     },
     orderStatus: {
@@ -75,6 +73,8 @@ const orderSchema = new mongoose.Schema(
     paidAt: Date,
   },
   {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
     timestamps: true,
   }
 );

@@ -4,7 +4,7 @@ import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
-import 'package:digital_dreams_shop/features/cart/presentation/widgets/check_out_item.dart';
+import 'package:digital_dreams_shop/features/order/presentation/widgets/checkout_item.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/widgets/address_information_title.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:flutter/material.dart';
@@ -33,17 +33,29 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     try {
       paymentIntent = await createPaymentIntent(amount);
 
-      var gpay = const PaymentSheetGooglePay(
-        merchantCountryCode: 'VN',
-        currencyCode: 'vnd',
-        testEnv: true,
-      );
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
           paymentIntentClientSecret: paymentIntent!['client_secret'],
-          googlePay: gpay,
+          googlePay: const PaymentSheetGooglePay(
+            merchantCountryCode: 'VN',
+            currencyCode: 'vnd',
+            testEnv: true,
+          ),
           style: ThemeMode.dark,
           merchantDisplayName: 'Example Inc.',
+          appearance: const PaymentSheetAppearance(
+            colors: PaymentSheetAppearanceColors(
+              primary: AppColor.primary,
+            ),
+            primaryButton: PaymentSheetPrimaryButtonAppearance(
+              colors: PaymentSheetPrimaryButtonTheme(
+                light: PaymentSheetPrimaryButtonThemeColors(
+                  background: AppColor.primary,
+                  text: AppColor.textLight,
+                ),
+              ),
+            ),
+          ),
         ),
       );
       displayPaymentSheet();
@@ -72,8 +84,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         Uri.parse('https://api.stripe.com/v1/payment_intents'),
         body: body,
         headers: {
-          'Authorization':
-              'Bearer sk_test_51OIwCIGJQyVtA8BL2TjbFA1j1xJFEJsi3KIEbArRbgsOtMsZV26HYXCrHBnExg5qPxgc6YEVzNHplL7fzdiEsg3m0035DCltQt',
+          'Authorization': 'Bearer $kStripeSecretKey',
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       );
@@ -185,8 +196,22 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   child: Column(
                     children: [
                       AddressInformationTitle(
-                        title: 'Street: ',
-                        value: '28A Nguyen Du',
+                        title: 'Customer: ',
+                        value: 'Thanh Hien',
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: AddressInformationTitle(
+                          title: 'Phone number: ',
+                          value: '0398285020',
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 5),
+                        child: AddressInformationTitle(
+                          title: 'Street: ',
+                          value: '28A Nguyen Du',
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 5),
@@ -209,19 +234,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           value: 'Vietnam',
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: AddressInformationTitle(
-                          title: 'Phone number: ',
-                          value: '0398285020',
-                        ),
-                      ),
                     ],
                   ),
                 ),
               ),
               const SizedBox(
-                height: 20,
+                height: 12,
               ),
               Text(
                 'Home Delivery',
@@ -232,10 +250,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
               ),
               const SizedBox(
-                height: 10,
+                height: 8,
               ),
               SizedBox(
-                height: 310,
+                height: 300,
                 child: ListView.builder(
                   itemCount: cart.items.length,
                   itemBuilder: (ctx, index) => CheckoutItem(
@@ -246,7 +264,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 35),
+                padding: const EdgeInsets.only(top: 24),
                 child: Row(
                   children: [
                     Text(

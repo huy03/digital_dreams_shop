@@ -16,17 +16,21 @@ abstract class CartRemoteDataSource {
   const CartRemoteDataSource();
 
   Future<CartModel> getCart();
+
   Future<void> addToCart({
     required Product product,
     required int quantity,
     required String color,
   });
+
   Future<void> increaseCartQuantity({
     required Product product,
   });
+
   Future<void> decreaseCartQuantity({
     required Product product,
   });
+
   Future<void> removeCartItem({
     required String productId,
   });

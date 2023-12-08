@@ -23,6 +23,7 @@ Future<void> main() async {
   await init();
 
   Stripe.publishableKey = kStripePublishKey;
+  await Stripe.instance.applySettings();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (fn) {

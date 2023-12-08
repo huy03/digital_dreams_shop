@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:digital_dreams_shop/core/utils/typdefs.dart';
-import 'package:digital_dreams_shop/features/auth/domain/entities/address.dart';
 import 'package:digital_dreams_shop/features/auth/domain/entities/user.dart';
 
 class UserModel extends User {
@@ -13,7 +12,6 @@ class UserModel extends User {
     super.password,
     super.avatar,
     super.birthDate,
-    super.addresses,
     super.token,
   });
 
@@ -31,8 +29,6 @@ class UserModel extends User {
               : (map['data']['data']['password'] as String),
           avatar: map['data']['data']['avatar'] as String?,
           // birthDate: map['data']['user']['birthDate'] as DateTime?,
-          // addresses: (map['data']['user']['addresses'] as List<dynamic>)
-          //     .cast<Address>(),
           token: map['token'] as String?,
         );
 
@@ -44,7 +40,6 @@ class UserModel extends User {
         'password': password,
         'avatar': avatar,
         'birthday': birthDate?.toIso8601String(),
-        'addresses': addresses,
       };
 
   String toJson() => jsonEncode(toMap());
@@ -57,7 +52,6 @@ class UserModel extends User {
     String? password,
     String? avatar,
     DateTime? birthDate,
-    List<Address>? addresses,
   }) {
     return User(
       id: id ?? this.id,
@@ -67,7 +61,6 @@ class UserModel extends User {
       password: password ?? this.password,
       avatar: avatar ?? this.avatar,
       birthDate: birthDate ?? this.birthDate,
-      addresses: addresses ?? this.addresses,
     );
   }
 }

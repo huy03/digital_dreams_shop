@@ -1,4 +1,3 @@
-import 'package:digital_dreams_shop/features/auth/domain/entities/address.dart';
 import 'package:equatable/equatable.dart';
 
 enum Gender { male, female }
@@ -11,7 +10,6 @@ class User extends Equatable {
   final String? password;
   final String? avatar;
   final DateTime? birthDate;
-  final List<Address>? addresses;
   final String? token;
 
   const User({
@@ -22,7 +20,6 @@ class User extends Equatable {
     this.password,
     this.avatar = '',
     this.birthDate,
-    this.addresses,
     this.token,
   });
 

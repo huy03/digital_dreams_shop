@@ -1,8 +1,6 @@
 import 'package:digital_dreams_shop/features/cart/data/models/cart_item_model.dart';
 import 'package:digital_dreams_shop/features/cart/domain/entities/cart.dart';
 import 'package:digital_dreams_shop/features/cart/domain/entities/cart_item_entity.dart';
-import 'package:digital_dreams_shop/features/products/data/models/product_model.dart';
-import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
 
 class CartModel extends Cart {
   const CartModel({

@@ -2,8 +2,17 @@ const mongoose = require("mongoose");
 
 const addressSchema = mongoose.Schema(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "Address must belong to a user!"],
+    },
+    customer: {
+      type: String,
+      required: [true, "Address must have a customer name!"],
+    },
     phoneNumber: {
-      type: Number,
+      type: String,
       required: [true, "Address must have a phone number!"],
     },
     detailedAddress: {
@@ -28,6 +37,8 @@ const addressSchema = mongoose.Schema(
     },
   },
   {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
     timestamps: true,
   }
 );

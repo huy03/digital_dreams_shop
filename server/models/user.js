@@ -50,12 +50,6 @@ const userSchema = mongoose.Schema(
         ref: "Product",
       },
     ],
-    address: [
-      {
-        type: mongoose.Schema.ObjectId,
-        ref: "Address",
-      },
-    ],
     avatar: {
       type: String,
       default:

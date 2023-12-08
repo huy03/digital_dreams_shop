@@ -1,0 +1,63 @@
+import 'dart:convert';
+
+import 'package:digital_dreams_shop/core/utils/typdefs.dart';
+import 'package:digital_dreams_shop/features/order/domain/entities/address.dart';
+
+class AddressModel extends Address {
+  const AddressModel({
+    required super.id,
+    required super.customer,
+    required super.phoneNumber,
+    required super.detailedAddress,
+    required super.district,
+    required super.city,
+    required super.country,
+    super.isDefault,
+  });
+
+  factory AddressModel.fromJson(String source) =>
+      AddressModel.fromMap(jsonDecode(source) as DataMap);
+
+  AddressModel.fromMap(DataMap map)
+      : super(
+          id: map['data']['data']['id'] as String,
+          customer: map['data']['data']['customer'] as String,
+          phoneNumber: map['data']['data']['productCount'] as String,
+          detailedAddress: map['data']['data']['detailedAddress'] as String,
+          district: map['data']['data']['district'] as String,
+          city: map['data']['data']['city'] as String,
+          country: map['data']['data']['country'] as String,
+        );
+
+  DataMap toMap() => {
+        '_id': id,
+        'customer': customer,
+        'phoneNumber': phoneNumber,
+        'detailedAddress': detailedAddress,
+        'district': district,
+        'city': city,
+        'country': country,
+      };
+
+  String toJson() => jsonEncode(toMap());
+
+  AddressModel copyWith({
+    String? id,
+    String? customer,
+    String? phoneNumber,
+    String? detailedAddress,
+    String? district,
+    String? city,
+    String? country,
+  }) {
+    return AddressModel(
+      id: id ?? this.id,
+      customer: customer ?? this.customer,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      detailedAddress: detailedAddress ?? this.detailedAddress,
+      district: district ?? this.district,
+      city: city ?? this.city,
+      country: country ?? this.country,
+    );
+  }
+}
