@@ -261,3 +261,29 @@ exports.deleteCartItem = catchAsync(async (req, res, next) => {
     });
   }
 });
+
+exports.emptyCart = catchAsync(async (req, res, next) => {
+  try {
+    const cart = await Cart.findOne({ user: req.user.id });
+    if (!cart) {
+      return next(new AppError("No cart found with that ID", 404));
+    }
+
+    cart.items = [];
+    cart.cartTotalQuantity = 0;
+    cart.cartTotalPrice = 0;
+    cart.totalPriceAfterDiscount = 0;
+
+    await cart.save();
+
+    res.status(204).json({
+      status: "success",
+      data: null,
+    });
+  } catch (e) {
+    res.status(400).json({
+      status: "fail",
+      message: e.message,
+    });
+  }
+});

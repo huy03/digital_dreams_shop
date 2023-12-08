@@ -1,15 +1,14 @@
 import 'package:digital_dreams_shop/core/usecases/usecase.dart';
 import 'package:digital_dreams_shop/core/utils/typdefs.dart';
-import 'package:digital_dreams_shop/features/cart/domain/entities/cart.dart';
 import 'package:digital_dreams_shop/features/cart/domain/repositories/cart_repository.dart';
 
-class GetCart extends UseCaseWithoutParams<Cart> {
+class EmptyCart extends UseCaseWithoutParams<void> {
   final CartRepository repository;
 
-  GetCart(this.repository);
+  const EmptyCart(this.repository);
 
   @override
-  ResultFuture<Cart> call() async {
-    return await repository.getCart();
+  ResultFuture<void> call() async {
+    return await repository.emptyCart();
   }
 }

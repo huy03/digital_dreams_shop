@@ -13,21 +13,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MyCartScreen extends StatefulWidget {
+class MyCartScreen extends StatelessWidget {
   const MyCartScreen({super.key});
-
-  @override
-  State<MyCartScreen> createState() => _MyCartScreenState();
-}
-
-class _MyCartScreenState extends State<MyCartScreen> {
-  int shipCost = 30000;
-
-  @override
-  void initState() {
-    super.initState();
-    //context.read<CartCubit>().fetchCart();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +135,6 @@ class _MyCartScreenState extends State<MyCartScreen> {
             ),
             Container(
               width: double.infinity,
-              height: 220,
               decoration: BoxDecoration(
                 color: AppColor.background,
                 boxShadow: [
@@ -167,73 +153,12 @@ class _MyCartScreenState extends State<MyCartScreen> {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(left: 30, right: 30, top: 30),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30,
+                  vertical: 30,
+                ),
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          'Subtotal',
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: AppColor.checkOutText,
-                          ),
-                        ),
-                        const Spacer(),
-                        BlocBuilder<CartCubit, CartState>(
-                          builder: (context, state) {
-                            if (state is CartLoaded) {
-                              return Text(
-                                currency
-                                    .format(state.cart.cartTotalPrice)
-                                    .toString(),
-                                style: GoogleFonts.poppins(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColor.text,
-                                ),
-                              );
-                            }
-                            return Text(
-                              '500.000',
-                              style: GoogleFonts.poppins(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: AppColor.text,
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Delivery & Handing',
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: AppColor.checkOutText,
-                          ),
-                        ),
-                        const Spacer(),
-                        Text(
-                          currency.format(shipCost).toString(),
-                          style: GoogleFonts.poppins(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: AppColor.text,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
                     Row(
                       children: [
                         Text(
@@ -250,8 +175,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
                             if (state is CartLoaded) {
                               return Text(
                                 currency
-                                    .format(
-                                        state.cart.cartTotalPrice + shipCost)
+                                    .format(state.cart.cartTotalPrice)
                                     .toString(),
                                 style: GoogleFonts.poppins(
                                   fontSize: 20,
@@ -260,20 +184,13 @@ class _MyCartScreenState extends State<MyCartScreen> {
                                 ),
                               );
                             }
-                            return Text(
-                              currency.format(shipCost).toString(),
-                              style: GoogleFonts.poppins(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: AppColor.text,
-                              ),
-                            );
+                            return const SizedBox();
                           },
                         ),
                       ],
                     ),
                     const SizedBox(
-                      height: 25,
+                      height: 16,
                     ),
                     CustomButton(
                       width: double.infinity,

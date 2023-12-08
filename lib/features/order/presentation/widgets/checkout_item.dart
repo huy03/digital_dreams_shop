@@ -31,7 +31,7 @@ class CheckoutItem extends StatelessWidget {
             BoxShadow(
               color: Color(0xFF969696).withOpacity(0.1),
               offset: const Offset(0, 0),
-              blurRadius: 24,
+              blurRadius: 4,
               spreadRadius: 0,
             ),
           ],

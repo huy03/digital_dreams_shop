@@ -8,8 +8,6 @@ class PaybyCashBtn extends StatelessWidget {
   const PaybyCashBtn({super.key});
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-
     return Padding(
       padding: const EdgeInsets.only(top: 25),
       child: Container(

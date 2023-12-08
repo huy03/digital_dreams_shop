@@ -4,17 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class PaymentBtn extends StatelessWidget {
-  PaymentBtn({
+class PaymentButton extends StatelessWidget {
+  const PaymentButton({
     super.key,
     required this.imgPayment,
     required this.content,
   });
-  @override
+
   final String imgPayment;
   final String content;
+
+  @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
       width: double.infinity,
       height: 70,
