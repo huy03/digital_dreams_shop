@@ -3,6 +3,7 @@ import 'package:digital_dreams_shop/features/cart/domain/entities/cart.dart';
 import 'package:digital_dreams_shop/features/cart/domain/entities/cart_item_entity.dart';
 import 'package:digital_dreams_shop/features/cart/domain/usecases/add_to_cart.dart';
 import 'package:digital_dreams_shop/features/cart/domain/usecases/decrease_cart_quantity.dart';
+import 'package:digital_dreams_shop/features/cart/domain/usecases/empty_cart.dart';
 import 'package:digital_dreams_shop/features/cart/domain/usecases/get_cart.dart';
 import 'package:digital_dreams_shop/features/cart/domain/usecases/increase_cart_quantity.dart';
 import 'package:digital_dreams_shop/features/cart/domain/usecases/remove_cart_item.dart';
@@ -17,6 +18,7 @@ class CartCubit extends Cubit<CartState> {
   final IncreaseCartQuantity increaseCartQuantity;
   final DecreaseCartQuantity decreaseCartQuantity;
   final RemoveCartItem removeCartItem;
+  final EmptyCart emptyCart;
 
   CartCubit({
     required this.getCart,
@@ -24,6 +26,7 @@ class CartCubit extends Cubit<CartState> {
     required this.increaseCartQuantity,
     required this.decreaseCartQuantity,
     required this.removeCartItem,
+    required this.emptyCart,
   }) : super(CartInitial());
 
   void fetchCart() async {
@@ -148,6 +151,21 @@ class CartCubit extends Cubit<CartState> {
     Cart updatedCart = newState.cart.copyWith(
       cartTotalQuantity: newState.cart.cartTotalQuantity - quantity,
       cartTotalPrice: newState.cart.cartTotalPrice - price * quantity,
+    );
+
+    emit(CartLoaded(cart: updatedCart));
+  }
+
+  void emptyCartItem() {
+    emptyCart.call();
+
+    final newState = state as CartLoaded;
+
+    newState.cart.items.clear();
+
+    Cart updatedCart = newState.cart.copyWith(
+      cartTotalQuantity: 0,
+      cartTotalPrice: 0,
     );
 
     emit(CartLoaded(cart: updatedCart));

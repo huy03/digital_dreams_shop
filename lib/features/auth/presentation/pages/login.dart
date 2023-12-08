@@ -4,6 +4,7 @@ import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/widgets/custom_inkwell_button.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
 import 'package:digital_dreams_shop/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,6 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
             context.goNamed(RouteNames.application);
             BlocProvider.of<ProfileCubit>(context).loadProfile();
             BlocProvider.of<CartCubit>(context).fetchCart();
+            BlocProvider.of<AddressCubit>(context).fetchDefaultAddress();
           }
           if (state is AuthError) {
             ScaffoldMessenger.of(context).clearSnackBars();

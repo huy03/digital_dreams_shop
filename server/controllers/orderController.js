@@ -10,7 +10,7 @@ exports.setOrderUserIds = (req, res, next) => {
 };
 
 // exports.getAllOrders = factory.getAll(Order);
-exports.createOrder = factory.createOne(Order);
+// exports.createOrder = factory.createOne(Order);
 exports.getOrder = factory.getOne(Order);
 exports.updateOrder = factory.updateOne(Order);
 exports.deleteOrder = factory.deleteOne(Order);
@@ -33,6 +33,28 @@ exports.getAllOrders = catchAsync(async (req, res, next) => {
     results: doc.length,
     data: {
       data: doc,
+    },
+  });
+});
+
+exports.createOrder = catchAsync(async (req, res, next) => {
+  const { items } = req.body;
+
+  req.body.totalQuantity = items.reduce((a, b) => a + b.quantity, 0);
+  req.body.totalPrice = items.reduce((a, b) => a + b.price * b.quantity, 0);
+
+  if (req.body.paymentMethod) {
+    req.body.isPaid = true;
+    req.body.paidAt = Date.now();
+    req.body.orderStatus = "To Ship";
+  }
+
+  const newDoc = await Order.create(req.body);
+
+  res.status(201).json({
+    status: "success",
+    data: {
+      data: newDoc,
     },
   });
 });

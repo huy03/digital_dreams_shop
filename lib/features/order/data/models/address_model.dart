@@ -20,13 +20,14 @@ class AddressModel extends Address {
 
   AddressModel.fromMap(DataMap map)
       : super(
-          id: map['data']['data']['id'] as String,
-          customer: map['data']['data']['customer'] as String,
-          phoneNumber: map['data']['data']['productCount'] as String,
-          detailedAddress: map['data']['data']['detailedAddress'] as String,
-          district: map['data']['data']['district'] as String,
-          city: map['data']['data']['city'] as String,
-          country: map['data']['data']['country'] as String,
+          id: map['id'] as String,
+          customer: map['customer'] as String,
+          phoneNumber: map['phoneNumber'] as String,
+          detailedAddress: map['detailedAddress'] as String,
+          district: map['district'] as String,
+          city: map['city'] as String,
+          country: map['country'] as String,
+          isDefault: map['isDefault'] as bool,
         );
 
   DataMap toMap() => {

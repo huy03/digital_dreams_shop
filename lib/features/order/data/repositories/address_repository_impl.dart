@@ -9,9 +9,9 @@ import 'package:digital_dreams_shop/features/order/domain/repositories/address_r
 class AddressRepositoryImpl extends AddressRepository {
   final AddressRemoteDataSource remoteDataSource;
 
-  const AddressRepositoryImpl({
-    required this.remoteDataSource,
-  });
+  const AddressRepositoryImpl(
+    this.remoteDataSource,
+  );
 
   @override
   ResultFuture<List<AddressModel>> getAllAddresses() async {

@@ -24,4 +24,6 @@ abstract class CartRepository {
   ResultFuture<void> removeProduct({
     required String productId,
   });
+
+  ResultFuture<void> emptyCart();
 }

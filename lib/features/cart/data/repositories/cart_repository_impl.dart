@@ -69,4 +69,14 @@ class CartRepositoryImpl extends CartRepository {
       return Left(ServerFailure.fromException(e));
     }
   }
+
+  @override
+  ResultFuture<void> emptyCart() async {
+    try {
+      await remoteDataSource.emptyCart();
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
 }

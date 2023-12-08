@@ -22,7 +22,6 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
   @override
   Future<UserModel> getCurrentUser() async {
     final url = Uri.parse('$kBaseUrl/users/me');
-    print(sl<SharedPreferences>().getString(kAuthToken));
     final response = await client.get(
       url,
       headers: {
