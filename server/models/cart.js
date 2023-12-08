@@ -28,6 +28,8 @@ const cartSchema = new mongoose.Schema(
     totalPriceAfterDiscount: Number,
   },
   {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
     timestamps: true,
   }
 );

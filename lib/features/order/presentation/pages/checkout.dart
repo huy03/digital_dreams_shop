@@ -4,8 +4,9 @@ import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
-import 'package:digital_dreams_shop/features/cart/presentation/widgets/check_out_item.dart';
-import 'package:digital_dreams_shop/features/cart/presentation/widgets/rowInformation.dart';
+import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
+import 'package:digital_dreams_shop/features/order/presentation/widgets/checkout_item.dart';
+import 'package:digital_dreams_shop/features/cart/presentation/widgets/address_information_title.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,17 +34,29 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     try {
       paymentIntent = await createPaymentIntent(amount);
 
-      var gpay = const PaymentSheetGooglePay(
-        merchantCountryCode: 'VN',
-        currencyCode: 'vnd',
-        testEnv: true,
-      );
       await Stripe.instance.initPaymentSheet(
         paymentSheetParameters: SetupPaymentSheetParameters(
           paymentIntentClientSecret: paymentIntent!['client_secret'],
-          googlePay: gpay,
+          googlePay: const PaymentSheetGooglePay(
+            merchantCountryCode: 'VN',
+            currencyCode: 'vnd',
+            testEnv: true,
+          ),
           style: ThemeMode.dark,
           merchantDisplayName: 'Example Inc.',
+          appearance: const PaymentSheetAppearance(
+            colors: PaymentSheetAppearanceColors(
+              primary: AppColor.primary,
+            ),
+            primaryButton: PaymentSheetPrimaryButtonAppearance(
+              colors: PaymentSheetPrimaryButtonTheme(
+                light: PaymentSheetPrimaryButtonThemeColors(
+                  background: AppColor.primary,
+                  text: AppColor.textLight,
+                ),
+              ),
+            ),
+          ),
         ),
       );
       displayPaymentSheet();
@@ -55,6 +68,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   void displayPaymentSheet() async {
     try {
       await Stripe.instance.presentPaymentSheet();
+      BlocProvider.of<CartCubit>(context).emptyCartItem();
       context.pop();
     } catch (e) {
       throw Exception(e.toString());
@@ -72,8 +86,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         Uri.parse('https://api.stripe.com/v1/payment_intents'),
         body: body,
         headers: {
-          'Authorization':
-              'Bearer sk_test_51OIwCIGJQyVtA8BL2TjbFA1j1xJFEJsi3KIEbArRbgsOtMsZV26HYXCrHBnExg5qPxgc6YEVzNHplL7fzdiEsg3m0035DCltQt',
+          'Authorization': 'Bearer $kStripeSecretKey',
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       );
@@ -88,12 +101,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final cart = (context.watch<CartCubit>().state as CartLoaded).cart;
 
     return Scaffold(
-      backgroundColor: AppColor.background,
-      body: SingleChildScrollView(
-        child: Stack(children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 30, right: 30, top: 42),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 30,
+            right: 30,
+            top: 24,
+          ),
+          child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
@@ -163,7 +180,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
                 Container(
                   width: double.infinity,
-                  height: 210,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     color: AppColor.background,
@@ -177,61 +193,91 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     ],
                   ),
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 25, right: 20, top: 18),
-                    child: Column(
-                      children: [
-                        InformationRow(
-                            subtitle: '28A Nguyen Du', title: 'Street: '),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5),
-                          child: InformationRow(
-                              subtitle: 'Ho Chi Minh', title: 'City: '),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5),
-                          child: InformationRow(
-                              title: 'State/province: ',
-                              subtitle: 'Ho Chi Minh'),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5),
-                          child: InformationRow(
-                              title: 'Phone number: ', subtitle: '0398285020'),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5),
-                          child: InformationRow(
-                              title: 'Country calling code: ', subtitle: '+84'),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5),
-                          child: InformationRow(
-                              title: 'Country: ', subtitle: 'Vietnam'),
-                        ),
-                      ],
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 25,
+                      vertical: 18,
+                    ),
+                    child: BlocBuilder<AddressCubit, AddressState>(
+                      builder: (context, state) {
+                        if (state is AddressLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (state is AddressFail) {
+                          return Center(
+                            child: Text(state.message),
+                          );
+                        }
+                        if (state is! AddressLoaded) {
+                          return const Center(
+                            child: Text('Something went wrong!'),
+                          );
+                        }
+                        return Column(
+                          children: [
+                            AddressInformationTitle(
+                              title: 'Customer: ',
+                              value: state.address.customer,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: AddressInformationTitle(
+                                title: 'Phone number: ',
+                                value: state.address.phoneNumber,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: AddressInformationTitle(
+                                title: 'Street: ',
+                                value: state.address.detailedAddress,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: AddressInformationTitle(
+                                title: 'District: ',
+                                value: state.address.district,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: AddressInformationTitle(
+                                title: 'City: ',
+                                value: state.address.city,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: AddressInformationTitle(
+                                title: 'Country: ',
+                                value: state.address.country,
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ),
                 const SizedBox(
-                  height: 25,
+                  height: 12,
                 ),
-                Row(
-                  children: [
-                    Text(
-                      'Home Delivery',
-                      style: GoogleFonts.poppins(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: AppColor.text,
-                      ),
-                    ),
-                  ],
+                Text(
+                  'Home Delivery',
+                  style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColor.text,
+                  ),
+                ),
+                const SizedBox(
+                  height: 8,
                 ),
                 SizedBox(
                   height: 300,
                   child: ListView.builder(
-                    scrollDirection: Axis.vertical,
                     itemCount: cart.items.length,
                     itemBuilder: (ctx, index) => CheckoutItem(
                       product: cart.items[index].product,
@@ -241,7 +287,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 15),
+                  padding: const EdgeInsets.only(top: 24),
                   child: Row(
                     children: [
                       Text(
@@ -355,7 +401,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               ],
             ),
           ),
-        ]),
+        ),
       ),
     );
   }

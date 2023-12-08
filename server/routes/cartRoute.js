@@ -40,4 +40,8 @@ router
   .route("/delete")
   .patch(authController.restrictTo("user"), cartController.deleteCartItem);
 
+router
+  .route("/empty")
+  .patch(authController.restrictTo("user"), cartController.emptyCart);
+
 module.exports = router;

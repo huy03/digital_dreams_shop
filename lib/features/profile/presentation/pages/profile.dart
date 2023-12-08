@@ -70,6 +70,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       );
                     }
+                    if (state is ProfileError) {
+                      return Text(state.message);
+                    }
                     if (state is! ProfileLoaded) {
                       return const Text('Something went wrong');
                     }
