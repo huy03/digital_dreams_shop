@@ -8,6 +8,7 @@ import 'package:digital_dreams_shop/features/auth/presentation/pages/signup.dart
 import 'package:digital_dreams_shop/features/order/presentation/pages/checkout.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/pages/my_cart.dart';
 import 'package:digital_dreams_shop/features/on_boarding/data/data_sources/on_boarding_local_data_sources.dart';
+import 'package:digital_dreams_shop/features/profile/presentation/pages/settings.dart';
 import 'package:digital_dreams_shop/features/wishlist/presentation/pages/wishlist.dart';
 import 'package:digital_dreams_shop/features/home/presentation/pages/home_screen.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/pages/main_onboard.dart';
@@ -23,7 +24,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AppRouter {
   GoRouter router = GoRouter(
-    initialLocation: //'/application',
+    initialLocation: // '/settings',
         sl<SharedPreferences>().getBool(kFirstTimer) == null
             ? '/'
             : ((sl<SharedPreferences>().getString(kAuthToken) == null ||
@@ -171,6 +172,17 @@ class AppRouter {
         path: '/application',
         pageBuilder: (context, state) => CustomTransitionPage(
           child: const ApplicationScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return buildTransition(
+                context, animation, secondaryAnimation, child);
+          },
+        ),
+      ),
+      GoRoute(
+        name: RouteNames.settings,
+        path: '/settings',
+        pageBuilder: (context, state) => CustomTransitionPage(
+          child: const SettingProfile(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return buildTransition(
                 context, animation, secondaryAnimation, child);
