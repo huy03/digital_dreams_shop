@@ -42,19 +42,19 @@ class PaymentMethodScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: PaymentButton(icon: MediaResource.momo, content: 'Momo'),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child:
-                    PaymentButton(icon: MediaResource.zalo, content: 'ZaloPay'),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: PaymentButton(icon: MediaResource.MB, content: 'Card'),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 15),
+              //   child: PaymentButton(icon: MediaResource.momo, content: 'Momo'),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 15),
+              //   child:
+              //       PaymentButton(icon: MediaResource.zalo, content: 'ZaloPay'),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 15),
+              //   child: PaymentButton(icon: MediaResource.MB, content: 'Card'),
+              // ),
               const SizedBox(
                 height: 40,
               ),
