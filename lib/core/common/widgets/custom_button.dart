@@ -15,13 +15,14 @@ class CustomButton extends StatelessWidget {
   final double width;
   final double height;
   final String text;
-  final void Function() onPressed;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColor.primary,
+        disabledBackgroundColor: AppColor.primary.withOpacity(0.5),
         minimumSize: Size(width, height),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),

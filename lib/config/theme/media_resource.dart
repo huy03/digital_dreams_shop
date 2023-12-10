@@ -1,6 +1,7 @@
 class MediaResource {
   const MediaResource._();
 
+  //ICON
   static const _baseIcons = 'assets/icons';
 
   static const arrowBack = '$_baseIcons/arrow_back.svg';
@@ -35,6 +36,10 @@ class MediaResource {
   static const facebook = '$_baseIcons/fb.svg';
   static const google = '$_baseIcons/google.svg';
 
+  //Status
+  static const success = '$_baseIcons/success.svg';
+
+  //IMAGE
   static const _baseImages = 'assets/images';
 
   //Splash
