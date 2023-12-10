@@ -1,9 +1,11 @@
+import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/core/utils/injection_container.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:digital_dreams_shop/features/home/presentation/cubit/coupon_cubit.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/cubit/on_boarding_cubit.dart';
+import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
 import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/categories_cubit.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/popular_categories_cubit.dart';
@@ -11,6 +13,7 @@ import 'package:digital_dreams_shop/features/profile/presentation/cubit/profile_
 import 'package:digital_dreams_shop/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 
 import 'package:digital_dreams_shop/config/routes/router.dart';
 import 'package:flutter/services.dart';
@@ -19,6 +22,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
+
+  Stripe.publishableKey = kStripePublishKey;
+  await Stripe.instance.applySettings();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
     (fn) {
@@ -52,6 +58,9 @@ Future<void> main() async {
             ),
             BlocProvider(
               create: (context) => sl<CartCubit>()..fetchCart(),
+            ),
+            BlocProvider(
+              create: (context) => sl<AddressCubit>()..fetchDefaultAddress(),
             ),
           ],
           child: const MyApp(),

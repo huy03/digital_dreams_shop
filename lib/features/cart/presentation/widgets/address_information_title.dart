@@ -2,17 +2,18 @@ import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class InformationRow extends StatelessWidget {
-  InformationRow({
+class AddressInformationTitle extends StatelessWidget {
+  const AddressInformationTitle({
     super.key,
     required this.title,
-    required this.subtitle,
+    required this.value,
   });
-  @override
+
   final String title;
-  final String subtitle;
+  final String value;
+
+  @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Row(
       children: [
         Text(
@@ -27,7 +28,7 @@ class InformationRow extends StatelessWidget {
           width: 5,
         ),
         Text(
-          subtitle,
+          value,
           style: GoogleFonts.poppins(
             fontSize: 17,
             fontWeight: FontWeight.w500,

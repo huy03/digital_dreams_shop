@@ -11,6 +11,7 @@ import 'package:digital_dreams_shop/features/cart/data/repositories/cart_reposit
 import 'package:digital_dreams_shop/features/cart/domain/repositories/cart_repository.dart';
 import 'package:digital_dreams_shop/features/cart/domain/usecases/add_to_cart.dart';
 import 'package:digital_dreams_shop/features/cart/domain/usecases/decrease_cart_quantity.dart';
+import 'package:digital_dreams_shop/features/cart/domain/usecases/empty_cart.dart';
 import 'package:digital_dreams_shop/features/cart/domain/usecases/get_cart.dart';
 import 'package:digital_dreams_shop/features/cart/domain/usecases/increase_cart_quantity.dart';
 import 'package:digital_dreams_shop/features/cart/domain/usecases/remove_cart_item.dart';
@@ -26,6 +27,11 @@ import 'package:digital_dreams_shop/features/on_boarding/domain/repositories/on_
 import 'package:digital_dreams_shop/features/on_boarding/domain/usecases/cache_first_timer.dart';
 import 'package:digital_dreams_shop/features/on_boarding/domain/usecases/is_first_timer.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/cubit/on_boarding_cubit.dart';
+import 'package:digital_dreams_shop/features/order/data/datasources/address_remote_datasource.dart';
+import 'package:digital_dreams_shop/features/order/data/repositories/address_repository_impl.dart';
+import 'package:digital_dreams_shop/features/order/domain/repositories/address_repository.dart';
+import 'package:digital_dreams_shop/features/order/domain/usecases/address/get_default_address.dart';
+import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
 import 'package:digital_dreams_shop/features/products/data/datasources/category_remote_datasources.dart';
 import 'package:digital_dreams_shop/features/products/data/datasources/product_remote_datasources.dart';
 import 'package:digital_dreams_shop/features/products/data/repositories/category_repository_impl.dart';
@@ -206,6 +212,7 @@ Future<void> init() async {
       increaseCartQuantity: sl(),
       decreaseCartQuantity: sl(),
       removeCartItem: sl(),
+      emptyCart: sl(),
     ),
   );
   // Use cases
@@ -214,11 +221,29 @@ Future<void> init() async {
   sl.registerLazySingleton(() => IncreaseCartQuantity(sl()));
   sl.registerLazySingleton(() => DecreaseCartQuantity(sl()));
   sl.registerLazySingleton(() => RemoveCartItem(sl()));
+  sl.registerLazySingleton(() => EmptyCart(sl()));
   // Repository
   sl.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(sl()));
   // Data sources
   sl.registerLazySingleton<CartRemoteDataSource>(
       () => CartRemoteDataSourceImpl(client: sl()));
+
+  //! Order
+  // Cubit
+  sl.registerFactory(
+    () => AddressCubit(
+      getDefaultAddress: sl(),
+    ),
+  );
+  // Use cases
+  sl.registerLazySingleton(() => GetDefaultAddress(sl()));
+
+  // Repository
+  sl.registerLazySingleton<AddressRepository>(
+      () => AddressRepositoryImpl(sl()));
+  // Data sources
+  sl.registerLazySingleton<AddressRemoteDataSource>(
+      () => AddressRemoteDataSourceImpl(client: sl()));
 
   //! Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
