@@ -5,6 +5,9 @@ import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
 import 'package:digital_dreams_shop/core/common/widgets/status_dialog.dart';
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:digital_dreams_shop/features/cart/presentation/widgets/paybyCashbtn.dart';
+import 'package:digital_dreams_shop/features/cart/presentation/widgets/payment_button.dart';
+import 'package:digital_dreams_shop/features/home/presentation/widgets/show_all_button.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/widgets/checkout_item.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/widgets/address_information_title.dart';
@@ -269,8 +272,26 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     ),
                   ),
                 ),
+                
                 const SizedBox(
-                  height: 12,
+                  height: 20,
+                ),
+                Text(
+                  'Payment Method',
+                  style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: AppColor.text,
+                  ),
+                ),
+                PaybyCashBtn(),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15),
+                  child: PaymentButton(
+                      imgPayment: MediaResource.momo, content: 'Stripe'),
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
                 Text(
                   'Home Delivery',
@@ -294,6 +315,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     ),
                   ),
                 ),
+                
                 Padding(
                   padding: const EdgeInsets.only(top: 24),
                   child: Row(
