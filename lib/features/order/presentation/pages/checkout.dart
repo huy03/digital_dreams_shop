@@ -2,6 +2,7 @@ import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
+import 'package:digital_dreams_shop/core/common/widgets/status_dialog.dart';
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/widgets/paybyCashbtn.dart';
@@ -71,8 +72,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   void displayPaymentSheet() async {
     try {
       await Stripe.instance.presentPaymentSheet();
-      BlocProvider.of<CartCubit>(context).emptyCartItem();
-      context.pop();
+      if (mounted) {
+        BlocProvider.of<CartCubit>(context).emptyCartItem();
+        showDialog(
+          context: context,
+          builder: (ctx) {
+            return const StatusDialog();
+          },
+        );
+      }
     } catch (e) {
       throw Exception(e.toString());
     }
