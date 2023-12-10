@@ -23,6 +23,8 @@ import 'dart:convert';
 
 const shipCost = 30000;
 
+enum PaymentMethodEnum { cashOnDelivery, stripe }
+
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
 
@@ -31,6 +33,7 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
+  PaymentMethodEnum paymentMethod = PaymentMethodEnum.cashOnDelivery;
   Map<String, dynamic>? paymentIntent;
 
   void makePayment(int amount) async {
@@ -220,7 +223,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     height: 50,
                     text: 'Pay Now',
                     onPressed: () {
-                      makePayment(cart.cartTotalPrice + shipCost);
+                      if (paymentMethod == PaymentMethodEnum.cashOnDelivery) {
+                        BlocProvider.of<CartCubit>(context).emptyCartItem();
+                        showDialog(
+                          context: context,
+                          builder: (ctx) {
+                            return const StatusDialog();
+                          },
+                        );
+                      }
+                      if (paymentMethod == PaymentMethodEnum.stripe) {
+                        makePayment(cart.cartTotalPrice + shipCost);
+                      }
                     },
                   ),
                 ],
@@ -313,7 +327,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     color: AppColor.background,
                     boxShadow: [
                       BoxShadow(
-                        color: Color(0xFFE3DBDD).withOpacity(0.25),
+                        color: const Color(0xFFE3DBDD).withOpacity(0.25),
                         offset: const Offset(5, 5),
                         blurRadius: 15,
                         spreadRadius: 0,
@@ -400,15 +414,33 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     color: AppColor.text,
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 15),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15),
                   child: PaymentButton(
-                      icon: MediaResource.cash, content: 'Cash by Delivery'),
+                    icon: MediaResource.cash,
+                    content: 'Cash on Delivery',
+                    value: PaymentMethodEnum.cashOnDelivery,
+                    groupValue: paymentMethod,
+                    onChanged: (value) {
+                      setState(() {
+                        paymentMethod = value!;
+                      });
+                    },
+                  ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 15),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15),
                   child: PaymentButton(
-                      icon: MediaResource.stripe, content: 'Stripe'),
+                    icon: MediaResource.stripe,
+                    content: 'Stripe',
+                    value: PaymentMethodEnum.stripe,
+                    groupValue: paymentMethod,
+                    onChanged: (value) {
+                      setState(() {
+                        paymentMethod = value!;
+                      });
+                    },
+                  ),
                 ),
                 const SizedBox(
                   height: 20,

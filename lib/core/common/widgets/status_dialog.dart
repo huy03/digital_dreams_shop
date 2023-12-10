@@ -71,7 +71,7 @@ class StatusDialog extends StatelessWidget {
               ),
               onPressed: () {
                 context.pop();
-                context.pushReplacementNamed(RouteNames.home);
+                context.pushReplacementNamed(RouteNames.application);
               },
               label: Text(
                 'Continue shopping',
