@@ -13,4 +13,6 @@ class RouteNames {
   static String checkout = 'checkout';
   static String search = 'search';
   static String wishlist = 'wishlist';
+    static String settings = 'settings';
+
 }

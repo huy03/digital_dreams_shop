@@ -405,6 +405,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   color: const Color(0xFF666666),
                 ),
               ),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Rating',
+                style: GoogleFonts.poppins(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w600,
+                  color: AppColor.text,
+                ),
+              ),
+              
               const Spacer(),
               Row(
                 children: [
