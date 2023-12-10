@@ -38,3 +38,20 @@ exports.getAllAddresses = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.createAddress = catchAsync(async (req, res, next) => {
+  //Address created first time
+  const address = await Address.findOne({ user: req.user.id });
+  if (!address) {
+    req.body.isDefault = true;
+  }
+
+  const newDoc = await Address.create(req.body);
+
+  res.status(201).json({
+    status: "success",
+    data: {
+      data: newDoc,
+    },
+  });
+});

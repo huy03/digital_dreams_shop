@@ -18,6 +18,8 @@ class MyCartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cart = (context.watch<CartCubit>().state as CartLoaded).cart;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -196,9 +198,11 @@ class MyCartScreen extends StatelessWidget {
                       width: double.infinity,
                       height: 45,
                       text: 'Checkout',
-                      onPressed: () {
-                        context.pushNamed(RouteNames.checkout);
-                      },
+                      onPressed: cart.cartTotalQuantity == 0
+                          ? null
+                          : () {
+                              context.pushNamed(RouteNames.checkout);
+                            },
                     )
                   ],
                 ),
