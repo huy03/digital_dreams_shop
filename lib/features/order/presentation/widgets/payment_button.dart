@@ -7,11 +7,11 @@ import 'package:google_fonts/google_fonts.dart';
 class PaymentButton extends StatelessWidget {
   const PaymentButton({
     super.key,
-    required this.imgPayment,
+    required this.icon,
     required this.content,
   });
 
-  final String imgPayment;
+  final String icon;
   final String content;
 
   @override
@@ -43,7 +43,7 @@ class PaymentButton extends StatelessWidget {
                   width: 40,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(imgPayment),
+                      image: AssetImage(icon),
                       fit: BoxFit.cover,
                     ),
                     color: Color(0xFFF4F4F4),
