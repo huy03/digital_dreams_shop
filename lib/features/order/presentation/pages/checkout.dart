@@ -320,88 +320,110 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 const SizedBox(
                   height: 25,
                 ),
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: AppColor.background,
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFFE3DBDD).withOpacity(0.25),
-                        offset: const Offset(5, 5),
-                        blurRadius: 15,
-                        spreadRadius: 0,
+                Stack(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: AppColor.background,
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFE3DBDD).withOpacity(0.25),
+                            offset: const Offset(5, 5),
+                            blurRadius: 15,
+                            spreadRadius: 0,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 25,
-                      vertical: 18,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 25,
+                          vertical: 18,
+                        ),
+                        child: BlocBuilder<AddressCubit, AddressState>(
+                          builder: (context, state) {
+                            if (state is AddressLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            if (state is AddressFail) {
+                              return Center(
+                                child: Text(state.message),
+                              );
+                            }
+                            if (state is! AddressLoaded) {
+                              return const Center(
+                                child: Text('Something went wrong!'),
+                              );
+                            }
+                            return Column(
+                              children: [
+                                AddressInformationTitle(
+                                  title: 'Customer: ',
+                                  value: state.address.customer,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: AddressInformationTitle(
+                                    title: 'Phone number: ',
+                                    value: state.address.phoneNumber,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: AddressInformationTitle(
+                                    title: 'Street: ',
+                                    value: state.address.detailedAddress,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: AddressInformationTitle(
+                                    title: 'District: ',
+                                    value: state.address.district,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: AddressInformationTitle(
+                                    title: 'City: ',
+                                    value: state.address.city,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: AddressInformationTitle(
+                                    title: 'Country: ',
+                                    value: state.address.country,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
                     ),
-                    child: BlocBuilder<AddressCubit, AddressState>(
-                      builder: (context, state) {
-                        if (state is AddressLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        if (state is AddressFail) {
-                          return Center(
-                            child: Text(state.message),
-                          );
-                        }
-                        if (state is! AddressLoaded) {
-                          return const Center(
-                            child: Text('Something went wrong!'),
-                          );
-                        }
-                        return Column(
-                          children: [
-                            AddressInformationTitle(
-                              title: 'Customer: ',
-                              value: state.address.customer,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: AddressInformationTitle(
-                                title: 'Phone number: ',
-                                value: state.address.phoneNumber,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: AddressInformationTitle(
-                                title: 'Street: ',
-                                value: state.address.detailedAddress,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: AddressInformationTitle(
-                                title: 'District: ',
-                                value: state.address.district,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: AddressInformationTitle(
-                                title: 'City: ',
-                                value: state.address.city,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: AddressInformationTitle(
-                                title: 'Country: ',
-                                value: state.address.country,
-                              ),
-                            ),
-                          ],
-                        );
-                      },
+                    Positioned(
+                      top: 4,
+                      right: 8,
+                      child: IconButton(
+                        onPressed: () {
+                          context.pushNamed(RouteNames.address);
+                        },
+                        icon: SvgPicture.asset(
+                          MediaResource.pen,
+                          width: 16,
+                        ),
+                        style: IconButton.styleFrom(
+                          backgroundColor: AppColor.background,
+                          elevation: 2,
+                          padding: const EdgeInsets.all(8),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
                 const SizedBox(
                   height: 20,

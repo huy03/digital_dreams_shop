@@ -110,7 +110,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   borderRadius: BorderRadius.circular(100),
                                 ),
                                 child: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    context.pushNamed(RouteNames.settings);
+                                  },
                                   icon: SvgPicture.asset(MediaResource.pen),
                                   style: IconButton.styleFrom(
                                       backgroundColor: AppColor.background,
@@ -203,7 +205,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Padding(
                         padding: const EdgeInsets.only(left: 49),
                         child: StatusWidget(
-                          color: Color(0xFFFFFAE8),
+                          color: const Color(0xFFFFFAE8),
                           icon: MediaResource.rate,
                           content: 'To Rate',
                           onPressed: () {},
@@ -227,29 +229,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-                Column(
+                const Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 20),
+                      padding: EdgeInsets.only(top: 20),
                       child: InformationItem(
                         content: 'Privacy and Settings',
                         icon: MediaResource.privacy,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 15),
+                      padding: EdgeInsets.only(top: 15),
                       child: InformationItem(
                           content: 'Payment method',
                           icon: MediaResource.payment),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 15),
+                      padding: EdgeInsets.only(top: 15),
                       child: InformationItem(
                           content: 'Loyalty card & Point',
                           icon: MediaResource.point),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 15),
+                      padding: EdgeInsets.only(top: 15),
                       child: InformationItem(
                         content: 'Gift cards',
                         icon: MediaResource.gift,

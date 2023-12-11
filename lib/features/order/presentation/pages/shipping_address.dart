@@ -10,9 +10,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class ShippingAddress extends StatelessWidget {
   const ShippingAddress({super.key});
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       body: SafeArea(
         child: Padding(
