@@ -31,7 +31,8 @@ class MediaResource {
 
   static const next = '$_baseIcons/next.svg';
 
-  static const cash = '$_baseIcons/cash.svg';
+  static const cash = '$_baseIcons/cash.png';
+  static const stripe = '$_baseIcons/stripe-logo.png';
 
   //Social
   static const facebook = '$_baseIcons/fb.svg';

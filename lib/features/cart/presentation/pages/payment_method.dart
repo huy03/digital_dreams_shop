@@ -1,8 +1,7 @@
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
-import 'package:digital_dreams_shop/features/cart/presentation/widgets/paybyCashbtn.dart';
-import 'package:digital_dreams_shop/features/cart/presentation/widgets/payment_button.dart';
+import 'package:digital_dreams_shop/features/order/presentation/widgets/payment_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -43,22 +42,19 @@ class PaymentMethodScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              PaybyCashBtn(),
-              Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: PaymentButton(
-                    imgPayment: MediaResource.momo, content: 'Momo'),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: PaymentButton(
-                    imgPayment: MediaResource.zalo, content: 'ZaloPay'),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: PaymentButton(
-                    imgPayment: MediaResource.MB, content: 'Card'),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 15),
+              //   child: PaymentButton(icon: MediaResource.momo, content: 'Momo'),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 15),
+              //   child:
+              //       PaymentButton(icon: MediaResource.zalo, content: 'ZaloPay'),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 15),
+              //   child: PaymentButton(icon: MediaResource.MB, content: 'Card'),
+              // ),
               const SizedBox(
                 height: 40,
               ),

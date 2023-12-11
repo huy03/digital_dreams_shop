@@ -1,18 +1,26 @@
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
+import 'package:digital_dreams_shop/features/order/presentation/pages/checkout.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PaymentButton extends StatelessWidget {
   const PaymentButton({
     super.key,
-    required this.imgPayment,
+    required this.icon,
     required this.content,
+    required this.value,
+    required this.groupValue,
+    this.onChanged,
   });
 
-  final String imgPayment;
+  final String icon;
   final String content;
+  final PaymentMethodEnum value;
+  final PaymentMethodEnum groupValue;
+  final void Function(PaymentMethodEnum?)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +51,7 @@ class PaymentButton extends StatelessWidget {
                   width: 40,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(imgPayment),
+                      image: AssetImage(icon),
                       fit: BoxFit.cover,
                     ),
                     color: Color(0xFFF4F4F4),
@@ -66,15 +74,12 @@ class PaymentButton extends StatelessWidget {
                 ),
               ),
             ),
-            Spacer(),
-            InkWell(
-              onTap: () {},
-              child: IconButton(
-                onPressed: () {},
-                icon: SvgPicture.asset(MediaResource.next),
-                style: IconButton.styleFrom(
-                    backgroundColor: Colors.red.withOpacity(0), elevation: 2),
-              ),
+            const Spacer(),
+            Radio<PaymentMethodEnum>(
+              value: value,
+              groupValue: groupValue,
+              onChanged: onChanged,
+              activeColor: Colors.black,
             ),
           ],
         ),

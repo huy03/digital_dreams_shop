@@ -13,9 +13,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class SettingProfile extends StatelessWidget {
   const SettingProfile({super.key});
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -23,87 +23,89 @@ class SettingProfile extends StatelessWidget {
             horizontal: 30,
             vertical: 24,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  SizedBox(
-                    height: 45,
-                    width: 45,
-                    child: IconButton(
-                      onPressed: () {
-                        context.pop();
-                      },
-                      icon: SvgPicture.asset(MediaResource.arrowBack),
-                      style: IconButton.styleFrom(
-                          backgroundColor: AppColor.primary, elevation: 2),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    'Settings',
-                    style: GoogleFonts.poppins(
-                      fontSize: 23,
-                      fontWeight: FontWeight.bold,
-                      color: AppColor.text,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 25,
-              ),
-              Center(
-                child: Column(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    Container(
-                      width: 90,
-                      height: 90,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        image: DecorationImage(
-                          image: NetworkImage(
-                              'https://image.kpopmap.com/2020/10/blackpink-lisa-mac-2.jpg'),
-                          fit: BoxFit.cover,
-                        ),
+                    SizedBox(
+                      height: 45,
+                      width: 45,
+                      child: IconButton(
+                        onPressed: () {
+                          context.pop();
+                        },
+                        icon: SvgPicture.asset(MediaResource.arrowBack),
+                        style: IconButton.styleFrom(
+                            backgroundColor: AppColor.primary, elevation: 2),
                       ),
                     ),
                     const SizedBox(
-                      height: 30,
+                      width: 20,
                     ),
-                    TextFormFieldSetting(content: 'Name'),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    TextFormFieldSetting(content: 'Email'),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    TextFormFieldSetting(content: 'Phone number'),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    TextFormFieldSetting(content: 'Sex'),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    TextFormFieldSetting(content: 'Date of Birth'),
-                    const SizedBox(
-                      height: 45,
-                    ),
-                    CustomButton(
-                      width: double.infinity,
-                      height: 45,
-                      text: 'Save',
-                      onPressed: () {},
+                    Text(
+                      'Settings',
+                      style: GoogleFonts.poppins(
+                        fontSize: 23,
+                        fontWeight: FontWeight.bold,
+                        color: AppColor.text,
+                      ),
                     ),
                   ],
                 ),
-              ),
-            ],
+                const SizedBox(
+                  height: 25,
+                ),
+                Center(
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 90,
+                        height: 90,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          image: DecorationImage(
+                            image: NetworkImage(
+                                'https://image.kpopmap.com/2020/10/blackpink-lisa-mac-2.jpg'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      TextFormFieldSetting(content: 'Name'),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      TextFormFieldSetting(content: 'Email'),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      TextFormFieldSetting(content: 'Phone number'),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      TextFormFieldSetting(content: 'Gender'),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      TextFormFieldSetting(content: 'Date of Birth'),
+                      const SizedBox(
+                        height: 45,
+                      ),
+                      CustomButton(
+                        width: double.infinity,
+                        height: 45,
+                        text: 'Save',
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

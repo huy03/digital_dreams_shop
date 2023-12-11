@@ -5,8 +5,7 @@ import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
 import 'package:digital_dreams_shop/core/common/widgets/status_dialog.dart';
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
-import 'package:digital_dreams_shop/features/cart/presentation/widgets/paybyCashbtn.dart';
-import 'package:digital_dreams_shop/features/cart/presentation/widgets/payment_button.dart';
+import 'package:digital_dreams_shop/features/order/presentation/widgets/payment_button.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/show_all_button.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/widgets/checkout_item.dart';
@@ -24,6 +23,8 @@ import 'dart:convert';
 
 const shipCost = 30000;
 
+enum PaymentMethodEnum { cashOnDelivery, stripe }
+
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
 
@@ -32,6 +33,7 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
+  PaymentMethodEnum paymentMethod = PaymentMethodEnum.cashOnDelivery;
   Map<String, dynamic>? paymentIntent;
 
   void makePayment(int amount) async {
@@ -112,6 +114,135 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final cart = (context.watch<CartCubit>().state as CartLoaded).cart;
 
     return Scaffold(
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 30,
+          vertical: 24,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Text(
+                  'Subtotal: ',
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: AppColor.checkOutText,
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  currency.format(cart.cartTotalPrice).toString(),
+                  style: GoogleFonts.poppins(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: AppColor.text,
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Row(
+                children: [
+                  Text(
+                    'Shipping fee: ',
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: AppColor.checkOutText,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    currency.format(shipCost).toString(),
+                    style: GoogleFonts.poppins(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.text,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Row(
+                children: [
+                  Text(
+                    'Subtotal',
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.text,
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    currency.format(cart.cartTotalPrice + shipCost).toString(),
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: AppColor.text,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: Row(
+                children: [
+                  BlocBuilder<CartCubit, CartState>(
+                    builder: (context, state) {
+                      if (state is CartLoaded) {
+                        return Text(
+                          'Total: ${currency.format(state.cart.cartTotalPrice + shipCost).toString()}',
+                          style: GoogleFonts.poppins(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                            color: AppColor.text,
+                          ),
+                        );
+                      }
+                      return Text(
+                        'Total: 530.000',
+                        style: GoogleFonts.poppins(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w700,
+                          color: AppColor.text,
+                        ),
+                      );
+                    },
+                  ),
+                  const Spacer(),
+                  CustomButton(
+                    width: 65,
+                    height: 50,
+                    text: 'Pay Now',
+                    onPressed: () {
+                      if (paymentMethod == PaymentMethodEnum.cashOnDelivery) {
+                        BlocProvider.of<CartCubit>(context).emptyCartItem();
+                        showDialog(
+                          context: context,
+                          builder: (ctx) {
+                            return const StatusDialog();
+                          },
+                        );
+                      }
+                      if (paymentMethod == PaymentMethodEnum.stripe) {
+                        makePayment(cart.cartTotalPrice + shipCost);
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(
@@ -189,90 +320,111 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 const SizedBox(
                   height: 25,
                 ),
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: AppColor.background,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0xFFE3DBDD).withOpacity(0.25),
-                        offset: const Offset(5, 5),
-                        blurRadius: 15,
-                        spreadRadius: 0,
+                Stack(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: AppColor.background,
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFE3DBDD).withOpacity(0.25),
+                            offset: const Offset(5, 5),
+                            blurRadius: 15,
+                            spreadRadius: 0,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 25,
-                      vertical: 18,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 25,
+                          vertical: 18,
+                        ),
+                        child: BlocBuilder<AddressCubit, AddressState>(
+                          builder: (context, state) {
+                            if (state is AddressLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            if (state is AddressFail) {
+                              return Center(
+                                child: Text(state.message),
+                              );
+                            }
+                            if (state is! AddressLoaded) {
+                              return const Center(
+                                child: Text('Something went wrong!'),
+                              );
+                            }
+                            return Column(
+                              children: [
+                                AddressInformationTitle(
+                                  title: 'Customer: ',
+                                  value: state.address.customer,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: AddressInformationTitle(
+                                    title: 'Phone number: ',
+                                    value: state.address.phoneNumber,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: AddressInformationTitle(
+                                    title: 'Street: ',
+                                    value: state.address.detailedAddress,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: AddressInformationTitle(
+                                    title: 'District: ',
+                                    value: state.address.district,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: AddressInformationTitle(
+                                    title: 'City: ',
+                                    value: state.address.city,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5),
+                                  child: AddressInformationTitle(
+                                    title: 'Country: ',
+                                    value: state.address.country,
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
                     ),
-                    child: BlocBuilder<AddressCubit, AddressState>(
-                      builder: (context, state) {
-                        if (state is AddressLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        if (state is AddressFail) {
-                          return Center(
-                            child: Text(state.message),
-                          );
-                        }
-                        if (state is! AddressLoaded) {
-                          return const Center(
-                            child: Text('Something went wrong!'),
-                          );
-                        }
-                        return Column(
-                          children: [
-                            AddressInformationTitle(
-                              title: 'Customer: ',
-                              value: state.address.customer,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: AddressInformationTitle(
-                                title: 'Phone number: ',
-                                value: state.address.phoneNumber,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: AddressInformationTitle(
-                                title: 'Street: ',
-                                value: state.address.detailedAddress,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: AddressInformationTitle(
-                                title: 'District: ',
-                                value: state.address.district,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: AddressInformationTitle(
-                                title: 'City: ',
-                                value: state.address.city,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: AddressInformationTitle(
-                                title: 'Country: ',
-                                value: state.address.country,
-                              ),
-                            ),
-                          ],
-                        );
-                      },
+                    Positioned(
+                      top: 4,
+                      right: 8,
+                      child: IconButton(
+                        onPressed: () {
+                          context.pushNamed(RouteNames.address);
+                        },
+                        icon: SvgPicture.asset(
+                          MediaResource.pen,
+                          width: 16,
+                        ),
+                        style: IconButton.styleFrom(
+                          backgroundColor: AppColor.background,
+                          elevation: 2,
+                          padding: const EdgeInsets.all(8),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-                
                 const SizedBox(
                   height: 20,
                 ),
@@ -284,11 +436,33 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     color: AppColor.text,
                   ),
                 ),
-                PaybyCashBtn(),
                 Padding(
                   padding: const EdgeInsets.only(top: 15),
                   child: PaymentButton(
-                      imgPayment: MediaResource.momo, content: 'Stripe'),
+                    icon: MediaResource.cash,
+                    content: 'Cash on Delivery',
+                    value: PaymentMethodEnum.cashOnDelivery,
+                    groupValue: paymentMethod,
+                    onChanged: (value) {
+                      setState(() {
+                        paymentMethod = value!;
+                      });
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15),
+                  child: PaymentButton(
+                    icon: MediaResource.stripe,
+                    content: 'Stripe',
+                    value: PaymentMethodEnum.stripe,
+                    groupValue: paymentMethod,
+                    onChanged: (value) {
+                      setState(() {
+                        paymentMethod = value!;
+                      });
+                    },
+                  ),
                 ),
                 const SizedBox(
                   height: 20,
@@ -313,119 +487,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       quantity: cart.items[index].quantity,
                       imageCover: cart.items[index].product.imageCover,
                     ),
-                  ),
-                ),
-                
-                Padding(
-                  padding: const EdgeInsets.only(top: 24),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Subtotal: ',
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: AppColor.checkOutText,
-                        ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        currency.format(cart.cartTotalPrice).toString(),
-                        style: GoogleFonts.poppins(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: AppColor.text,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Shipping fee: ',
-                        style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: AppColor.checkOutText,
-                        ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        currency.format(shipCost).toString(),
-                        style: GoogleFonts.poppins(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: AppColor.text,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Subtotal',
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: AppColor.text,
-                        ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        currency
-                            .format(cart.cartTotalPrice + shipCost)
-                            .toString(),
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: AppColor.text,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15),
-                  child: Row(
-                    children: [
-                      BlocBuilder<CartCubit, CartState>(
-                        builder: (context, state) {
-                          if (state is CartLoaded) {
-                            return Text(
-                              'Total: ${currency.format(state.cart.cartTotalPrice + shipCost).toString()}',
-                              style: GoogleFonts.poppins(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w700,
-                                color: AppColor.text,
-                              ),
-                            );
-                          }
-                          return Text(
-                            'Total: 530.000',
-                            style: GoogleFonts.poppins(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w700,
-                              color: AppColor.text,
-                            ),
-                          );
-                        },
-                      ),
-                      const Spacer(),
-                      CustomButton(
-                        width: 65,
-                        height: 50,
-                        text: 'Pay Now',
-                        onPressed: () {
-                          makePayment(cart.cartTotalPrice + shipCost);
-                        },
-                      ),
-                    ],
                   ),
                 ),
               ],
