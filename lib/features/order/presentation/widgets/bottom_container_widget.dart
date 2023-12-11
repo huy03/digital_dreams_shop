@@ -3,32 +3,33 @@ import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
 import 'package:digital_dreams_shop/features/profile/presentation/widgets/text_form_field.dart';
 import 'package:flutter/material.dart';
 
-class BottomContainerWidget extends StatelessWidget {
-  const BottomContainerWidget({super.key});
+class buildSheet extends StatelessWidget {
+  const buildSheet({super.key});
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
 
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: AppColor.background,
-        boxShadow: [
-          BoxShadow(
-              color: const Color(0xff464646).withOpacity(0.1),
-              offset: const Offset(
-                0,
-                -4,
-              ),
-              blurRadius: 24.0,
-              spreadRadius: 0)
-        ],
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(24),
-          topRight: Radius.circular(24),
+    return Column(mainAxisSize: MainAxisSize.min, children: [
+      Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: AppColor.background,
+          boxShadow: [
+            BoxShadow(
+                color: const Color(0xff464646).withOpacity(0.1),
+                offset: const Offset(
+                  0,
+                  -4,
+                ),
+                blurRadius: 24.0,
+                spreadRadius: 0)
+          ],
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
+          ),
         ),
-      ),
-      child: Padding(
+        child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 30,
             vertical: 30,
@@ -62,14 +63,16 @@ class BottomContainerWidget extends StatelessWidget {
                   height: 30,
                 ),
                 CustomButton(
-                      width: double.infinity,
-                      height: 45,
-                      text: 'Save',
-                      onPressed: () {},
-                    ),
+                  width: double.infinity,
+                  height: 45,
+                  text: 'Save',
+                  onPressed: () {},
+                ),
               ],
             ),
-          )),
-    );
+          ),
+        ),
+      ),
+    ]);
   }
 }
