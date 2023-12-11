@@ -79,7 +79,7 @@ class PaymentButton extends StatelessWidget {
               value: value,
               groupValue: groupValue,
               onChanged: onChanged,
-              activeColor: AppColor.primary,
+              activeColor: Colors.black,
             ),
           ],
         ),

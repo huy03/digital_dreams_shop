@@ -6,9 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AddressWidget extends StatelessWidget {
   const AddressWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
       width: double.infinity,
       height: 160,
