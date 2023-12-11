@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iconsax/iconsax.dart';
 
 class ShippingAddress extends StatelessWidget {
   const ShippingAddress({super.key});
@@ -62,11 +63,16 @@ class ShippingAddress extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              ElevatedButton(
+              ElevatedButton.icon(
+                icon: const Icon(
+                  Iconsax.add,
+                  color: AppColor.text,
+                  weight: 2,
+                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFE3E3E3),
                   disabledBackgroundColor: AppColor.primary.withOpacity(0.5),
-                  minimumSize: Size(double.infinity, 55),
+                  minimumSize: const Size(double.infinity, 55),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -76,7 +82,7 @@ class ShippingAddress extends StatelessWidget {
                   context: context,
                   builder: (context) => buildSheet(),
                 ),
-                child: Text(
+                label: Text(
                   'Add Address',
                   style: GoogleFonts.poppins(
                     fontSize: 14,

@@ -38,27 +38,27 @@ class buildSheet extends StatelessWidget {
             padding: const EdgeInsets.only(top: 31),
             child: Column(
               children: [
-                TextFormFieldSetting(content: 'Name'),
+                TextFormFieldSetting(hintText: 'Name'),
                 const SizedBox(
                   height: 15,
                 ),
-                TextFormFieldSetting(content: 'Phone number'),
+                TextFormFieldSetting(hintText: 'Phone number'),
                 const SizedBox(
                   height: 15,
                 ),
-                TextFormFieldSetting(content: 'Street'),
+                TextFormFieldSetting(hintText: 'Street'),
                 const SizedBox(
                   height: 15,
                 ),
-                TextFormFieldSetting(content: 'City'),
+                TextFormFieldSetting(hintText: 'City'),
                 const SizedBox(
                   height: 15,
                 ),
-                TextFormFieldSetting(content: 'Distric'),
+                TextFormFieldSetting(hintText: 'Distric'),
                 const SizedBox(
                   height: 15,
                 ),
-                TextFormFieldSetting(content: 'Country'),
+                TextFormFieldSetting(hintText: 'Country'),
                 const SizedBox(
                   height: 30,
                 ),

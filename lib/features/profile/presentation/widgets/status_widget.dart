@@ -1,5 +1,4 @@
 import 'package:digital_dreams_shop/config/theme/colors.dart';
-import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
