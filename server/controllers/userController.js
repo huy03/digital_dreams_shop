@@ -82,7 +82,14 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   }
 
   // 2) Filtered out unwanted fields names that are not allowed to be updated
-  const filteredBody = filterObject(req.body, "username", "email");
+  const filteredBody = filterObject(
+    req.body,
+    "username",
+    "email",
+    "phoneNumber",
+    "gender",
+    "birthday"
+  );
   if (req.file) filteredBody.avatar = req.file.filename;
 
   // 3) Update user document
@@ -94,7 +101,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     data: {
-      user: updatedUser,
+      data: updatedUser,
     },
   });
 });
