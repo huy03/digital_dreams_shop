@@ -5,4 +5,11 @@ abstract class ProfileRepository {
   const ProfileRepository();
 
   ResultFuture<User> getCurrentUser();
+  ResultFuture<User> updateProfile({
+    required String username,
+    required String email,
+    required String phoneNumber,
+    required String gender,
+    required String birthday,
+  });
 }

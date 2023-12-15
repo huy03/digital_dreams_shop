@@ -12,6 +12,7 @@ class UserModel extends User {
     super.password,
     super.avatar,
     super.birthDate,
+    super.gender,
     super.token,
   });
 
@@ -28,7 +29,8 @@ class UserModel extends User {
               ? ''
               : (map['data']['data']['password'] as String),
           avatar: map['data']['data']['avatar'] as String?,
-          // birthDate: map['data']['user']['birthDate'] as DateTime?,
+          gender: map['data']['data']['gender'] as String?,
+          birthDate: map['data']['data']['birthday'] as String?,
           token: map['token'] as String?,
         );
 
@@ -39,7 +41,8 @@ class UserModel extends User {
         'email': email,
         'password': password,
         'avatar': avatar,
-        'birthday': birthDate?.toIso8601String(),
+        'gender': gender,
+        'birthday': birthDate,
       };
 
   String toJson() => jsonEncode(toMap());
@@ -51,16 +54,17 @@ class UserModel extends User {
     String? email,
     String? password,
     String? avatar,
-    DateTime? birthDate,
+    String? birthDate,
+    String? gender,
   }) {
     return User(
-      id: id ?? this.id,
-      userName: userName ?? this.userName,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
-      email: email ?? this.email,
-      password: password ?? this.password,
-      avatar: avatar ?? this.avatar,
-      birthDate: birthDate ?? this.birthDate,
-    );
+        id: id ?? this.id,
+        userName: userName ?? this.userName,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        email: email ?? this.email,
+        password: password ?? this.password,
+        avatar: avatar ?? this.avatar,
+        birthDate: birthDate ?? this.birthDate,
+        gender: gender ?? this.gender);
   }
 }

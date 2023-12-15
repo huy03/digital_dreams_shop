@@ -9,7 +9,8 @@ class User extends Equatable {
   final String email;
   final String? password;
   final String? avatar;
-  final DateTime? birthDate;
+  final String? birthDate;
+  final String? gender;
   final String? token;
 
   const User({
@@ -20,6 +21,7 @@ class User extends Equatable {
     this.password,
     this.avatar = '',
     this.birthDate,
+    this.gender,
     this.token,
   });
 

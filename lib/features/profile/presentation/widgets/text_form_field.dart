@@ -11,6 +11,7 @@ class TextFormFieldSetting extends StatelessWidget {
     this.controller,
     this.validator,
     this.enabled,
+    this.suffixIcon,
   });
 
   final String hintText;
@@ -19,6 +20,7 @@ class TextFormFieldSetting extends StatelessWidget {
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final bool? enabled;
+  final Widget? suffixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class TextFormFieldSetting extends StatelessWidget {
       enabled: enabled,
       validator: validator,
       decoration: InputDecoration(
+        suffixIcon: suffixIcon,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
@@ -37,6 +40,12 @@ class TextFormFieldSetting extends StatelessWidget {
           ),
         ),
         enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(
+            color: Color(0xFFE3E3E3),
+          ),
+        ),
+        disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
             color: Color(0xFFE3E3E3),

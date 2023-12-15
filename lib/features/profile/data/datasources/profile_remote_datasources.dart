@@ -12,6 +12,13 @@ abstract class ProfileRemoteDataSource {
   const ProfileRemoteDataSource();
 
   Future<UserModel> getCurrentUser();
+  Future<UserModel> updateProfile({
+    required String username,
+    required String email,
+    required String phoneNumber,
+    required String gender,
+    required String birthday,
+  });
 }
 
 class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
@@ -31,6 +38,49 @@ class ProfileRemoteDataSourceImpl extends ProfileRemoteDataSource {
       },
     );
     final DataMap data = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      return UserModel.fromJson(response.body);
+    }
+
+    throw ServerException(
+      data['message'],
+      response.statusCode,
+    );
+  }
+
+  @override
+  Future<UserModel> updateProfile({
+    required String username,
+    required String email,
+    required String phoneNumber,
+    required String gender,
+    required String birthday,
+  }) async {
+    final url = Uri.parse('$kBaseUrl/users/updateMe');
+    final response = await client.patch(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization':
+            'Bearer ${sl<SharedPreferences>().getString(kAuthToken)}',
+      },
+      body: json.encode({
+        'username': username,
+        'email': email,
+        'phoneNumber': phoneNumber,
+        'gender': gender.toUpperCase(),
+        'birthday': birthday,
+      }),
+    );
+
+    final DataMap data = jsonDecode(response.body);
+    if (data['status'] == 'fail') {
+      throw ServerException(
+        data['message'],
+        response.statusCode,
+      );
+    }
+
     if (response.statusCode == 200) {
       return UserModel.fromJson(response.body);
     }
