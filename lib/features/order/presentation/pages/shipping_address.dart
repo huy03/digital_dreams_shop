@@ -123,6 +123,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
                 ),
                 onPressed: () => showModalBottomSheet(
                   isScrollControlled: true,
+                  useSafeArea: true,
                   context: context,
                   builder: (context) => AddressSheet(),
                 ),
