@@ -41,9 +41,7 @@ const userSchema = mongoose.Schema(
     },
     passwordResetToken: String,
     passwordResetExpires: Date,
-    birthday: {
-      type: Date,
-    },
+    birthday: String,
     wishlist: [
       {
         type: mongoose.Schema.ObjectId,
@@ -54,6 +52,10 @@ const userSchema = mongoose.Schema(
       type: String,
       default:
         "https://www.testhouse.net/wp-content/uploads/2021/11/default-avatar.jpg",
+    },
+    gender: {
+      type: String,
+      enum: ["MALE", "FEMALE"],
     },
     activationOTP: {
       type: Number,

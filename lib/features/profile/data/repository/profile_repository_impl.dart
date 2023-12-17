@@ -21,4 +21,26 @@ class ProfileRepositoryImpl extends ProfileRepository {
       return Left(ServerFailure.fromException(e));
     }
   }
+
+  @override
+  ResultFuture<UserModel> updateProfile({
+    required String username,
+    required String email,
+    required String phoneNumber,
+    required String gender,
+    required String birthday,
+  }) async {
+    try {
+      final result = await remoteDataSource.updateProfile(
+        username: username,
+        email: email,
+        phoneNumber: phoneNumber,
+        gender: gender,
+        birthday: birthday,
+      );
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
 }

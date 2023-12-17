@@ -57,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
             context.goNamed(RouteNames.application);
             BlocProvider.of<ProfileCubit>(context).loadProfile();
             BlocProvider.of<CartCubit>(context).fetchCart();
-            BlocProvider.of<AddressCubit>(context).fetchDefaultAddress();
+            BlocProvider.of<AddressCubit>(context).fetchAllAddresses();
           }
           if (state is AuthError) {
             ScaffoldMessenger.of(context).clearSnackBars();

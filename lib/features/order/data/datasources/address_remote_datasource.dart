@@ -22,9 +22,36 @@ class AddressRemoteDataSourceImpl extends AddressRemoteDataSource {
   final http.Client client;
 
   @override
-  Future<List<AddressModel>> getAllAddresses() {
-    // TODO: implement getAllAddresses
-    throw UnimplementedError();
+  Future<List<AddressModel>> getAllAddresses() async {
+    final url = Uri.parse('$kBaseUrl/addresses?sort=createdAt');
+    try {
+      final response = await client.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':
+              'Bearer ${sl<SharedPreferences>().getString(kAuthToken)}',
+        },
+      );
+      final DataMap data = jsonDecode(response.body);
+
+      if (data['data']['data'].isEmpty) {
+        throw const ServerException('No address', 404);
+      }
+
+      if (response.statusCode == 200) {
+        return data['data']['data']
+            .map<AddressModel>((e) => AddressModel.fromMap(e))
+            .toList();
+      }
+
+      throw ServerException(
+        data['message'],
+        response.statusCode,
+      );
+    } catch (e) {
+      throw ServerException(e.toString(), 500);
+    }
   }
 
   @override

@@ -1,17 +1,27 @@
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
+import 'package:digital_dreams_shop/features/order/domain/entities/address.dart';
+import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/widgets/address_widgets.dart';
 import 'package:digital_dreams_shop/features/order/presentation/widgets/bottom_container_widget.dart';
 import 'package:digital_dreams_shop/features/profile/presentation/widgets/text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 
-class ShippingAddress extends StatelessWidget {
+class ShippingAddress extends StatefulWidget {
   const ShippingAddress({super.key});
+
+  @override
+  State<ShippingAddress> createState() => _ShippingAddressState();
+}
+
+class _ShippingAddressState extends State<ShippingAddress> {
+  int selectedAddress = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -52,14 +62,48 @@ class ShippingAddress extends StatelessWidget {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 25),
-                child: AddressWidget(),
-              ),
               const SizedBox(
-                height: 15,
+                height: 25,
               ),
-              AddressWidget(),
+              BlocBuilder<AddressCubit, AddressState>(
+                builder: (context, state) {
+                  if (state is AddressLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (state is AddressFail) {
+                    return Center(
+                      child: Text(state.message),
+                    );
+                  }
+                  if (state is! AddressesLoaded) {
+                    return const Center(
+                      child: Text('Something went wrong!'),
+                    );
+                  }
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: state.addresses.length,
+                      itemBuilder: (ctx, index) {
+                        return AddressWidget(
+                          key: ValueKey(state.addresses[index].id),
+                          address: state.addresses[index],
+                          value: index,
+                          groupValue: selectedAddress,
+                          onChanged: (value) {
+                            setState(() {
+                              context
+                                  .read<AddressCubit>()
+                                  .reOrderAddresses(index);
+                            });
+                          },
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
               const SizedBox(
                 height: 15,
               ),
@@ -79,8 +123,9 @@ class ShippingAddress extends StatelessWidget {
                 ),
                 onPressed: () => showModalBottomSheet(
                   isScrollControlled: true,
+                  useSafeArea: true,
                   context: context,
-                  builder: (context) => buildSheet(),
+                  builder: (context) => AddressSheet(),
                 ),
                 label: Text(
                   'Add Address',
@@ -98,69 +143,3 @@ class ShippingAddress extends StatelessWidget {
     );
   }
 }
-
-// Widget buildSheet() => Column(mainAxisSize: MainAxisSize.min, children: [
-//       Container(
-//         width: double.infinity,
-//         decoration: BoxDecoration(
-//           color: AppColor.background,
-//           boxShadow: [
-//             BoxShadow(
-//                 color: const Color(0xff464646).withOpacity(0.1),
-//                 offset: const Offset(
-//                   0,
-//                   -4,
-//                 ),
-//                 blurRadius: 24.0,
-//                 spreadRadius: 0)
-//           ],
-//           borderRadius: const BorderRadius.only(
-//             topLeft: Radius.circular(24),
-//             topRight: Radius.circular(24),
-//           ),
-//         ),
-//         child: Padding(
-//           padding: const EdgeInsets.symmetric(
-//             horizontal: 30,
-//             vertical: 30,
-//           ),
-//           child: Padding(
-//             padding: const EdgeInsets.only(top: 31),
-//             child: Column(
-//               children: [
-//                 TextFormFieldSetting(content: 'Name'),
-//                 const SizedBox(
-//                   height: 15,
-//                 ),
-//                 TextFormFieldSetting(content: 'Phone number'),
-//                 const SizedBox(
-//                   height: 15,
-//                 ),
-//                 TextFormFieldSetting(content: 'Street'),
-//                 const SizedBox(
-//                   height: 15,
-//                 ),
-//                 TextFormFieldSetting(content: 'City'),
-//                 const SizedBox(
-//                   height: 15,
-//                 ),
-//                 TextFormFieldSetting(content: 'Distric'),
-//                 const SizedBox(
-//                   height: 15,
-//                 ),
-//                 TextFormFieldSetting(content: 'Country'),
-//                 const SizedBox(
-//                   height: 30,
-//                 ),
-//                 CustomButton(
-//                   width: double.infinity,
-//                   height: 45,
-//                   text: 'Save',
-//                   onPressed: () {},
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     ]);

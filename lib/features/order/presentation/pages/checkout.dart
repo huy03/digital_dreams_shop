@@ -21,8 +21,6 @@ import 'package:badges/badges.dart' as badges;
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-const shipCost = 30000;
-
 enum PaymentMethodEnum { cashOnDelivery, stripe }
 
 class CheckoutScreen extends StatefulWidget {
@@ -35,6 +33,7 @@ class CheckoutScreen extends StatefulWidget {
 class _CheckoutScreenState extends State<CheckoutScreen> {
   PaymentMethodEnum paymentMethod = PaymentMethodEnum.cashOnDelivery;
   Map<String, dynamic>? paymentIntent;
+  int shipCost = 30000;
 
   void makePayment(int amount) async {
     try {
@@ -76,6 +75,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       await Stripe.instance.presentPaymentSheet();
       if (mounted) {
         BlocProvider.of<CartCubit>(context).emptyCartItem();
+        shipCost = 0;
         showDialog(
           context: context,
           builder: (ctx) {
@@ -225,6 +225,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     onPressed: () {
                       if (paymentMethod == PaymentMethodEnum.cashOnDelivery) {
                         BlocProvider.of<CartCubit>(context).emptyCartItem();
+                        shipCost = 0;
                         showDialog(
                           context: context,
                           builder: (ctx) {
@@ -250,247 +251,257 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             right: 30,
             top: 24,
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    SizedBox(
-                      height: 45,
-                      width: 45,
-                      child: IconButton(
-                        onPressed: () {
-                          context.pop();
-                        },
-                        icon: SvgPicture.asset(MediaResource.arrowBack),
-                        style: IconButton.styleFrom(
-                            backgroundColor: AppColor.primary, elevation: 2),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  SizedBox(
+                    height: 45,
+                    width: 45,
+                    child: IconButton(
+                      onPressed: () {
+                        context.pop();
+                      },
+                      icon: SvgPicture.asset(MediaResource.arrowBack),
+                      style: IconButton.styleFrom(
+                          backgroundColor: AppColor.primary, elevation: 2),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    'Checkout',
+                    style: GoogleFonts.poppins(
+                      fontSize: 23,
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFF000000),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 61,
+                  ),
+                  Row(
+                    children: [
+                      CustomSuffixIcon(
+                        svgImg: MediaResource.message,
+                        onPressed: () {},
                       ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Text(
-                      'Checkout',
-                      style: GoogleFonts.poppins(
-                        fontSize: 23,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF000000),
+                      const SizedBox(
+                        width: 18,
                       ),
-                    ),
-                    const SizedBox(
-                      width: 61,
-                    ),
-                    Row(
-                      children: [
-                        CustomSuffixIcon(
-                          svgImg: MediaResource.message,
-                          onPressed: () {},
-                        ),
-                        const SizedBox(
-                          width: 18,
-                        ),
-                        badges.Badge(
-                          position:
-                              badges.BadgePosition.topEnd(top: -8, end: -5),
-                          badgeContent: Text(
-                            cart.cartTotalQuantity.toString(),
-                            style: GoogleFonts.poppins(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: AppColor.textLight,
-                            ),
-                          ),
-                          badgeStyle: const badges.BadgeStyle(
-                            badgeColor: AppColor.primary,
-                            padding: EdgeInsets.all(5),
-                          ),
-                          child: CustomSuffixIcon(
-                            svgImg: MediaResource.cart,
-                            onPressed: () {
-                              context.pushNamed(RouteNames.cart);
-                            },
+                      badges.Badge(
+                        position: badges.BadgePosition.topEnd(top: -8, end: -5),
+                        badgeContent: Text(
+                          cart.cartTotalQuantity.toString(),
+                          style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: AppColor.textLight,
                           ),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                Stack(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: AppColor.background,
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFFE3DBDD).withOpacity(0.25),
-                            offset: const Offset(5, 5),
-                            blurRadius: 15,
-                            spreadRadius: 0,
-                          ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 25,
-                          vertical: 18,
+                        badgeStyle: const badges.BadgeStyle(
+                          badgeColor: AppColor.primary,
+                          padding: EdgeInsets.all(5),
                         ),
-                        child: BlocBuilder<AddressCubit, AddressState>(
-                          builder: (context, state) {
-                            if (state is AddressLoading) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                            if (state is AddressFail) {
-                              return Center(
-                                child: Text(state.message),
-                              );
-                            }
-                            if (state is! AddressLoaded) {
-                              return const Center(
-                                child: Text('Something went wrong!'),
-                              );
-                            }
-                            return Column(
-                              children: [
-                                AddressInformationTitle(
-                                  title: 'Customer: ',
-                                  value: state.address.customer,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 5),
-                                  child: AddressInformationTitle(
-                                    title: 'Phone number: ',
-                                    value: state.address.phoneNumber,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 5),
-                                  child: AddressInformationTitle(
-                                    title: 'Street: ',
-                                    value: state.address.detailedAddress,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 5),
-                                  child: AddressInformationTitle(
-                                    title: 'District: ',
-                                    value: state.address.district,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 5),
-                                  child: AddressInformationTitle(
-                                    title: 'City: ',
-                                    value: state.address.city,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 5),
-                                  child: AddressInformationTitle(
-                                    title: 'Country: ',
-                                    value: state.address.country,
-                                  ),
-                                ),
-                              ],
-                            );
+                        child: CustomSuffixIcon(
+                          svgImg: MediaResource.cart,
+                          onPressed: () {
+                            context.pushNamed(RouteNames.cart);
                           },
                         ),
                       ),
-                    ),
-                    Positioned(
-                      top: 4,
-                      right: 8,
-                      child: IconButton(
-                        onPressed: () {
-                          context.pushNamed(RouteNames.address);
-                        },
-                        icon: SvgPicture.asset(
-                          MediaResource.pen,
-                          width: 16,
-                        ),
-                        style: IconButton.styleFrom(
-                          backgroundColor: AppColor.background,
-                          elevation: 2,
-                          padding: const EdgeInsets.all(8),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Stack(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: AppColor.background,
+                              boxShadow: [
+                                BoxShadow(
+                                  color:
+                                      const Color(0xFFE3DBDD).withOpacity(0.25),
+                                  offset: const Offset(5, 5),
+                                  blurRadius: 15,
+                                  spreadRadius: 0,
+                                ),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 25,
+                                vertical: 18,
+                              ),
+                              child: BlocBuilder<AddressCubit, AddressState>(
+                                builder: (context, state) {
+                                  if (state is AddressLoading) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                  if (state is AddressFail) {
+                                    return Center(
+                                      child: Text(state.message),
+                                    );
+                                  }
+                                  if (state is! AddressesLoaded) {
+                                    return const Center(
+                                      child: Text('Something went wrong!'),
+                                    );
+                                  }
+
+                                  return Column(
+                                    children: [
+                                      AddressInformationTitle(
+                                        title: 'Customer: ',
+                                        value: state.addresses[0].customer,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: AddressInformationTitle(
+                                          title: 'Phone number: ',
+                                          value: state.addresses[0].phoneNumber,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: AddressInformationTitle(
+                                          title: 'Street: ',
+                                          value: state
+                                              .addresses[0].detailedAddress,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: AddressInformationTitle(
+                                          title: 'District: ',
+                                          value: state.addresses[0].district,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: AddressInformationTitle(
+                                          title: 'City: ',
+                                          value: state.addresses[0].city,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 5),
+                                        child: AddressInformationTitle(
+                                          title: 'Country: ',
+                                          value: state.addresses[0].country,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 4,
+                            right: 8,
+                            child: IconButton(
+                              onPressed: () async {
+                                await context.pushNamed(RouteNames.address);
+                                setState(() {});
+                              },
+                              icon: SvgPicture.asset(
+                                MediaResource.pen,
+                                width: 16,
+                              ),
+                              style: IconButton.styleFrom(
+                                backgroundColor: AppColor.background,
+                                elevation: 2,
+                                padding: const EdgeInsets.all(8),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'Payment Method',
+                        style: GoogleFonts.poppins(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: AppColor.text,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Payment Method',
-                  style: GoogleFonts.poppins(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: AppColor.text,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: PaymentButton(
+                          icon: MediaResource.cash,
+                          content: 'Cash on Delivery',
+                          value: PaymentMethodEnum.cashOnDelivery,
+                          groupValue: paymentMethod,
+                          onChanged: (value) {
+                            setState(() {
+                              paymentMethod = value!;
+                            });
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: PaymentButton(
+                          icon: MediaResource.stripe,
+                          content: 'Stripe',
+                          value: PaymentMethodEnum.stripe,
+                          groupValue: paymentMethod,
+                          onChanged: (value) {
+                            setState(() {
+                              paymentMethod = value!;
+                            });
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'Home Delivery',
+                        style: GoogleFonts.poppins(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: AppColor.text,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      SizedBox(
+                        height: 300,
+                        child: ListView.builder(
+                          itemCount: cart.items.length,
+                          itemBuilder: (ctx, index) => CheckoutItem(
+                            product: cart.items[index].product,
+                            quantity: cart.items[index].quantity,
+                            imageCover: cart.items[index].product.imageCover,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15),
-                  child: PaymentButton(
-                    icon: MediaResource.cash,
-                    content: 'Cash on Delivery',
-                    value: PaymentMethodEnum.cashOnDelivery,
-                    groupValue: paymentMethod,
-                    onChanged: (value) {
-                      setState(() {
-                        paymentMethod = value!;
-                      });
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 15),
-                  child: PaymentButton(
-                    icon: MediaResource.stripe,
-                    content: 'Stripe',
-                    value: PaymentMethodEnum.stripe,
-                    groupValue: paymentMethod,
-                    onChanged: (value) {
-                      setState(() {
-                        paymentMethod = value!;
-                      });
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  'Home Delivery',
-                  style: GoogleFonts.poppins(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: AppColor.text,
-                  ),
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                SizedBox(
-                  height: 300,
-                  child: ListView.builder(
-                    itemCount: cart.items.length,
-                    itemBuilder: (ctx, index) => CheckoutItem(
-                      product: cart.items[index].product,
-                      quantity: cart.items[index].quantity,
-                      imageCover: cart.items[index].product.imageCover,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

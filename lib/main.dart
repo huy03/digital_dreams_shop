@@ -60,7 +60,7 @@ Future<void> main() async {
               create: (context) => sl<CartCubit>()..fetchCart(),
             ),
             BlocProvider(
-              create: (context) => sl<AddressCubit>()..fetchDefaultAddress(),
+              create: (context) => sl<AddressCubit>()..fetchAllAddresses(),
             ),
           ],
           child: const MyApp(),

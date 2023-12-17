@@ -30,6 +30,7 @@ import 'package:digital_dreams_shop/features/on_boarding/presentation/cubit/on_b
 import 'package:digital_dreams_shop/features/order/data/datasources/address_remote_datasource.dart';
 import 'package:digital_dreams_shop/features/order/data/repositories/address_repository_impl.dart';
 import 'package:digital_dreams_shop/features/order/domain/repositories/address_repository.dart';
+import 'package:digital_dreams_shop/features/order/domain/usecases/address/get_all_addresses.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/address/get_default_address.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
 import 'package:digital_dreams_shop/features/products/data/datasources/category_remote_datasources.dart';
@@ -53,6 +54,7 @@ import 'package:digital_dreams_shop/features/profile/data/datasources/profile_re
 import 'package:digital_dreams_shop/features/profile/data/repository/profile_repository_impl.dart';
 import 'package:digital_dreams_shop/features/profile/domain/repositories/profile_repository.dart';
 import 'package:digital_dreams_shop/features/profile/domain/usecases/get_current_user.dart';
+import 'package:digital_dreams_shop/features/profile/domain/usecases/update_current_user.dart';
 import 'package:digital_dreams_shop/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:digital_dreams_shop/features/wishlist/data/datasources/wishlist_remote_datasource.dart';
 import 'package:digital_dreams_shop/features/wishlist/data/repository/wishlist_repository_impl.dart';
@@ -192,10 +194,12 @@ Future<void> init() async {
   sl.registerFactory(
     () => ProfileCubit(
       getCurrentUser: sl(),
+      updateCurrentUser: sl(),
     ),
   );
   // Use cases
   sl.registerLazySingleton(() => GetCurrentUser(sl()));
+  sl.registerLazySingleton(() => UpdateCurrentUser(sl()));
   // Repository
   sl.registerLazySingleton<ProfileRepository>(
       () => ProfileRepositoryImpl(sl()));
@@ -233,10 +237,12 @@ Future<void> init() async {
   sl.registerFactory(
     () => AddressCubit(
       getDefaultAddress: sl(),
+      getAllAddresses: sl(),
     ),
   );
   // Use cases
   sl.registerLazySingleton(() => GetDefaultAddress(sl()));
+  sl.registerLazySingleton(() => GetAllAddresses(sl()));
 
   // Repository
   sl.registerLazySingleton<AddressRepository>(
