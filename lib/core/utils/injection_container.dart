@@ -30,6 +30,7 @@ import 'package:digital_dreams_shop/features/on_boarding/presentation/cubit/on_b
 import 'package:digital_dreams_shop/features/order/data/datasources/address_remote_datasource.dart';
 import 'package:digital_dreams_shop/features/order/data/repositories/address_repository_impl.dart';
 import 'package:digital_dreams_shop/features/order/domain/repositories/address_repository.dart';
+import 'package:digital_dreams_shop/features/order/domain/usecases/address/get_all_addresses.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/address/get_default_address.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
 import 'package:digital_dreams_shop/features/products/data/datasources/category_remote_datasources.dart';
@@ -236,10 +237,12 @@ Future<void> init() async {
   sl.registerFactory(
     () => AddressCubit(
       getDefaultAddress: sl(),
+      getAllAddresses: sl(),
     ),
   );
   // Use cases
   sl.registerLazySingleton(() => GetDefaultAddress(sl()));
+  sl.registerLazySingleton(() => GetAllAddresses(sl()));
 
   // Repository
   sl.registerLazySingleton<AddressRepository>(

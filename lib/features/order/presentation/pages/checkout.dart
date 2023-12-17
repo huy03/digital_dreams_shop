@@ -358,50 +358,52 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       child: Text(state.message),
                                     );
                                   }
-                                  if (state is! AddressLoaded) {
+                                  if (state is! AddressesLoaded) {
                                     return const Center(
                                       child: Text('Something went wrong!'),
                                     );
                                   }
+
                                   return Column(
                                     children: [
                                       AddressInformationTitle(
                                         title: 'Customer: ',
-                                        value: state.address.customer,
+                                        value: state.addresses[0].customer,
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top: 5),
                                         child: AddressInformationTitle(
                                           title: 'Phone number: ',
-                                          value: state.address.phoneNumber,
+                                          value: state.addresses[0].phoneNumber,
                                         ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top: 5),
                                         child: AddressInformationTitle(
                                           title: 'Street: ',
-                                          value: state.address.detailedAddress,
+                                          value: state
+                                              .addresses[0].detailedAddress,
                                         ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top: 5),
                                         child: AddressInformationTitle(
                                           title: 'District: ',
-                                          value: state.address.district,
+                                          value: state.addresses[0].district,
                                         ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top: 5),
                                         child: AddressInformationTitle(
                                           title: 'City: ',
-                                          value: state.address.city,
+                                          value: state.addresses[0].city,
                                         ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(top: 5),
                                         child: AddressInformationTitle(
                                           title: 'Country: ',
-                                          value: state.address.country,
+                                          value: state.addresses[0].country,
                                         ),
                                       ),
                                     ],
@@ -414,8 +416,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             top: 4,
                             right: 8,
                             child: IconButton(
-                              onPressed: () {
-                                context.pushNamed(RouteNames.address);
+                              onPressed: () async {
+                                await context.pushNamed(RouteNames.address);
+                                setState(() {});
                               },
                               icon: SvgPicture.asset(
                                 MediaResource.pen,
