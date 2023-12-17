@@ -2,36 +2,26 @@ import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TextFormFieldSetting extends StatelessWidget {
-  const TextFormFieldSetting({
+class CustomDropdownButton extends StatelessWidget {
+  const CustomDropdownButton({
     super.key,
-    required this.hintText,
-    this.initialValue,
-    this.keyboardType,
-    this.controller,
+    required this.value,
     this.validator,
-    this.enabled,
-    this.suffixIcon,
+    this.items,
+    this.onChanged,
   });
 
-  final String hintText;
-  final String? initialValue;
-  final TextInputType? keyboardType;
-  final TextEditingController? controller;
-  final String? Function(String?)? validator;
-  final bool? enabled;
-  final Widget? suffixIcon;
+  final dynamic value;
+  final String? Function(dynamic)? validator;
+  final List<DropdownMenuItem<dynamic>>? items;
+  final void Function(dynamic)? onChanged;
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      initialValue: initialValue,
-      keyboardType: keyboardType,
-      enabled: enabled,
+    return DropdownButtonFormField(
+      value: value,
       validator: validator,
       decoration: InputDecoration(
-        suffixIcon: suffixIcon,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
@@ -40,12 +30,6 @@ class TextFormFieldSetting extends StatelessWidget {
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
-            color: Color(0xFFE3E3E3),
-          ),
-        ),
-        disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(
             color: Color(0xFFE3E3E3),
@@ -62,14 +46,27 @@ class TextFormFieldSetting extends StatelessWidget {
         errorStyle: GoogleFonts.poppins(
           fontSize: 12,
         ),
-        contentPadding: const EdgeInsets.all(18),
-        hintText: hintText,
+        contentPadding: const EdgeInsets.only(
+          top: 18,
+          bottom: 12,
+          left: 18,
+          right: 12,
+        ),
+        hintText: 'Gender',
         hintStyle: GoogleFonts.poppins(
           fontSize: 14,
           fontWeight: FontWeight.w600,
           color: Color(0xFFB0B0B0).withOpacity(0.9),
         ),
       ),
+      style: GoogleFonts.poppins(
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+      ),
+      borderRadius: BorderRadius.circular(18),
+      items: items,
+      onChanged: onChanged,
     );
   }
 }

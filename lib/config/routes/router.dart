@@ -8,7 +8,7 @@ import 'package:digital_dreams_shop/features/auth/presentation/pages/signup.dart
 import 'package:digital_dreams_shop/features/order/presentation/pages/checkout.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/pages/my_cart.dart';
 import 'package:digital_dreams_shop/features/on_boarding/data/data_sources/on_boarding_local_data_sources.dart';
-import 'package:digital_dreams_shop/features/order/presentation/pages/shippingaddress.dart';
+import 'package:digital_dreams_shop/features/order/presentation/pages/shipping_address.dart';
 import 'package:digital_dreams_shop/features/profile/presentation/pages/settings.dart';
 import 'package:digital_dreams_shop/features/wishlist/presentation/pages/wishlist.dart';
 import 'package:digital_dreams_shop/features/home/presentation/pages/home_screen.dart';

@@ -1,17 +1,30 @@
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
+import 'package:digital_dreams_shop/features/order/domain/entities/address.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddressWidget extends StatelessWidget {
-  const AddressWidget({super.key});
+  const AddressWidget({
+    super.key,
+    required this.address,
+    required this.value,
+    required this.groupValue,
+    this.onChanged,
+  });
+
+  final Address address;
+  final int value;
+  final int groupValue;
+  final void Function(int?)? onChanged;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(bottom: 16),
       width: double.infinity,
-      height: 160,
+      height: 170,
       decoration: BoxDecoration(
         color: AppColor.background,
         borderRadius: BorderRadius.circular(15),
@@ -29,22 +42,18 @@ class AddressWidget extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            InkWell(
-              child: Ink(
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF4F4F4),
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: SvgPicture.asset(MediaResource.locate),
-                    style: IconButton.styleFrom(
-                        backgroundColor: Color(0xFFF4F4F4), elevation: 1),
-                  ),
-                ),
+            Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                color: Color(0xFFF4F4F4),
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: IconButton(
+                onPressed: () {},
+                icon: SvgPicture.asset(MediaResource.locate),
+                style: IconButton.styleFrom(
+                    backgroundColor: Color(0xFFF4F4F4), elevation: 1),
               ),
             ),
             const SizedBox(
@@ -56,49 +65,64 @@ class AddressWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Thanh Hien',
+                    address.customer,
                     style: GoogleFonts.poppins(
-                      fontSize: 15,
+                      fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: AppColor.bodyText,
                     ),
                   ),
+                  const SizedBox(
+                    height: 2,
+                  ),
                   Text(
-                    '28A, Nguyen Du',
+                    address.phoneNumber,
                     style: GoogleFonts.poppins(
-                      fontSize: 13,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Color(0xFFA9A6A6),
                     ),
                   ),
+                  const SizedBox(
+                    height: 2,
+                  ),
                   Text(
-                    'TP.HCM',
+                    address.detailedAddress,
                     style: GoogleFonts.poppins(
-                      fontSize: 13,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Color(0xFFA9A6A6),
                     ),
                   ),
+                  const SizedBox(
+                    height: 2,
+                  ),
                   Text(
-                    'District 1',
+                    address.district,
                     style: GoogleFonts.poppins(
-                      fontSize: 13,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Color(0xFFA9A6A6),
                     ),
                   ),
+                  const SizedBox(
+                    height: 2,
+                  ),
                   Text(
-                    '0398285020',
+                    address.city,
                     style: GoogleFonts.poppins(
-                      fontSize: 13,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Color(0xFFA9A6A6),
                     ),
                   ),
+                  const SizedBox(
+                    height: 4,
+                  ),
                   Text(
-                    'Vietnam',
+                    address.country,
                     style: GoogleFonts.poppins(
-                      fontSize: 13,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Color(0xFFA9A6A6),
                     ),
@@ -106,15 +130,12 @@ class AddressWidget extends StatelessWidget {
                 ],
               ),
             ),
-            Spacer(),
-            InkWell(
-              onTap: () {},
-              child: IconButton(
-                onPressed: () {},
-                icon: SvgPicture.asset(MediaResource.next),
-                style: IconButton.styleFrom(
-                    backgroundColor: Colors.red.withOpacity(0), elevation: 2),
-              ),
+            const Spacer(),
+            Radio<int>(
+              value: value,
+              groupValue: groupValue,
+              onChanged: onChanged,
+              activeColor: Colors.black,
             ),
           ],
         ),
