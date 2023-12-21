@@ -225,6 +225,7 @@ class _SettingProfileState extends State<SettingProfile> {
                             ),
                             CustomDropdownButton(
                               value: _selectedGender,
+                              hintText: 'Gender',
                               validator: (value) {
                                 if (value == null) {
                                   return 'Gender is required!';

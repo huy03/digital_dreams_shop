@@ -4,6 +4,7 @@ import 'package:digital_dreams_shop/core/errors/failures.dart';
 import 'package:digital_dreams_shop/core/utils/typdefs.dart';
 import 'package:digital_dreams_shop/features/order/data/datasources/address_remote_datasource.dart';
 import 'package:digital_dreams_shop/features/order/data/models/address_model.dart';
+import 'package:digital_dreams_shop/features/order/domain/entities/address.dart';
 import 'package:digital_dreams_shop/features/order/domain/repositories/address_repository.dart';
 
 class AddressRepositoryImpl extends AddressRepository {
@@ -31,5 +32,21 @@ class AddressRepositoryImpl extends AddressRepository {
     } on ServerException catch (e) {
       return Left(ServerFailure.fromException(e));
     }
+  }
+
+  @override
+  ResultFuture<void> addAddress(AddressModel address) async {
+    try {
+      await remoteDataSource.addAddress(address);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
+
+  @override
+  ResultFuture<void> deleteAddress(Address address) {
+    // TODO: implement deleteAddress
+    throw UnimplementedError();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
+import 'package:digital_dreams_shop/core/utils/get_vietnam_provinces.dart';
 import 'package:digital_dreams_shop/features/order/domain/entities/address.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/widgets/address_widgets.dart';
@@ -22,6 +23,7 @@ class ShippingAddress extends StatefulWidget {
 
 class _ShippingAddressState extends State<ShippingAddress> {
   int selectedAddress = 0;
+  bool isLoading = true;
 
   @override
   Widget build(BuildContext context) {
@@ -121,12 +123,39 @@ class _ShippingAddressState extends State<ShippingAddress> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                onPressed: () => showModalBottomSheet(
-                  isScrollControlled: true,
-                  useSafeArea: true,
-                  context: context,
-                  builder: (context) => AddressSheet(),
-                ),
+                onPressed: () async {
+                  if (isLoading) {
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => const Center(
+                        child: CircularProgressIndicator(
+                          color: AppColor.primary,
+                        ),
+                      ),
+                    );
+                  }
+
+                  final cities = await getCities();
+
+                  if (!mounted) {
+                    return;
+                  }
+                  await showModalBottomSheet(
+                    isScrollControlled: true,
+                    useSafeArea: true,
+                    context: context,
+                    builder: (context) => AddressSheet(
+                      cities: cities,
+                    ),
+                  );
+                  setState(() {
+                    isLoading = false;
+                  });
+                  if (!isLoading) {
+                    context.pop();
+                  }
+                  // setState(() {});
+                },
                 label: Text(
                   'Add Address',
                   style: GoogleFonts.poppins(
