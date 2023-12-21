@@ -14,6 +14,8 @@ abstract class AddressRemoteDataSource {
 
   Future<List<AddressModel>> getAllAddresses();
   Future<AddressModel> getDefaultAddress();
+  Future<void> addAddress(AddressModel address);
+  Future<void> deleteAddress(AddressModel address);
 }
 
 class AddressRemoteDataSourceImpl extends AddressRemoteDataSource {
@@ -74,6 +76,81 @@ class AddressRemoteDataSourceImpl extends AddressRemoteDataSource {
 
       if (response.statusCode == 200) {
         return AddressModel.fromMap(data['data']['data'][0]);
+      }
+
+      throw ServerException(
+        data['message'],
+        response.statusCode,
+      );
+    } catch (e) {
+      throw ServerException(e.toString(), 500);
+    }
+  }
+
+  @override
+  Future<void> addAddress(AddressModel address) async {
+    final url = Uri.parse('$kBaseUrl/addresses');
+    try {
+      final response = await client.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':
+              'Bearer ${sl<SharedPreferences>().getString(kAuthToken)}',
+        },
+        body: json.encode({
+          'customer': address.customer,
+          'phoneNumber': address.phoneNumber,
+          'detailedAddress': address.detailedAddress,
+          'district': address.district,
+          'city': address.city,
+          'country': address.country,
+        }),
+      );
+      final DataMap data = jsonDecode(response.body);
+
+      if (data['data']['data'].isEmpty) {
+        throw const ServerException('No default address', 404);
+      }
+
+      if (response.statusCode == 200) {
+        return;
+      }
+
+      throw ServerException(
+        data['message'],
+        response.statusCode,
+      );
+    } catch (e) {
+      print(e);
+      throw ServerException(e.toString(), 500);
+    }
+  }
+
+  @override
+  Future<void> deleteAddress(AddressModel address) async {
+    final url = Uri.parse('$kBaseUrl/addresses');
+    try {
+      final response = await client.delete(url, headers: {
+        'Content-Type': 'application/json',
+        'Authorization':
+            'Bearer ${sl<SharedPreferences>().getString(kAuthToken)}',
+      }, body: {
+        'customer': address.customer,
+        'phoneNumber': address.phoneNumber,
+        'detailedAddress': address.detailedAddress,
+        'district': address.district,
+        'city': address.city,
+        'country': address.country,
+      });
+      final DataMap data = jsonDecode(response.body);
+
+      if (data['data']['data'].isEmpty) {
+        throw const ServerException('No default address', 404);
+      }
+
+      if (response.statusCode == 200) {
+        return;
       }
 
       throw ServerException(

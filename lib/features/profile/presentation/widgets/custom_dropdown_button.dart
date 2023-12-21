@@ -6,12 +6,14 @@ class CustomDropdownButton extends StatelessWidget {
   const CustomDropdownButton({
     super.key,
     required this.value,
+    this.hintText,
     this.validator,
     this.items,
     this.onChanged,
   });
 
   final dynamic value;
+  final String? hintText;
   final String? Function(dynamic)? validator;
   final List<DropdownMenuItem<dynamic>>? items;
   final void Function(dynamic)? onChanged;
@@ -52,7 +54,7 @@ class CustomDropdownButton extends StatelessWidget {
           left: 18,
           right: 12,
         ),
-        hintText: 'Gender',
+        hintText: hintText,
         hintStyle: GoogleFonts.poppins(
           fontSize: 14,
           fontWeight: FontWeight.w600,
