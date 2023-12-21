@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:digital_dreams_shop/features/order/data/models/address_model.dart';
 import 'package:digital_dreams_shop/features/order/domain/entities/address.dart';
+import 'package:digital_dreams_shop/features/order/domain/usecases/address/add_address.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/address/get_all_addresses.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/address/get_default_address.dart';
 import 'package:equatable/equatable.dart';
@@ -9,10 +11,12 @@ part 'address_state.dart';
 class AddressCubit extends Cubit<AddressState> {
   final GetDefaultAddress getDefaultAddress;
   final GetAllAddresses getAllAddresses;
+  final AddAddress addServerAddress;
 
   AddressCubit({
     required this.getDefaultAddress,
     required this.getAllAddresses,
+    required this.addServerAddress,
   }) : super(AddressInitial());
 
   void fetchAllAddresses() async {
@@ -29,22 +33,26 @@ class AddressCubit extends Cubit<AddressState> {
   void reOrderAddresses(int index) {
     final newState = state as AddressesLoaded;
 
-    final item = newState.addresses.removeAt(index);
-
-    newState.addresses.insert(0, item);
     final updatedAddresses = newState.addresses;
+    final item = updatedAddresses.removeAt(index);
+
+    updatedAddresses.insert(0, item);
 
     emit(AddressesLoaded(addresses: updatedAddresses));
   }
 
-  // void fetchDefaultAddress() async {
-  //   emit(AddressLoading());
-  //   final result = await getDefaultAddress.call();
-  //   result.fold(
-  //     (failure) => emit(AddressFail(message: failure.errorMessage)),
-  //     (address) {
-  //       return emit(AddressLoaded(address: address));
-  //     },
-  //   );
-  // }
+  void addAddress(AddressModel address) {
+    try {
+      addServerAddress.call(address);
+      final newState = state as AddressesLoaded;
+
+      final updatedAddresses = newState.addresses;
+
+      updatedAddresses.add(address);
+
+      emit(AddressesLoaded(addresses: updatedAddresses));
+    } catch (e) {
+      print(e);
+    }
+  }
 }
