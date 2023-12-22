@@ -28,11 +28,15 @@ import 'package:digital_dreams_shop/features/on_boarding/domain/usecases/cache_f
 import 'package:digital_dreams_shop/features/on_boarding/domain/usecases/is_first_timer.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/cubit/on_boarding_cubit.dart';
 import 'package:digital_dreams_shop/features/order/data/datasources/address_remote_datasource.dart';
+import 'package:digital_dreams_shop/features/order/data/datasources/order_remote_datasource.dart';
 import 'package:digital_dreams_shop/features/order/data/repositories/address_repository_impl.dart';
+import 'package:digital_dreams_shop/features/order/data/repositories/order_repository_impl.dart';
 import 'package:digital_dreams_shop/features/order/domain/repositories/address_repository.dart';
+import 'package:digital_dreams_shop/features/order/domain/repositories/order_repository.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/address/add_address.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/address/get_all_addresses.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/address/get_default_address.dart';
+import 'package:digital_dreams_shop/features/order/domain/usecases/order/create_order.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/order_cubit.dart';
 import 'package:digital_dreams_shop/features/products/data/datasources/category_remote_datasources.dart';
@@ -244,18 +248,24 @@ Future<void> init() async {
     ),
   );
   sl.registerFactory(
-    () => OrderCubit(),
+    () => OrderCubit(
+      placeOrder: sl(),
+    ),
   );
   // Use cases
   sl.registerLazySingleton(() => GetDefaultAddress(sl()));
   sl.registerLazySingleton(() => GetAllAddresses(sl()));
   sl.registerLazySingleton(() => AddAddress(sl()));
+  sl.registerLazySingleton(() => PlaceOrder(sl()));
   // Repository
   sl.registerLazySingleton<AddressRepository>(
       () => AddressRepositoryImpl(sl()));
+  sl.registerLazySingleton<OrderRepository>(() => OrderRepositoryImpl(sl()));
   // Data sources
   sl.registerLazySingleton<AddressRemoteDataSource>(
       () => AddressRemoteDataSourceImpl(client: sl()));
+  sl.registerLazySingleton<OrderRemoteDataSource>(
+      () => OrderRemoteDataSourceImpl(client: sl()));
 
   //! Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));

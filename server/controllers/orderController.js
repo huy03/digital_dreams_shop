@@ -43,7 +43,7 @@ exports.createOrder = catchAsync(async (req, res, next) => {
   req.body.totalQuantity = items.reduce((a, b) => a + b.quantity, 0);
   req.body.totalPrice = items.reduce((a, b) => a + b.price * b.quantity, 0);
 
-  if (req.body.paymentMethod) {
+  if (req.body.paymentMethod !== "Cash On Delivery") {
     req.body.isPaid = true;
     req.body.paidAt = Date.now();
     req.body.orderStatus = "To Ship";

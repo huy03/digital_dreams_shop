@@ -7,6 +7,7 @@ import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/widgets/cart_item.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
+import 'package:digital_dreams_shop/features/order/data/models/order_item_model.dart';
 import 'package:digital_dreams_shop/features/order/domain/entities/order_item.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/order_cubit.dart';
 import 'package:flutter/material.dart';
@@ -210,7 +211,7 @@ class MyCartScreen extends StatelessWidget {
                               : () {
                                   final orderItems = state.cart.items
                                       .map(
-                                        (item) => OrderItem(
+                                        (item) => OrderItemModel(
                                           id: item.id,
                                           product: item.product,
                                           quantity: item.quantity,

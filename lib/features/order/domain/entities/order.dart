@@ -1,29 +1,31 @@
+import 'package:digital_dreams_shop/features/order/data/models/address_model.dart';
+import 'package:digital_dreams_shop/features/order/data/models/order_item_model.dart';
 import 'package:digital_dreams_shop/features/order/domain/entities/order_item.dart';
 import 'package:equatable/equatable.dart';
 
-class Order extends Equatable {
-  final String id;
-  final Map<String, String> shippingAddress;
-  final String user;
-  final List<OrderItem> items;
-  final int totalQuantity;
-  final int totalPrice;
+class OrderEntity extends Equatable {
+  final String? id;
+  final AddressModel shippingAddress;
+  final String? user;
+  final List<OrderItemModel> items;
+  final int? totalQuantity;
+  final int? totalPrice;
   final String paymentMethod;
   final int shippingPrice;
-  final String orderStatus;
+  final String? orderStatus;
 
-  const Order({
-    required this.id,
+  const OrderEntity({
+    this.id,
+    this.user,
     required this.shippingAddress,
-    required this.user,
     required this.items,
-    required this.totalQuantity,
-    required this.totalPrice,
+    this.totalQuantity,
+    this.totalPrice,
     required this.paymentMethod,
     required this.shippingPrice,
-    required this.orderStatus,
+    this.orderStatus,
   });
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [];
 }

@@ -3,6 +3,7 @@ import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
+import 'package:digital_dreams_shop/features/order/data/models/order_item_model.dart';
 import 'package:digital_dreams_shop/features/order/domain/entities/order_item.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/order_cubit.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
@@ -506,8 +507,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                     child: InkWell(
                       onTap: () {
-                        final List<OrderItem> orderItems = [
-                          OrderItem(
+                        final List<OrderItemModel> orderItems = [
+                          OrderItemModel(
                             id: uuid.v4(),
                             product: widget.product,
                             quantity: quantity,

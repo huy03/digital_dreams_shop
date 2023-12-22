@@ -5,6 +5,8 @@ import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
 import 'package:digital_dreams_shop/core/common/widgets/status_dialog.dart';
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:digital_dreams_shop/features/order/data/models/address_model.dart';
+import 'package:digital_dreams_shop/features/order/data/models/order_model.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/order_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/widgets/payment_button.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/show_all_button.dart';
@@ -76,6 +78,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       await Stripe.instance.presentPaymentSheet();
       if (mounted) {
         BlocProvider.of<CartCubit>(context).emptyCartItem();
+        BlocProvider.of<OrderCubit>(context).emptyOrder();
         shipCost = 0;
         showDialog(
           context: context,
@@ -114,6 +117,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget build(BuildContext context) {
     final cart = (context.watch<CartCubit>().state as CartLoaded).cart;
     final order = context.watch<OrderCubit>().state;
+    late AddressModel address;
 
     return Scaffold(
       bottomNavigationBar: Padding(
@@ -215,7 +219,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     onPressed: () {
                       if (paymentMethod == PaymentMethodEnum.cashOnDelivery) {
                         BlocProvider.of<CartCubit>(context).emptyCartItem();
-                        shipCost = 0;
+                        BlocProvider.of<OrderCubit>(context).emptyOrder();
+                        final newOrder = OrderModel(
+                          items: order.orderItems,
+                          shippingAddress: address,
+                          paymentMethod: 'Cash On Delivery',
+                          shippingPrice: shipCost,
+                        );
+                        context.read<OrderCubit>().createOrder(newOrder);
+                        setState(() {
+                          shipCost = 0;
+                        });
                         showDialog(
                           context: context,
                           builder: (ctx) {
@@ -224,7 +238,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         );
                       }
                       if (paymentMethod == PaymentMethodEnum.stripe) {
-                        makePayment(cart.cartTotalPrice + shipCost);
+                        makePayment(order.totalOrderPrice + shipCost);
+                        final newOrder = OrderModel(
+                          items: order.orderItems,
+                          shippingAddress: address,
+                          paymentMethod: 'Stripe',
+                          shippingPrice: shipCost,
+                        );
+                        context.read<OrderCubit>().createOrder(newOrder);
                       }
                     },
                   ),
@@ -353,6 +374,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       child: Text('Something went wrong!'),
                                     );
                                   }
+                                  address = AddressModel(
+                                    id: state.addresses[0].id,
+                                    customer: state.addresses[0].customer,
+                                    phoneNumber: state.addresses[0].phoneNumber,
+                                    detailedAddress:
+                                        state.addresses[0].detailedAddress,
+                                    district: state.addresses[0].district,
+                                    city: state.addresses[0].city,
+                                    country: state.addresses[0].country,
+                                  );
 
                                   return Column(
                                     children: [
