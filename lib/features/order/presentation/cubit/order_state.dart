@@ -3,9 +3,9 @@ part of 'order_cubit.dart';
 enum OrderStatus { initial, loading, loaded, error }
 
 class OrderState {
-  final Order? order;
+  final OrderEntity? order;
   final OrderStatus orderStatus;
-  final List<OrderItem> orderItems;
+  final List<OrderItemModel> orderItems;
   final int totalOrderPrice;
   final OrderStatus orderItemStatus;
   final String errorMessage;
@@ -20,9 +20,9 @@ class OrderState {
   });
 
   OrderState copyWith({
-    Order? order,
+    OrderEntity? order,
     OrderStatus? orderStatus,
-    List<OrderItem>? orderItems,
+    List<OrderItemModel>? orderItems,
     OrderStatus? orderItemStatus,
     String? errorMessage,
     int? totalOrderPrice,

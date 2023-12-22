@@ -31,10 +31,9 @@ class AddressModel extends Address {
         );
 
   DataMap toMap() => {
-        '_id': id,
         'customer': customer,
         'phoneNumber': phoneNumber,
-        'detailedAddress': detailedAddress,
+        'address': detailedAddress,
         'district': district,
         'city': city,
         'country': country,

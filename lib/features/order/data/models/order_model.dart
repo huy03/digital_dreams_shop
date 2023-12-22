@@ -1,20 +1,22 @@
 import 'dart:convert';
 
 import 'package:digital_dreams_shop/core/utils/typdefs.dart';
+import 'package:digital_dreams_shop/features/order/data/models/address_model.dart';
+import 'package:digital_dreams_shop/features/order/data/models/order_item_model.dart';
 import 'package:digital_dreams_shop/features/order/domain/entities/order.dart';
 import 'package:digital_dreams_shop/features/order/domain/entities/order_item.dart';
 
-class OrderModel extends Order {
+class OrderModel extends OrderEntity {
   const OrderModel({
-    required super.id,
+    super.id,
     required super.items,
     required super.shippingAddress,
-    required super.user,
-    required super.orderStatus,
+    super.user,
+    super.orderStatus,
     required super.paymentMethod,
     required super.shippingPrice,
-    required super.totalPrice,
-    required super.totalQuantity,
+    super.totalPrice,
+    super.totalQuantity,
   });
 
   factory OrderModel.fromJson(String source) =>
@@ -23,8 +25,8 @@ class OrderModel extends Order {
   OrderModel.fromMap(DataMap map)
       : super(
           id: map['id'] as String,
-          items: map['items'] as List<OrderItem>,
-          shippingAddress: map['shippingAddress'] as Map<String, String>,
+          items: map['items'] as List<OrderItemModel>,
+          shippingAddress: map['shippingAddress'],
           user: map['user'] as String,
           orderStatus: map['orderStatus'] as String,
           paymentMethod: map['paymentMethod'] as String,
@@ -34,8 +36,8 @@ class OrderModel extends Order {
         );
 
   DataMap toMap() => {
-        'items': items,
-        'shippingAddress': shippingAddress,
+        'items': List<dynamic>.from(items.map((item) => item.toMap())),
+        'shippingAddress': shippingAddress.toMap(),
         'paymentMethod': paymentMethod,
         'shippingPrice': shippingPrice,
       };
@@ -44,8 +46,8 @@ class OrderModel extends Order {
 
   OrderModel copyWith({
     String? id,
-    List<OrderItem>? items,
-    Map<String, String>? shippingAddress,
+    List<OrderItemModel>? items,
+    AddressModel? shippingAddress,
     String? orderStatus,
     String? paymentMethod,
     String? user,
