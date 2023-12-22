@@ -3,6 +3,8 @@ import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
+import 'package:digital_dreams_shop/features/order/domain/entities/order_item.dart';
+import 'package:digital_dreams_shop/features/order/presentation/cubit/order_cubit.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_product_by_Id.dart';
 import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
@@ -17,8 +19,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:uuid/uuid.dart';
 
 final currency = NumberFormat('#,##0', 'vi-VN');
+const uuid = Uuid();
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key, required this.product});
@@ -416,7 +420,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   color: AppColor.text,
                 ),
               ),
-              
               const Spacer(),
               Row(
                 children: [
@@ -501,7 +504,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       topRight: Radius.circular(20.0),
                       bottomRight: Radius.circular(20.0),
                     ),
-                    child: Ink(
+                    child: InkWell(
+                      onTap: () {
+                        final List<OrderItem> orderItems = [
+                          OrderItem(
+                            id: uuid.v4(),
+                            product: widget.product,
+                            quantity: quantity,
+                            price: widget.product.regularPrice,
+                            color: 'red',
+                          ),
+                        ];
+                        context.read<OrderCubit>().addOrderItem(orderItems);
+                        context.pushNamed(RouteNames.checkout);
+                      },
                       child: Container(
                         width: 93,
                         height: 55,

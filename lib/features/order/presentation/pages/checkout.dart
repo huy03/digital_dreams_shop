@@ -5,6 +5,7 @@ import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
 import 'package:digital_dreams_shop/core/common/widgets/status_dialog.dart';
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:digital_dreams_shop/features/order/presentation/cubit/order_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/widgets/payment_button.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/show_all_button.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
@@ -112,6 +113,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     final cart = (context.watch<CartCubit>().state as CartLoaded).cart;
+    final order = context.watch<OrderCubit>().state;
 
     return Scaffold(
       bottomNavigationBar: Padding(
@@ -134,7 +136,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
                 const Spacer(),
                 Text(
-                  currency.format(cart.cartTotalPrice).toString(),
+                  currency.format(order.totalOrderPrice).toString(),
                   style: GoogleFonts.poppins(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
@@ -181,7 +183,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   ),
                   const Spacer(),
                   Text(
-                    currency.format(cart.cartTotalPrice + shipCost).toString(),
+                    currency
+                        .format(order.totalOrderPrice + shipCost)
+                        .toString(),
                     style: GoogleFonts.poppins(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -195,27 +199,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               padding: const EdgeInsets.only(top: 15),
               child: Row(
                 children: [
-                  BlocBuilder<CartCubit, CartState>(
-                    builder: (context, state) {
-                      if (state is CartLoaded) {
-                        return Text(
-                          'Total: ${currency.format(state.cart.cartTotalPrice + shipCost).toString()}',
-                          style: GoogleFonts.poppins(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w700,
-                            color: AppColor.text,
-                          ),
-                        );
-                      }
-                      return Text(
-                        'Total: 530.000',
-                        style: GoogleFonts.poppins(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700,
-                          color: AppColor.text,
-                        ),
-                      );
-                    },
+                  Text(
+                    'Total: ${currency.format(order.totalOrderPrice + shipCost).toString()}',
+                    style: GoogleFonts.poppins(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      color: AppColor.text,
+                    ),
                   ),
                   const Spacer(),
                   CustomButton(
@@ -489,11 +479,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       SizedBox(
                         height: 300,
                         child: ListView.builder(
-                          itemCount: cart.items.length,
+                          itemCount: order.orderItems.length,
                           itemBuilder: (ctx, index) => CheckoutItem(
-                            product: cart.items[index].product,
-                            quantity: cart.items[index].quantity,
-                            imageCover: cart.items[index].product.imageCover,
+                            product: order.orderItems[index].product,
+                            quantity: order.orderItems[index].quantity,
+                            imageCover:
+                                order.orderItems[index].product.imageCover,
                           ),
                         ),
                       ),

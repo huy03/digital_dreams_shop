@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-const String kBaseUrl = 'http://192.168.68.119:3000/api/v1';
+const String kBaseUrl = 'http://192.168.1.137:3000/api/v1';
 
 const String kAuthToken = 'AUTH_TOKEN';
 

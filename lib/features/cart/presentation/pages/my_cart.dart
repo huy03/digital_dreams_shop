@@ -7,6 +7,8 @@ import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/widgets/cart_item.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
+import 'package:digital_dreams_shop/features/order/domain/entities/order_item.dart';
+import 'package:digital_dreams_shop/features/order/presentation/cubit/order_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -194,15 +196,36 @@ class MyCartScreen extends StatelessWidget {
                     const SizedBox(
                       height: 16,
                     ),
-                    CustomButton(
-                      width: double.infinity,
-                      height: 45,
-                      text: 'Checkout',
-                      onPressed: cart.cartTotalQuantity == 0
-                          ? null
-                          : () {
-                              context.pushNamed(RouteNames.checkout);
-                            },
+                    BlocBuilder<CartCubit, CartState>(
+                      builder: (context, state) {
+                        if (state is! CartLoaded) {
+                          return const Text('Something went wrong!');
+                        }
+                        return CustomButton(
+                          width: double.infinity,
+                          height: 45,
+                          text: 'Checkout',
+                          onPressed: cart.cartTotalQuantity == 0
+                              ? null
+                              : () {
+                                  final orderItems = state.cart.items
+                                      .map(
+                                        (item) => OrderItem(
+                                          id: item.id,
+                                          product: item.product,
+                                          quantity: item.quantity,
+                                          price: item.price,
+                                          color: item.color,
+                                        ),
+                                      )
+                                      .toList();
+                                  context
+                                      .read<OrderCubit>()
+                                      .addOrderItem(orderItems);
+                                  context.pushNamed(RouteNames.checkout);
+                                },
+                        );
+                      },
                     )
                   ],
                 ),
