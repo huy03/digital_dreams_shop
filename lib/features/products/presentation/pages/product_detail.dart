@@ -466,7 +466,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             width: 5,
                           ),
                           Text(
-                            '(${widget.product.ratingsQuantity} Review)',
+                            widget.product.ratingsQuantity > 1
+                                ? '(${widget.product.ratingsQuantity} Reviews)'
+                                : '(${widget.product.ratingsQuantity} Review)',
                             style: GoogleFonts.poppins(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
@@ -578,13 +580,30 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      Text(
-                        'Rating',
-                        style: GoogleFonts.poppins(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w600,
-                          color: AppColor.text,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            'Rating',
+                            style: GoogleFonts.poppins(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w600,
+                              color: AppColor.text,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            widget.product.ratingsQuantity > 1
+                                ? '(${widget.product.ratingsQuantity} Reviews)'
+                                : '(${widget.product.ratingsQuantity} Review)',
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: AppColor.text,
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(
                         height: 12,
