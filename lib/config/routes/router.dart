@@ -135,9 +135,11 @@ class AppRouter {
       ),
       GoRoute(
         name: RouteNames.checkout,
-        path: '/checkout',
+        path: '/checkout/:cart',
         pageBuilder: (context, state) => CustomTransitionPage(
-          child: const CheckoutScreen(),
+          child: CheckoutScreen(
+            cart: state.pathParameters['cart']!,
+          ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return buildTransition(
                 context, animation, secondaryAnimation, child);

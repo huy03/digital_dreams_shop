@@ -223,7 +223,8 @@ class MyCartScreen extends StatelessWidget {
                                   context
                                       .read<OrderCubit>()
                                       .addOrderItem(orderItems);
-                                  context.pushNamed(RouteNames.checkout);
+                                  context.pushNamed(RouteNames.checkout,
+                                      pathParameters: {'cart': 'cart'});
                                 },
                         );
                       },

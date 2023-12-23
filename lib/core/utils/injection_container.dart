@@ -41,10 +41,13 @@ import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cu
 import 'package:digital_dreams_shop/features/order/presentation/cubit/order_cubit.dart';
 import 'package:digital_dreams_shop/features/products/data/datasources/category_remote_datasources.dart';
 import 'package:digital_dreams_shop/features/products/data/datasources/product_remote_datasources.dart';
+import 'package:digital_dreams_shop/features/products/data/datasources/review_remote_datasource.dart';
 import 'package:digital_dreams_shop/features/products/data/repositories/category_repository_impl.dart';
 import 'package:digital_dreams_shop/features/products/data/repositories/product_repository_impl.dart';
+import 'package:digital_dreams_shop/features/products/data/repositories/review_repository_impl.dart';
 import 'package:digital_dreams_shop/features/products/domain/repositories/category_repository.dart';
 import 'package:digital_dreams_shop/features/products/domain/repositories/product_repository.dart';
+import 'package:digital_dreams_shop/features/products/domain/repositories/review_repository.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/category/get_all_categories.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/category/get_popular_categories.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_all_products_by_category.dart';
@@ -53,9 +56,11 @@ import 'package:digital_dreams_shop/features/products/domain/usecases/product/ge
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_product_by_Id.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/search_product_by_name.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/search_product_by_name_per_category.dart';
+import 'package:digital_dreams_shop/features/products/domain/usecases/review/get_product_review.dart';
 import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/categories_cubit.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/popular_categories_cubit.dart';
+import 'package:digital_dreams_shop/features/products/presentation/cubit/review_cubit.dart';
 import 'package:digital_dreams_shop/features/profile/data/datasources/profile_remote_datasources.dart';
 import 'package:digital_dreams_shop/features/profile/data/repository/profile_repository_impl.dart';
 import 'package:digital_dreams_shop/features/profile/domain/repositories/profile_repository.dart';
@@ -174,6 +179,19 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<ProductRemoteDataSource>(
       () => ProductRemoteDataSourceImpl(client: sl()));
+
+  //! Features - Review
+  // Cubit
+  sl.registerFactory(() => ReviewCubit(
+        getProductReviews: sl(),
+      ));
+  // Use cases
+  sl.registerLazySingleton(() => GetProductReviews(sl()));
+  // Repository
+  sl.registerLazySingleton<ReviewRepository>(() => ReviewRepositoryImpl(sl()));
+  // Data sources
+  sl.registerLazySingleton<ReviewRemoteDataSource>(
+      () => ReviewRemoteDataSourceImpl(client: sl()));
 
   //! Wishlist
   // Cubit
