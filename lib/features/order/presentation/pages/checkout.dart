@@ -27,7 +27,9 @@ import 'dart:convert';
 enum PaymentMethodEnum { cashOnDelivery, stripe }
 
 class CheckoutScreen extends StatefulWidget {
-  const CheckoutScreen({super.key});
+  const CheckoutScreen({super.key, required this.cart});
+
+  final String cart;
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -77,7 +79,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     try {
       await Stripe.instance.presentPaymentSheet();
       if (mounted) {
-        BlocProvider.of<CartCubit>(context).emptyCartItem();
+        if (widget.cart == 'cart') {
+          BlocProvider.of<CartCubit>(context).emptyCartItem();
+        }
         BlocProvider.of<OrderCubit>(context).emptyOrder();
         shipCost = 0;
         showDialog(
@@ -218,7 +222,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     text: 'Pay Now',
                     onPressed: () {
                       if (paymentMethod == PaymentMethodEnum.cashOnDelivery) {
-                        BlocProvider.of<CartCubit>(context).emptyCartItem();
+                        if (widget.cart == 'cart') {
+                          BlocProvider.of<CartCubit>(context).emptyCartItem();
+                        }
                         BlocProvider.of<OrderCubit>(context).emptyOrder();
                         final newOrder = OrderModel(
                           items: order.orderItems,
@@ -507,16 +513,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       const SizedBox(
                         height: 8,
                       ),
-                      SizedBox(
-                        height: 300,
-                        child: ListView.builder(
-                          itemCount: order.orderItems.length,
-                          itemBuilder: (ctx, index) => CheckoutItem(
-                            product: order.orderItems[index].product,
-                            quantity: order.orderItems[index].quantity,
-                            imageCover:
-                                order.orderItems[index].product.imageCover,
-                          ),
+                      ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: order.orderItems.length,
+                        itemBuilder: (ctx, index) => CheckoutItem(
+                          product: order.orderItems[index].product,
+                          quantity: order.orderItems[index].quantity,
+                          imageCover:
+                              order.orderItems[index].product.imageCover,
                         ),
                       ),
                     ],
