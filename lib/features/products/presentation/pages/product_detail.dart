@@ -12,6 +12,8 @@ import 'package:digital_dreams_shop/features/products/presentation/bloc/products
 import 'package:digital_dreams_shop/features/products/presentation/cubit/review_cubit.dart';
 import 'package:digital_dreams_shop/features/products/presentation/widgets/color_button.dart';
 import 'package:digital_dreams_shop/features/products/presentation/widgets/review_item_widget.dart';
+import 'package:digital_dreams_shop/features/products/presentation/widgets/small_product_item.dart';
+import 'package:digital_dreams_shop/features/products/presentation/widgets/small_product_loading.dart';
 import 'package:digital_dreams_shop/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,11 +41,18 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   bool isAddedToWishlist = false;
   int quantity = 1;
+  final List<Product> relevantProducts = [];
 
   @override
   void initState() {
     super.initState();
     context.read<ReviewCubit>().fetchReviews(widget.product.id);
+    context.read<ProductsBloc>().add(
+          GetRelevantProductsEvent(
+            categoryId: widget.product.categoryId,
+            productId: widget.product.id,
+          ),
+        );
   }
 
   @override
@@ -633,6 +642,57 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 ReviewItemWidget(review: state.reviews[index]),
                           );
                         },
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        'Relevant Products',
+                        style: GoogleFonts.poppins(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w600,
+                          color: AppColor.text,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 12,
+                      ),
+                      SizedBox(
+                        height: 260,
+                        child: BlocConsumer<ProductsBloc, ProductsState>(
+                          listener: (context, state) {
+                            if (state is RelevantProductsSuccess) {
+                              relevantProducts.clear();
+                              relevantProducts.addAll(state.products);
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is ProductsLoading) {
+                              return ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
+                                itemCount: 5,
+                                itemBuilder: (ctx, index) => const Padding(
+                                  padding: EdgeInsets.only(right: 16.0),
+                                  child: SmallProductLoading(),
+                                ),
+                              );
+                            }
+                            if (state is ProductsError) {
+                              return Text(state.message);
+                            }
+                            return ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: relevantProducts.length,
+                              itemBuilder: (ctx, index) => Padding(
+                                padding: const EdgeInsets.only(right: 16),
+                                child: SmallProductItem(
+                                  product: relevantProducts[index],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),

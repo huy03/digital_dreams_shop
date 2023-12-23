@@ -54,6 +54,7 @@ import 'package:digital_dreams_shop/features/products/domain/usecases/product/ge
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_new_arrivals_product.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_popular_products.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_product_by_Id.dart';
+import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_relevent_products.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/search_product_by_name.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/search_product_by_name_per_category.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/review/get_product_review.dart';
@@ -164,6 +165,7 @@ Future<void> init() async {
         getPopularProducts: sl(),
         searchProductsByName: sl(),
         searchProductsByNamePerCategory: sl(),
+        getRelevantProducts: sl(),
       ));
   // Use cases
   sl.registerLazySingleton(() => GetAllProductsByCategory(sl()));
@@ -172,7 +174,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetPopularProducts(sl()));
   sl.registerLazySingleton(() => SearchProductsByName(sl()));
   sl.registerLazySingleton(() => SearchProductsByNamePerCategory(sl()));
-
+  sl.registerLazySingleton(() => GetRelevantProducts(sl()));
   // Repository
   sl.registerLazySingleton<ProductRepository>(
       () => ProductRepositoryImpl(sl()));
