@@ -13,6 +13,7 @@ class Product extends Equatable {
   final double ratingsAverage;
   final int ratingsQuantity;
   final String category;
+  final String categoryId;
   final String? discountCoupon;
 
   const Product({
@@ -28,6 +29,7 @@ class Product extends Equatable {
     required this.ratingsAverage,
     required this.ratingsQuantity,
     required this.category,
+    required this.categoryId,
     this.discountCoupon,
   });
 
