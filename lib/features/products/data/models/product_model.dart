@@ -13,6 +13,7 @@ class ProductModel extends Product {
     required super.ratingsAverage,
     required super.ratingsQuantity,
     required super.category,
+    required super.categoryId,
     super.discountCoupon,
   });
 
@@ -27,6 +28,7 @@ class ProductModel extends Product {
         ratingsAverage: (json['ratingsAverage'] as num).toDouble(),
         ratingsQuantity: (json['ratingsQuantity'] as num).toInt(),
         category: json['category']['name'] as String,
+        categoryId: json['category']['id'] as String,
       );
 
   Map<String, dynamic> toJson() => {

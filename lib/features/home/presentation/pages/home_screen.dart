@@ -159,6 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
                         height: 180,
@@ -198,22 +199,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      Row(
-                        children: [
-                          Text(
-                            'New Arrivals,',
-                            style: GoogleFonts.poppins(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: AppColor.text,
-                            ),
-                          ),
-                          const Spacer(),
-                          ShowAllButton(
-                            text: 'View All',
-                            onPressed: () {},
-                          ),
-                        ],
+                      Text(
+                        'New Arrivals',
+                        style: GoogleFonts.poppins(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: AppColor.text,
+                        ),
                       ),
                       const SizedBox(
                         height: 14,
