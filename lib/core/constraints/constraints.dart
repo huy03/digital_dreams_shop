@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-const String kBaseUrl = 'http://192.168.214.1:3000/api/v1';
+const String kBaseUrl = 'http://192.168.8.1:3000/api/v1';
 
 const String kAuthToken = 'AUTH_TOKEN';
 
@@ -59,3 +59,12 @@ enum HeadphoneBrand {
 }
 
 enum CameraBrand { canon, nikon, sony, fujifilm, panasonic, leica }
+
+const brands = {
+  'Phone': PhoneBrand.values,
+  'Laptop': LaptopBrand.values,
+  'Tablet': TabletBrand.values,
+  'Watch': WatchBrand.values,
+  'Headphone': HeadphoneBrand.values,
+  'Camera': CameraBrand.values,
+};

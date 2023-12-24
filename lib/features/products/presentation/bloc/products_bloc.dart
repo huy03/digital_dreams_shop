@@ -3,6 +3,7 @@ import 'package:digital_dreams_shop/features/products/domain/entities/product.da
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_all_products_by_category.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_new_arrivals_product.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_popular_products.dart';
+import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_products_by_brand_per_category.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_relevent_products.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/search_product_by_name.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/search_product_by_name_per_category.dart';
@@ -20,6 +21,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   final GetPopularProducts getPopularProducts;
   final SearchProductsByName searchProductsByName;
   final SearchProductsByNamePerCategory searchProductsByNamePerCategory;
+  final GetProductsByBrandPerCategory getProductsByBrandPerCategory;
   final GetRelevantProducts getRelevantProducts;
 
   ProductsBloc({
@@ -30,6 +32,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     required this.searchProductsByName,
     required this.searchProductsByNamePerCategory,
     required this.getRelevantProducts,
+    required this.getProductsByBrandPerCategory,
   }) : super(ProductsInitial()) {
     on<ProductsEvent>((event, emit) {
       // TODO: implement event handler
@@ -97,6 +100,23 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         (failure) => emit(ProductsError(failure.errorMessage)),
         (products) => emit(
           SearchProductsPerCategorySuccess(products: products),
+        ),
+      );
+    });
+
+    on<GetProductsByBrandPerCategoryEvent>((event, emit) async {
+      emit(ProductsLoading());
+      final result = await getProductsByBrandPerCategory.call(
+        GetProductsByBrandPerCategoryParams(
+          id: event.id,
+          brand: event.brand,
+        ),
+      );
+
+      result.fold(
+        (failure) => emit(ProductsError(failure.errorMessage)),
+        (products) => emit(
+          GetProductsByBrandPerCategorySuccess(products: products),
         ),
       );
     });

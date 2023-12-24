@@ -15,6 +15,8 @@ abstract class ProductRemoteDataSource {
   Future<List<ProductModel>> searchProductByName(String text);
   Future<List<ProductModel>> searchProductsByNamePerCategory(
       String id, String text);
+  Future<List<ProductModel>> getProductsByBrandPerCategory(
+      String id, String brand);
   Future<List<ProductModel>> getNewArrivalProducts();
   Future<List<ProductModel>> getPopularProducts();
   Future<List<ProductModel>> getRelevantProducts(
@@ -189,6 +191,34 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
       String categoryId, String productId) async {
     final url =
         Uri.parse('$kBaseUrl/categories/$categoryId/products?ne=$productId');
+    final response = await client.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+    final DataMap data = jsonDecode(response.body);
+    final List<ProductModel> products = [];
+    if (response.statusCode == 200) {
+      for (final product in data['data']['data']) {
+        products.add(
+          ProductModel.fromJson(product),
+        );
+      }
+
+      return products;
+    }
+
+    throw ServerException(
+      data['message'],
+      response.statusCode,
+    );
+  }
+
+  @override
+  Future<List<ProductModel>> getProductsByBrandPerCategory(
+      String id, String brand) async {
+    final url = Uri.parse('$kBaseUrl/categories/$id/products?brand=$brand');
     final response = await client.get(
       url,
       headers: {

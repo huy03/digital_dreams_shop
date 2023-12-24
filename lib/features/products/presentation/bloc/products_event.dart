@@ -58,6 +58,16 @@ class SearchProductsByNamePerCategoryEvent extends ProductsEvent {
   List<Object> get props => [id, text];
 }
 
+class GetProductsByBrandPerCategoryEvent extends ProductsEvent {
+  const GetProductsByBrandPerCategoryEvent(this.id, this.brand);
+
+  final String id;
+  final String brand;
+
+  @override
+  List<Object> get props => [id, brand];
+}
+
 class GetRelevantProductsEvent extends ProductsEvent {
   const GetRelevantProductsEvent({
     required this.categoryId,
