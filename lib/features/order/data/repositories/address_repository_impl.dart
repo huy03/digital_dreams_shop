@@ -49,4 +49,14 @@ class AddressRepositoryImpl extends AddressRepository {
     // TODO: implement deleteAddress
     throw UnimplementedError();
   }
+
+  @override
+  ResultFuture<void> updateAddress(AddressModel address) async {
+    try {
+      await remoteDataSource.updateAddress(address);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
 }
