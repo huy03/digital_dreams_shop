@@ -2,8 +2,10 @@ import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/common/widgets/shimmer_widget.dart';
+import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:digital_dreams_shop/core/common/widgets/search_field.dart';
+import 'package:digital_dreams_shop/features/products/presentation/widgets/brand_item.dart';
 import 'package:digital_dreams_shop/features/products/presentation/widgets/small_product_item.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
 import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
@@ -31,6 +33,7 @@ class DetailCategoryScreen extends StatefulWidget {
 class _DetailCategoryScreenState extends State<DetailCategoryScreen> {
   final TextEditingController searchController = TextEditingController();
   final List<Product> productsByCategory = [];
+  int currentBrand = -1;
 
   @override
   void initState() {
@@ -136,7 +139,42 @@ class _DetailCategoryScreenState extends State<DetailCategoryScreen> {
                 ),
               ),
               const SizedBox(
-                height: 25,
+                height: 12,
+              ),
+              SizedBox(
+                width: double.infinity,
+                height: 52,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: brands[widget.category]!.length,
+                  itemBuilder: (ctx, index) => BrandItem(
+                    onTap: () {
+                      setState(
+                        () {
+                          currentBrand = index;
+                          context.read<ProductsBloc>().add(
+                                GetProductsByBrandPerCategoryEvent(
+                                  widget.categoryId,
+                                  brands[widget.category]![index]
+                                      .toString()
+                                      .split('.')
+                                      .last
+                                      .toUpperCase(),
+                                ),
+                              );
+                        },
+                      );
+                    },
+                    brand: brands[widget.category]![index]
+                        .toString()
+                        .split('.')
+                        .last,
+                    isSelected: currentBrand == index,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 12,
               ),
               Expanded(
                 child: BlocConsumer<ProductsBloc, ProductsState>(
@@ -146,6 +184,10 @@ class _DetailCategoryScreenState extends State<DetailCategoryScreen> {
                       productsByCategory.addAll(state.products);
                     }
                     if (state is SearchProductsPerCategorySuccess) {
+                      productsByCategory.clear();
+                      productsByCategory.addAll(state.products);
+                    }
+                    if (state is GetProductsByBrandPerCategorySuccess) {
                       productsByCategory.clear();
                       productsByCategory.addAll(state.products);
                     }

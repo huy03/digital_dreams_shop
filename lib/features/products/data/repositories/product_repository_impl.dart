@@ -85,4 +85,16 @@ class ProductRepositoryImpl extends ProductRepository {
       return Left(ServerFailure.fromException(e));
     }
   }
+
+  @override
+  ResultFuture<List<Product>> getProductsByBrandPerCategory(
+      String id, String brand) async {
+    try {
+      final result =
+          await remoteDataSource.getProductsByBrandPerCategory(id, brand);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
 }

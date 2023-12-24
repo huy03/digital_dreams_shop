@@ -36,6 +36,7 @@ import 'package:digital_dreams_shop/features/order/domain/repositories/order_rep
 import 'package:digital_dreams_shop/features/order/domain/usecases/address/add_address.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/address/get_all_addresses.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/address/get_default_address.dart';
+import 'package:digital_dreams_shop/features/order/domain/usecases/address/update_address.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/order/create_order.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/order_cubit.dart';
@@ -54,6 +55,7 @@ import 'package:digital_dreams_shop/features/products/domain/usecases/product/ge
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_new_arrivals_product.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_popular_products.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_product_by_Id.dart';
+import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_products_by_brand_per_category.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_relevent_products.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/search_product_by_name.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/search_product_by_name_per_category.dart';
@@ -166,6 +168,7 @@ Future<void> init() async {
         searchProductsByName: sl(),
         searchProductsByNamePerCategory: sl(),
         getRelevantProducts: sl(),
+        getProductsByBrandPerCategory: sl(),
       ));
   // Use cases
   sl.registerLazySingleton(() => GetAllProductsByCategory(sl()));
@@ -174,6 +177,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetPopularProducts(sl()));
   sl.registerLazySingleton(() => SearchProductsByName(sl()));
   sl.registerLazySingleton(() => SearchProductsByNamePerCategory(sl()));
+  sl.registerLazySingleton(() => GetProductsByBrandPerCategory(sl()));
   sl.registerLazySingleton(() => GetRelevantProducts(sl()));
   // Repository
   sl.registerLazySingleton<ProductRepository>(
@@ -265,6 +269,7 @@ Future<void> init() async {
       getDefaultAddress: sl(),
       getAllAddresses: sl(),
       addServerAddress: sl(),
+      updateAddress: sl(),
     ),
   );
   sl.registerFactory(
@@ -276,6 +281,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetDefaultAddress(sl()));
   sl.registerLazySingleton(() => GetAllAddresses(sl()));
   sl.registerLazySingleton(() => AddAddress(sl()));
+  sl.registerLazySingleton(() => UpdateAddress(sl()));
   sl.registerLazySingleton(() => PlaceOrder(sl()));
   // Repository
   sl.registerLazySingleton<AddressRepository>(

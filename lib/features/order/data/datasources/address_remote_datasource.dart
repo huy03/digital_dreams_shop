@@ -15,7 +15,7 @@ abstract class AddressRemoteDataSource {
   Future<List<AddressModel>> getAllAddresses();
   Future<AddressModel> getDefaultAddress();
   Future<void> addAddress(AddressModel address);
-  Future<void> deleteAddress(AddressModel address);
+  Future<void> updateAddress(AddressModel address);
 }
 
 class AddressRemoteDataSourceImpl extends AddressRemoteDataSource {
@@ -122,32 +122,33 @@ class AddressRemoteDataSourceImpl extends AddressRemoteDataSource {
         response.statusCode,
       );
     } catch (e) {
-      print(e);
       throw ServerException(e.toString(), 500);
     }
   }
 
   @override
-  Future<void> deleteAddress(AddressModel address) async {
-    final url = Uri.parse('$kBaseUrl/addresses');
+  Future<void> updateAddress(AddressModel address) async {
+    final url = Uri.parse('$kBaseUrl/addresses/${address.id}');
     try {
-      final response = await client.delete(url, headers: {
-        'Content-Type': 'application/json',
-        'Authorization':
-            'Bearer ${sl<SharedPreferences>().getString(kAuthToken)}',
-      }, body: {
-        'customer': address.customer,
-        'phoneNumber': address.phoneNumber,
-        'detailedAddress': address.detailedAddress,
-        'district': address.district,
-        'city': address.city,
-        'country': address.country,
-      });
+      final response = await client.patch(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':
+              'Bearer ${sl<SharedPreferences>().getString(kAuthToken)}',
+        },
+        body: json.encode(
+          {
+            'customer': address.customer,
+            'phoneNumber': address.phoneNumber,
+            'detailedAddress': address.detailedAddress,
+            'district': address.district,
+            'city': address.city,
+            'country': address.country,
+          },
+        ),
+      );
       final DataMap data = jsonDecode(response.body);
-
-      if (data['data']['data'].isEmpty) {
-        throw const ServerException('No default address', 404);
-      }
 
       if (response.statusCode == 200) {
         return;
