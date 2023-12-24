@@ -25,6 +25,47 @@ class _ShippingAddressState extends State<ShippingAddress> {
   int selectedAddress = 0;
   bool isLoading = true;
 
+  void showAddressModal(Address? address) async {
+    setState(() {
+      isLoading = true;
+    });
+    if (isLoading) {
+      showDialog(
+        context: context,
+        builder: (ctx) => const Center(
+          child: CircularProgressIndicator(
+            color: AppColor.primary,
+          ),
+        ),
+      );
+    }
+
+    final cities = await getCities();
+
+    if (!mounted) {
+      return;
+    }
+    await showModalBottomSheet(
+      isScrollControlled: true,
+      useSafeArea: true,
+      context: context,
+      builder: (context) => AddressSheet(
+        cities: cities,
+        address: address,
+      ),
+    );
+    setState(() {
+      isLoading = false;
+    });
+
+    if (!isLoading) {
+      if (!mounted) {
+        return;
+      }
+      context.pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,6 +141,9 @@ class _ShippingAddressState extends State<ShippingAddress> {
                                   .reOrderAddresses(index);
                             });
                           },
+                          onTap: () {
+                            showAddressModal(state.addresses[index]);
+                          },
                         );
                       },
                     ),
@@ -123,38 +167,8 @@ class _ShippingAddressState extends State<ShippingAddress> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                onPressed: () async {
-                  if (isLoading) {
-                    showDialog(
-                      context: context,
-                      builder: (ctx) => const Center(
-                        child: CircularProgressIndicator(
-                          color: AppColor.primary,
-                        ),
-                      ),
-                    );
-                  }
-
-                  final cities = await getCities();
-
-                  if (!mounted) {
-                    return;
-                  }
-                  await showModalBottomSheet(
-                    isScrollControlled: true,
-                    useSafeArea: true,
-                    context: context,
-                    builder: (context) => AddressSheet(
-                      cities: cities,
-                    ),
-                  );
-                  setState(() {
-                    isLoading = false;
-                  });
-                  if (!isLoading) {
-                    context.pop();
-                  }
-                  // setState(() {});
+                onPressed: () {
+                  showAddressModal(null);
                 },
                 label: Text(
                   'Add Address',

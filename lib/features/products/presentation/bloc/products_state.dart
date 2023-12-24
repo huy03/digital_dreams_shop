@@ -56,6 +56,15 @@ final class SearchProductsPerCategorySuccess extends ProductsState {
   List<Object> get props => [products];
 }
 
+final class GetProductsByBrandPerCategorySuccess extends ProductsState {
+  final List<Product> products;
+
+  const GetProductsByBrandPerCategorySuccess({required this.products});
+
+  @override
+  List<Object> get props => [products];
+}
+
 final class RelevantProductsSuccess extends ProductsState {
   final List<Product> products;
 

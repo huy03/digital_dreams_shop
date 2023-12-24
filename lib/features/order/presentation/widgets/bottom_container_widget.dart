@@ -15,9 +15,14 @@ import 'package:uuid/uuid.dart';
 const uuid = Uuid();
 
 class AddressSheet extends StatefulWidget {
-  const AddressSheet({super.key, required this.cities});
+  const AddressSheet({
+    super.key,
+    required this.cities,
+    this.address,
+  });
 
   final List<City> cities;
+  final Address? address;
 
   @override
   State<AddressSheet> createState() => _AddressSheetState();
@@ -34,6 +39,23 @@ class _AddressSheetState extends State<AddressSheet> {
   String? _selectedDistrict;
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.address != null) {
+      _nameController.text = widget.address!.customer;
+      _phoneNumberController.text = widget.address!.phoneNumber;
+      _streetController.text = widget.address!.detailedAddress;
+      _selectedCity = widget.cities
+          .where(
+            (element) => element.name == widget.address!.city,
+          )
+          .first;
+      districts = _selectedCity!.districts;
+      _selectedDistrict = widget.address!.district;
+    }
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _nameController.dispose();
@@ -43,17 +65,31 @@ class _AddressSheetState extends State<AddressSheet> {
   void submit() async {
     final isValidate = _formKey.currentState!.validate();
     if (isValidate) {
-      context.read<AddressCubit>().addAddress(
-            AddressModel(
-              id: uuid.v4(),
-              customer: _nameController.text,
-              phoneNumber: _phoneNumberController.text,
-              country: _countryController.text,
-              city: _selectedCity!.name,
-              district: _selectedDistrict!,
-              detailedAddress: _streetController.text,
-            ),
-          );
+      if (widget.address != null) {
+        context.read<AddressCubit>().updateAddressItem(
+              AddressModel(
+                id: widget.address!.id,
+                customer: _nameController.text,
+                phoneNumber: _phoneNumberController.text,
+                country: _countryController.text,
+                city: _selectedCity!.name,
+                district: _selectedDistrict!,
+                detailedAddress: _streetController.text,
+              ),
+            );
+      } else {
+        context.read<AddressCubit>().addAddress(
+              AddressModel(
+                id: uuid.v4(),
+                customer: _nameController.text,
+                phoneNumber: _phoneNumberController.text,
+                country: _countryController.text,
+                city: _selectedCity!.name,
+                district: _selectedDistrict!,
+                detailedAddress: _streetController.text,
+              ),
+            );
+      }
       if (!mounted) {
         return;
       }
