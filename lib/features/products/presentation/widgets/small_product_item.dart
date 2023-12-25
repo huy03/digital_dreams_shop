@@ -86,11 +86,12 @@ class _SmallProductItemState extends State<SmallProductItem> {
                         icon: isAddedToWishlist
                             ? const Icon(
                                 Iconsax.heart5,
-                                color: AppColor.background,
+                                color: Color.fromARGB(255, 215, 212, 212),
                               )
                             : SvgPicture.asset(
                                 MediaResource.love,
                                 width: 22,
+                                color: const Color.fromARGB(255, 204, 202, 202),
                               ),
                       );
                     },

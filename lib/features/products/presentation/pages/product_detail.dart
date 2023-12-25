@@ -306,37 +306,38 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                       state.products.contains(widget.product);
                                 }
                                 return IconButton(
-                                    onPressed: () {
-                                      BlocProvider.of<WishlistCubit>(context)
-                                          .addOrRemoveProduct(
-                                              widget.product.id);
+                                  onPressed: () {
+                                    BlocProvider.of<WishlistCubit>(context)
+                                        .addOrRemoveProduct(widget.product.id);
 
-                                      ScaffoldMessenger.of(context)
-                                          .clearSnackBars();
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: !isAddedToWishlist
-                                              ? const Text(
-                                                  'Product added to wishlist')
-                                              : const Text(
-                                                  'Product removed from wishlist'),
-                                          duration:
-                                              const Duration(milliseconds: 500),
+                                    ScaffoldMessenger.of(context)
+                                        .clearSnackBars();
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: !isAddedToWishlist
+                                            ? const Text(
+                                                'Product added to wishlist')
+                                            : const Text(
+                                                'Product removed from wishlist'),
+                                        duration:
+                                            const Duration(milliseconds: 500),
+                                      ),
+                                    );
+                                  },
+                                  icon: isAddedToWishlist
+                                      ? const Icon(
+                                          Iconsax.heart5,
+                                          color: Color.fromARGB(
+                                              255, 215, 212, 212),
+                                          size: 30,
+                                        )
+                                      : const Icon(
+                                          Iconsax.heart,
+                                          color: Color.fromARGB(
+                                              255, 204, 202, 202),
+                                          size: 30,
                                         ),
-                                      );
-                                    },
-                                    icon: isAddedToWishlist
-                                        ? const Icon(
-                                            Iconsax.heart5,
-                                            color: AppColor.background,
-                                            size: 30,
-                                          )
-                                        : const Icon(
-                                            Iconsax.heart,
-                                            color: AppColor.background,
-                                            size: 30,
-                                          ));
+                                );
                               },
                             ),
                           ),
