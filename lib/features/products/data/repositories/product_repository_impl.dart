@@ -88,10 +88,10 @@ class ProductRepositoryImpl extends ProductRepository {
 
   @override
   ResultFuture<List<Product>> getProductsByBrandPerCategory(
-      String id, String brand) async {
+      String id, String brand, String search) async {
     try {
-      final result =
-          await remoteDataSource.getProductsByBrandPerCategory(id, brand);
+      final result = await remoteDataSource.getProductsByBrandPerCategory(
+          id, brand, search);
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure.fromException(e));

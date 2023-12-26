@@ -1,4 +1,5 @@
 import 'package:digital_dreams_shop/config/routes/route_names.dart';
+import 'package:digital_dreams_shop/core/common/widgets/cart_button.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:digital_dreams_shop/features/home/presentation/cubit/coupon_cubit.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/categoriy_button.dart';
@@ -86,35 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(
                         width: 18,
                       ),
-                      BlocBuilder<CartCubit, CartState>(
-                        builder: (context, state) {
-                          if (state is CartLoaded) {
-                            return badges.Badge(
-                              position:
-                                  badges.BadgePosition.topEnd(top: -8, end: -5),
-                              badgeContent: Text(
-                                state.cart.cartTotalQuantity.toString(),
-                                style: GoogleFonts.poppins(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColor.textLight,
-                                ),
-                              ),
-                              badgeStyle: const badges.BadgeStyle(
-                                badgeColor: AppColor.primary,
-                                padding: EdgeInsets.all(5),
-                              ),
-                              child: CustomSuffixIcon(
-                                svgImg: MediaResource.cart,
-                                onPressed: () {
-                                  context.pushNamed(RouteNames.cart);
-                                },
-                              ),
-                            );
-                          }
-                          return const SizedBox();
-                        },
-                      ),
+                      const CartButton(),
                     ],
                   ),
                 ],

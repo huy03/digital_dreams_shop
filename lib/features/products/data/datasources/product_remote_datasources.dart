@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/core/errors/exceptions.dart';
-import 'package:digital_dreams_shop/core/utils/injection_container.dart';
 import 'package:digital_dreams_shop/core/utils/typdefs.dart';
 import 'package:digital_dreams_shop/features/products/data/models/product_model.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +15,7 @@ abstract class ProductRemoteDataSource {
   Future<List<ProductModel>> searchProductsByNamePerCategory(
       String id, String text);
   Future<List<ProductModel>> getProductsByBrandPerCategory(
-      String id, String brand);
+      String id, String brand, String search);
   Future<List<ProductModel>> getNewArrivalProducts();
   Future<List<ProductModel>> getPopularProducts();
   Future<List<ProductModel>> getRelevantProducts(
@@ -217,8 +216,9 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
 
   @override
   Future<List<ProductModel>> getProductsByBrandPerCategory(
-      String id, String brand) async {
-    final url = Uri.parse('$kBaseUrl/categories/$id/products?brand=$brand');
+      String id, String brand, String search) async {
+    final url = Uri.parse(
+        '$kBaseUrl/categories/$id/products?brand=$brand&search=$search');
     final response = await client.get(
       url,
       headers: {

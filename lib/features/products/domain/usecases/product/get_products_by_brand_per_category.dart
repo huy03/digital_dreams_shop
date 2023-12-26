@@ -12,7 +12,8 @@ class GetProductsByBrandPerCategory extends UseCaseWithParams<List<Product>,
 
   @override
   ResultFuture<List<Product>> call(GetProductsByBrandPerCategoryParams params) {
-    return repository.getProductsByBrandPerCategory(params.id, params.brand);
+    return repository.getProductsByBrandPerCategory(
+        params.id, params.brand, params.search);
   }
 }
 
@@ -20,10 +21,12 @@ class GetProductsByBrandPerCategoryParams extends Equatable {
   const GetProductsByBrandPerCategoryParams({
     required this.id,
     required this.brand,
+    required this.search,
   });
 
   final String id;
   final String brand;
+  final String search;
 
   @override
   List<Object?> get props => [id, brand];
