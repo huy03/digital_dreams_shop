@@ -113,6 +113,9 @@ class _DetailCategoryScreenState extends State<DetailCategoryScreen> {
                       child: SearchField(
                         controller: searchController,
                         onSubmitted: (value) {
+                          setState(() {
+                            currentBrand = -1;
+                          });
                           BlocProvider.of<ProductsBloc>(context).add(
                             SearchProductsByNamePerCategoryEvent(
                               widget.categoryId,
