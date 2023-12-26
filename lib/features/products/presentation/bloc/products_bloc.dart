@@ -110,6 +110,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         GetProductsByBrandPerCategoryParams(
           id: event.id,
           brand: event.brand,
+          search: event.search,
         ),
       );
 

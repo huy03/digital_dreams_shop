@@ -1,6 +1,7 @@
 import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
+import 'package:digital_dreams_shop/core/common/widgets/cart_button.dart';
 import 'package:digital_dreams_shop/core/common/widgets/shimmer_widget.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:digital_dreams_shop/core/common/widgets/search_field.dart';
@@ -76,10 +77,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       const SizedBox(
                         width: 18,
                       ),
-                      CustomSuffixIcon(
-                        svgImg: MediaResource.cart,
-                        onPressed: () {},
-                      )
+                      const CartButton(),
                     ],
                   ),
                 ],

@@ -12,7 +12,7 @@ abstract class ProductRepository {
   ResultFuture<List<Product>> searchProductsByNamePerCategory(
       String id, String text);
   ResultFuture<List<Product>> getProductsByBrandPerCategory(
-      String id, String brand);
+      String id, String brand, String search);
   ResultFuture<List<Product>> getRelevantProducts(
       String categoryId, String productId);
 }
