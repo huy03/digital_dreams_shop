@@ -47,7 +47,9 @@ class CategoriesItem extends StatelessWidget {
                 left: isEven ? 24 : null,
                 right: isEven ? null : 24,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: isEven
+                      ? CrossAxisAlignment.start
+                      : CrossAxisAlignment.end,
                   children: [
                     Text(
                       category,

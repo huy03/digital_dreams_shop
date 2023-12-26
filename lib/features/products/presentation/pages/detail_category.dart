@@ -1,6 +1,7 @@
 import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
+import 'package:digital_dreams_shop/core/common/widgets/cart_button.dart';
 import 'package:digital_dreams_shop/core/common/widgets/shimmer_widget.dart';
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
@@ -97,10 +98,7 @@ class _DetailCategoryScreenState extends State<DetailCategoryScreen> {
                       const SizedBox(
                         width: 18,
                       ),
-                      CustomSuffixIcon(
-                        svgImg: MediaResource.cart,
-                        onPressed: () {},
-                      )
+                      const CartButton(),
                     ],
                   ),
                 ],
@@ -155,18 +153,20 @@ class _DetailCategoryScreenState extends State<DetailCategoryScreen> {
                       setState(
                         () {
                           currentBrand = index;
-                          context.read<ProductsBloc>().add(
-                                GetProductsByBrandPerCategoryEvent(
-                                  widget.categoryId,
-                                  brands[widget.category]![index]
-                                      .toString()
-                                      .split('.')
-                                      .last
-                                      .toUpperCase(),
-                                ),
-                              );
                         },
                       );
+
+                      context.read<ProductsBloc>().add(
+                            GetProductsByBrandPerCategoryEvent(
+                              id: widget.categoryId,
+                              brand: brands[widget.category]![index]
+                                  .toString()
+                                  .split('.')
+                                  .last
+                                  .toUpperCase(),
+                              search: searchController.text,
+                            ),
+                          );
                     },
                     brand: brands[widget.category]![index]
                         .toString()
