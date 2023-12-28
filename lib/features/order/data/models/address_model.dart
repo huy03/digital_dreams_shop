@@ -20,20 +20,21 @@ class AddressModel extends Address {
 
   AddressModel.fromMap(DataMap map)
       : super(
-          id: map['id'] as String,
+          id: map['id'] == null ? 'order' : map['id'] as String,
           customer: map['customer'] as String,
           phoneNumber: map['phoneNumber'] as String,
           detailedAddress: map['detailedAddress'] as String,
           district: map['district'] as String,
           city: map['city'] as String,
           country: map['country'] as String,
-          isDefault: map['isDefault'] as bool,
+          isDefault:
+              map['isDefault'] == null ? false : map['isDefault'] as bool,
         );
 
   DataMap toMap() => {
         'customer': customer,
         'phoneNumber': phoneNumber,
-        'address': detailedAddress,
+        'detailedAddress': detailedAddress,
         'district': district,
         'city': city,
         'country': country,
@@ -49,6 +50,7 @@ class AddressModel extends Address {
     String? district,
     String? city,
     String? country,
+    bool? isDefault,
   }) {
     return AddressModel(
       id: id ?? this.id,
@@ -58,6 +60,7 @@ class AddressModel extends Address {
       district: district ?? this.district,
       city: city ?? this.city,
       country: country ?? this.country,
+      isDefault: isDefault ?? this.isDefault,
     );
   }
 }

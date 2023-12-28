@@ -37,10 +37,6 @@ class AddressRemoteDataSourceImpl extends AddressRemoteDataSource {
       );
       final DataMap data = jsonDecode(response.body);
 
-      if (data['data']['data'].isEmpty) {
-        throw const ServerException('No address', 404);
-      }
-
       if (response.statusCode == 200) {
         return data['data']['data']
             .map<AddressModel>((e) => AddressModel.fromMap(e))

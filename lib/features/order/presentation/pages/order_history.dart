@@ -96,7 +96,7 @@ class OrderHistoryScreen extends StatelessWidget {
               ),
               Tab(
                 child: Text(
-                  'To Review',
+                  'To Rate',
                   style: GoogleFonts.poppins(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -106,18 +106,28 @@ class OrderHistoryScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
+        body: const Padding(
+          padding: EdgeInsets.symmetric(
             horizontal: 30,
             vertical: 18,
           ),
           child: TabBarView(
             children: [
-              OrderItemsList(),
-              OrderItemsList(),
-              OrderItemsList(),
-              OrderItemsList(),
-              OrderItemsList(),
+              OrderItemsList(
+                statusTitle: '',
+              ),
+              OrderItemsList(
+                statusTitle: 'orderStatus=To Pay',
+              ),
+              OrderItemsList(
+                statusTitle: 'orderStatus=To Ship',
+              ),
+              OrderItemsList(
+                statusTitle: 'orderStatus=To Receive',
+              ),
+              OrderItemsList(
+                statusTitle: 'orderStatus=To Rate',
+              ),
             ],
           ),
         ),

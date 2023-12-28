@@ -13,6 +13,7 @@ abstract class OrderRemoteDataSource {
   const OrderRemoteDataSource();
 
   Future<void> placeOrder(OrderModel order);
+  Future<List<OrderModel>> getAllOrders(String query);
 }
 
 class OrderRemoteDataSourceImpl extends OrderRemoteDataSource {
@@ -38,7 +39,38 @@ class OrderRemoteDataSourceImpl extends OrderRemoteDataSource {
         return;
       }
     } catch (e) {
-      print(e);
+      throw ServerException(e.toString(), 500);
+    }
+  }
+
+  @override
+  Future<List<OrderModel>> getAllOrders(String query) async {
+    final url = Uri.parse('$kBaseUrl/orders?$query');
+    try {
+      final response = await client.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':
+              'Bearer ${sl<SharedPreferences>().getString(kAuthToken)}',
+        },
+      );
+
+      final DataMap data = jsonDecode(response.body);
+
+      print(data);
+
+      if (response.statusCode == 200) {
+        return data['data']['data']
+            .map<OrderModel>((e) => OrderModel.fromMap(e))
+            .toList();
+      }
+
+      throw ServerException(
+        data['message'],
+        response.statusCode,
+      );
+    } catch (e) {
       throw ServerException(e.toString(), 500);
     }
   }

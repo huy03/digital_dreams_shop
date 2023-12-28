@@ -38,6 +38,7 @@ import 'package:digital_dreams_shop/features/order/domain/usecases/address/get_a
 import 'package:digital_dreams_shop/features/order/domain/usecases/address/get_default_address.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/address/update_address.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/order/create_order.dart';
+import 'package:digital_dreams_shop/features/order/domain/usecases/order/get_all_orders.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/order_cubit.dart';
 import 'package:digital_dreams_shop/features/products/data/datasources/category_remote_datasources.dart';
@@ -275,6 +276,7 @@ Future<void> init() async {
   sl.registerFactory(
     () => OrderCubit(
       placeOrder: sl(),
+      getAllOrders: sl(),
     ),
   );
   // Use cases
@@ -283,6 +285,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => AddAddress(sl()));
   sl.registerLazySingleton(() => UpdateAddress(sl()));
   sl.registerLazySingleton(() => PlaceOrder(sl()));
+  sl.registerLazySingleton(() => GetAllOrders(sl()));
   // Repository
   sl.registerLazySingleton<AddressRepository>(
       () => AddressRepositoryImpl(sl()));
