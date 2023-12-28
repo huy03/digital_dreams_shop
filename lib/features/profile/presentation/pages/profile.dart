@@ -5,6 +5,7 @@ import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
 import 'package:digital_dreams_shop/core/common/widgets/shimmer_widget.dart';
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/core/utils/injection_container.dart';
+import 'package:digital_dreams_shop/features/home/presentation/widgets/show_all_button.dart';
 import 'package:digital_dreams_shop/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:digital_dreams_shop/features/profile/presentation/widgets/info_item.dart';
 import 'package:digital_dreams_shop/features/profile/presentation/widgets/status_widget.dart';
@@ -164,52 +165,75 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     const Spacer(),
-                    Text(
-                      'View All',
-                      style: GoogleFonts.poppins(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: AppColor.textSecondary,
-                      ),
+                    ShowAllButton(
+                      text: 'View All',
+                      onPressed: () {
+                        context.pushNamed(
+                          RouteNames.orderHistory,
+                          pathParameters: {
+                            'index': '0',
+                          },
+                        );
+                      },
                     ),
                   ],
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       StatusWidget(
                         color: Color(0xFFFFF0ED),
                         icon: MediaResource.pay,
                         content: 'To Pay',
-                        onPressed: () {},
+                        onPressed: () {
+                          context.pushNamed(
+                            RouteNames.orderHistory,
+                            pathParameters: {
+                              'index': '1',
+                            },
+                          );
+                        },
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 49),
-                        child: StatusWidget(
-                          color: Color(0xFFFFF0ED),
-                          icon: MediaResource.ship,
-                          content: 'To Ship',
-                          onPressed: () {},
-                        ),
+                      StatusWidget(
+                        color: Color(0xFFFFF0ED),
+                        icon: MediaResource.ship,
+                        content: 'To Ship',
+                        onPressed: () {
+                          context.pushNamed(
+                            RouteNames.orderHistory,
+                            pathParameters: {
+                              'index': '2',
+                            },
+                          );
+                        },
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 49),
-                        child: StatusWidget(
-                          color: Color(0xFFEDFBEE),
-                          icon: MediaResource.receive,
-                          content: 'To Receive',
-                          onPressed: () {},
-                        ),
+                      StatusWidget(
+                        color: Color(0xFFEDFBEE),
+                        icon: MediaResource.receive,
+                        content: 'To Receive',
+                        onPressed: () {
+                          context.pushNamed(
+                            RouteNames.orderHistory,
+                            pathParameters: {
+                              'index': '3',
+                            },
+                          );
+                        },
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 49),
-                        child: StatusWidget(
-                          color: const Color(0xFFFFFAE8),
-                          icon: MediaResource.rate,
-                          content: 'To Rate',
-                          onPressed: () {},
-                        ),
+                      StatusWidget(
+                        color: const Color(0xFFFFFAE8),
+                        icon: MediaResource.rate,
+                        content: 'To Rate',
+                        onPressed: () {
+                          context.pushNamed(
+                            RouteNames.orderHistory,
+                            pathParameters: {
+                              'index': '4',
+                            },
+                          );
+                        },
                       ),
                     ],
                   ),
