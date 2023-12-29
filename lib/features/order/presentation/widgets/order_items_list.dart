@@ -168,7 +168,7 @@ class _OrderItemsListState extends State<OrderItemsList> {
                   Row(
                     children: [
                       Text(
-                        'Quantity: ',
+                        'Total quantity: ',
                         style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
@@ -192,7 +192,31 @@ class _OrderItemsListState extends State<OrderItemsList> {
                   Row(
                     children: [
                       Text(
-                        'Total: ',
+                        'Shipping price: ',
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFFA9A6A6),
+                        ),
+                      ),
+                      const Spacer(),
+                      Text(
+                        currency.format(state.orders[index].shippingPrice),
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: AppColor.text,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'Total price: ',
                         style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
