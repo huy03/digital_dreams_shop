@@ -125,6 +125,11 @@ class _ShippingAddressState extends State<ShippingAddress> {
                       child: Text('Something went wrong!'),
                     );
                   }
+                  if (state.addresses.isEmpty) {
+                    return Center(
+                      child: Text('No address yet! Please add address!'),
+                    );
+                  }
                   return Expanded(
                     child: ListView.builder(
                       itemCount: state.addresses.length,

@@ -40,6 +40,7 @@ class MediaResource {
 
   //Status
   static const success = '$_baseIcons/success.svg';
+  static const error = '$_baseIcons/error.svg';
 
   //IMAGE
   static const _baseImages = 'assets/images';

@@ -39,6 +39,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   PaymentMethodEnum paymentMethod = PaymentMethodEnum.cashOnDelivery;
   Map<String, dynamic>? paymentIntent;
   int shipCost = 30000;
+  AddressModel? address;
 
   void makePayment(int amount) async {
     try {
@@ -121,7 +122,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget build(BuildContext context) {
     final cart = (context.watch<CartCubit>().state as CartLoaded).cart;
     final order = context.watch<OrderCubit>().state;
-    late AddressModel address;
 
     return Scaffold(
       bottomNavigationBar: Padding(
@@ -221,6 +221,87 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     height: 50,
                     text: 'Pay Now',
                     onPressed: () {
+                      if (address == null) {
+                        showDialog(
+                          context: context,
+                          builder: (ctx) => Dialog(
+                            backgroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 24,
+                                horizontal: 18,
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SvgPicture.asset(
+                                    MediaResource.error,
+                                    width: 80,
+                                  ),
+                                  const SizedBox(
+                                    height: 24,
+                                  ),
+                                  Text(
+                                    'Error!',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColor.primary,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                  Text(
+                                    'Please choose an address!',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: const Color(0xFF666666),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  ElevatedButton.icon(
+                                    icon: const Icon(
+                                      Icons.add_location_rounded,
+                                      color: AppColor.textLight,
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColor.primary,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 12,
+                                        horizontal: 24,
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      context.pop();
+                                      context.pushNamed(RouteNames.address);
+                                    },
+                                    label: Text(
+                                      'Choose address',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        color: AppColor.textLight,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                        return;
+                      }
                       if (paymentMethod == PaymentMethodEnum.cashOnDelivery) {
                         if (widget.cart == 'cart') {
                           BlocProvider.of<CartCubit>(context).emptyCartItem();
@@ -228,7 +309,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         BlocProvider.of<OrderCubit>(context).emptyOrder();
                         final newOrder = OrderModel(
                           items: order.orderItems,
-                          shippingAddress: address,
+                          shippingAddress: address!,
                           paymentMethod: 'Cash On Delivery',
                           shippingPrice: shipCost,
                         );
@@ -247,7 +328,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         makePayment(order.totalOrderPrice + shipCost);
                         final newOrder = OrderModel(
                           items: order.orderItems,
-                          shippingAddress: address,
+                          shippingAddress: address!,
                           paymentMethod: 'Stripe',
                           shippingPrice: shipCost,
                         );
@@ -380,6 +461,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       child: Text('Something went wrong!'),
                                     );
                                   }
+                                  if (state.addresses.isEmpty) {
+                                    return const Text('No address yet!');
+                                  }
+
                                   address = AddressModel(
                                     id: state.addresses[0].id,
                                     customer: state.addresses[0].customer,

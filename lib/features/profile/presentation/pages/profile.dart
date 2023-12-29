@@ -184,7 +184,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       StatusWidget(
-                        color: Color(0xFFFFF0ED),
+                        color: const Color(0xFFFFF0ED),
                         icon: MediaResource.pay,
                         content: 'To Pay',
                         onPressed: () {
@@ -197,7 +197,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         },
                       ),
                       StatusWidget(
-                        color: Color(0xFFFFF0ED),
+                        color: const Color(0xFFFFF0ED),
                         icon: MediaResource.ship,
                         content: 'To Ship',
                         onPressed: () {
@@ -210,7 +210,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         },
                       ),
                       StatusWidget(
-                        color: Color(0xFFEDFBEE),
+                        color: const Color(0xFFEDFBEE),
                         icon: MediaResource.receive,
                         content: 'To Receive',
                         onPressed: () {
