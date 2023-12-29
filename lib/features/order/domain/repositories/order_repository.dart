@@ -6,4 +6,5 @@ abstract class OrderRepository {
   const OrderRepository();
 
   ResultFuture<void> placeOrder(OrderModel order);
+  ResultFuture<List<OrderEntity>> getAllOrders(String query);
 }

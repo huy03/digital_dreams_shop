@@ -3,7 +3,7 @@ part of 'order_cubit.dart';
 enum OrderStatus { initial, loading, loaded, error }
 
 class OrderState {
-  final OrderEntity? order;
+  final List<OrderEntity> orders;
   final OrderStatus orderStatus;
   final List<OrderItemModel> orderItems;
   final int totalOrderPrice;
@@ -11,7 +11,7 @@ class OrderState {
   final String errorMessage;
 
   const OrderState({
-    this.order,
+    this.orders = const [],
     this.orderStatus = OrderStatus.initial,
     this.orderItems = const [],
     this.totalOrderPrice = 0,
@@ -20,7 +20,7 @@ class OrderState {
   });
 
   OrderState copyWith({
-    OrderEntity? order,
+    List<OrderEntity>? orders,
     OrderStatus? orderStatus,
     List<OrderItemModel>? orderItems,
     OrderStatus? orderItemStatus,
@@ -28,7 +28,7 @@ class OrderState {
     int? totalOrderPrice,
   }) {
     return OrderState(
-      order: order ?? this.order,
+      orders: orders ?? this.orders,
       orderStatus: orderStatus ?? this.orderStatus,
       orderItems: orderItems ?? this.orderItems,
       orderItemStatus: orderItemStatus ?? this.orderItemStatus,

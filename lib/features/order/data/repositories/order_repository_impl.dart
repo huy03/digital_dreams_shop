@@ -27,4 +27,14 @@ class OrderRepositoryImpl extends OrderRepository {
       return Left(ServerFailure.fromException(e));
     }
   }
+
+  @override
+  ResultFuture<List<OrderEntity>> getAllOrders(String query) async {
+    try {
+      final result = await remoteDataSource.getAllOrders(query);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
 }
