@@ -40,7 +40,7 @@ const orderSchema = new mongoose.Schema(
         type: String,
         required: true,
       },
-      address: {
+      detailedAddress: {
         type: String,
         required: true,
       },
@@ -82,6 +82,11 @@ const orderSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+orderSchema.pre(/^find/, function (next) {
+  this.populate({ path: "items.product" });
+  next();
+});
 
 const Order = mongoose.model("Order", orderSchema);
 

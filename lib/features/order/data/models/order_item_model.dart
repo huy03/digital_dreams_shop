@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:digital_dreams_shop/core/utils/typdefs.dart';
 import 'package:digital_dreams_shop/features/order/domain/entities/address.dart';
 import 'package:digital_dreams_shop/features/order/domain/entities/order_item.dart';
+import 'package:digital_dreams_shop/features/products/data/models/product_model.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
 
 class OrderItemModel extends OrderItem {
@@ -20,7 +21,7 @@ class OrderItemModel extends OrderItem {
   OrderItemModel.fromMap(DataMap map)
       : super(
           id: map['id'] as String,
-          product: map['product'] as Product,
+          product: ProductModel.fromJson(map['product']),
           price: map['price'] as int,
           quantity: map['quantity'] as int,
           color: map['color'] as String,

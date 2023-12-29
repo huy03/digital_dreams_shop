@@ -8,6 +8,7 @@ import 'package:digital_dreams_shop/features/auth/presentation/pages/signup.dart
 import 'package:digital_dreams_shop/features/order/presentation/pages/checkout.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/pages/my_cart.dart';
 import 'package:digital_dreams_shop/features/on_boarding/data/data_sources/on_boarding_local_data_sources.dart';
+import 'package:digital_dreams_shop/features/order/presentation/pages/order_history.dart';
 import 'package:digital_dreams_shop/features/order/presentation/pages/shipping_address.dart';
 import 'package:digital_dreams_shop/features/profile/presentation/pages/settings.dart';
 import 'package:digital_dreams_shop/features/wishlist/presentation/pages/wishlist.dart';
@@ -197,6 +198,19 @@ class AppRouter {
         path: '/address',
         pageBuilder: (context, state) => CustomTransitionPage(
           child: const ShippingAddress(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return buildTransition(
+                context, animation, secondaryAnimation, child);
+          },
+        ),
+      ),
+      GoRoute(
+        name: RouteNames.orderHistory,
+        path: '/orderHistory/:index',
+        pageBuilder: (context, state) => CustomTransitionPage(
+          child: OrderHistoryScreen(
+            index: int.parse(state.pathParameters['index']!),
+          ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return buildTransition(
                 context, animation, secondaryAnimation, child);
