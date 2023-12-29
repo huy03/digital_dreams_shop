@@ -50,6 +50,9 @@ class AddressCubit extends Cubit<AddressState> {
       final newState = state as AddressesLoaded;
 
       final updatedAddresses = newState.addresses;
+      if (updatedAddresses.isEmpty) {
+        address = address.copyWith(isDefault: true);
+      }
 
       updatedAddresses.add(address);
 
@@ -69,7 +72,7 @@ class AddressCubit extends Cubit<AddressState> {
         updatedAddresses.indexWhere((element) => element.id == address.id);
 
     if (updatedAddresses[index].isDefault) {
-      address.copyWith(isDefault: true);
+      address = address.copyWith(isDefault: true);
     }
 
     updatedAddresses[index] = address;
