@@ -1,9 +1,15 @@
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
+import 'package:digital_dreams_shop/core/constraints/constraints.dart';
+import 'package:digital_dreams_shop/features/order/domain/entities/order.dart';
+import 'package:digital_dreams_shop/features/order/domain/entities/order_item.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class OrderHistoryItem extends StatelessWidget {
-  const OrderHistoryItem({super.key});
+  const OrderHistoryItem({super.key, required this.item});
+
+  final OrderItem item;
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +23,14 @@ class OrderHistoryItem extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Image.asset(
-              MediaResource.stripe,
+            child: FadeInImage(
+              placeholder: MemoryImage(kTransparentImage),
+              image: NetworkImage(
+                item.product.imageCover,
+              ),
+              fit: BoxFit.cover,
               width: 56,
               height: 56,
-              fit: BoxFit.cover,
             ),
           ),
           const SizedBox(
@@ -32,7 +41,7 @@ class OrderHistoryItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'Airpods Pro',
+                  item.product.name,
                   style: GoogleFonts.poppins(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
@@ -45,7 +54,7 @@ class OrderHistoryItem extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Brown',
+                      item.product.category,
                       style: GoogleFonts.poppins(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -54,7 +63,7 @@ class OrderHistoryItem extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                      'x1',
+                      'x${item.quantity}',
                       style: GoogleFonts.poppins(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -66,7 +75,7 @@ class OrderHistoryItem extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    '\$ 249.00',
+                    currency.format(item.product.regularPrice),
                     style: GoogleFonts.poppins(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,

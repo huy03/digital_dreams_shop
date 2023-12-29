@@ -26,7 +26,8 @@ class OrderModel extends OrderEntity {
       : super(
           id: map['id'] as String,
           shippingAddress: AddressModel.fromMap(map['shippingAddress']),
-          items: [],
+          items: List<OrderItemModel>.from(
+              map['items'].map((item) => OrderItemModel.fromMap(item))),
           user: map['user'] as String,
           orderStatus: map['orderStatus'] as String,
           paymentMethod: map['paymentMethod'] as String,

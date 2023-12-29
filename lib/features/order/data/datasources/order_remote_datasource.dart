@@ -58,8 +58,6 @@ class OrderRemoteDataSourceImpl extends OrderRemoteDataSource {
 
       final DataMap data = jsonDecode(response.body);
 
-      print(data);
-
       if (response.statusCode == 200) {
         return data['data']['data']
             .map<OrderModel>((e) => OrderModel.fromMap(e))

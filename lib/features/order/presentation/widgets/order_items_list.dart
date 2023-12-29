@@ -35,7 +35,9 @@ class _OrderItemsListState extends State<OrderItemsList> {
       builder: (context, state) {
         if (state.orderStatus == OrderStatus.loading) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: AppColor.primary,
+            ),
           );
         }
         if (state.orderStatus == OrderStatus.error) {
@@ -155,8 +157,10 @@ class _OrderItemsListState extends State<OrderItemsList> {
                   ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: 3,
-                    itemBuilder: (ctx, index) => const OrderHistoryItem(),
+                    itemCount: state.orders[index].items.length,
+                    itemBuilder: (ctx, idx) => OrderHistoryItem(
+                      item: state.orders[index].items[idx],
+                    ),
                   ),
                   const SizedBox(
                     height: 12,
