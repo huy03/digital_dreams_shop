@@ -64,6 +64,19 @@ class _SettingProfileState extends State<SettingProfile> {
       initialDate: DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: AppColor.primary, // header background color
+              onPrimary: Colors.white, // header text color
+              onSurface: Colors.black, // body text color
+            ),
+            dialogBackgroundColor: Colors.white, // DatePicker background color
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (pickedDate == null) {

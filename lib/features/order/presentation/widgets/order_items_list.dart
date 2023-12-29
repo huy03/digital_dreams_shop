@@ -98,7 +98,7 @@ class _OrderItemsListState extends State<OrderItemsList> {
                           borderRadius: BorderRadius.circular(20),
                           color: (status['${state.orders[index].orderStatus}']![
                                   'color'] as Color)
-                              .withOpacity(0.5),
+                              .withOpacity(0.05),
                         ),
                         child: Text(
                           status['${state.orders[index].orderStatus}']!['name']
