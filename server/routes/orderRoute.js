@@ -19,7 +19,7 @@ router
   .get(orderController.getOrder)
   .patch(
     authController.protect,
-    authController.restrictTo("admin"),
+    authController.restrictTo("admin", "user"),
     orderController.updateOrder
   )
   .delete(

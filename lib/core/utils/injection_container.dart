@@ -39,8 +39,10 @@ import 'package:digital_dreams_shop/features/order/domain/usecases/address/get_d
 import 'package:digital_dreams_shop/features/order/domain/usecases/address/update_address.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/order/create_order.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/order/get_all_orders.dart';
+import 'package:digital_dreams_shop/features/order/domain/usecases/order/update_order_status.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/order_cubit.dart';
+import 'package:digital_dreams_shop/features/order/presentation/cubit/product_rate_cubit.dart';
 import 'package:digital_dreams_shop/features/products/data/datasources/category_remote_datasources.dart';
 import 'package:digital_dreams_shop/features/products/data/datasources/product_remote_datasources.dart';
 import 'package:digital_dreams_shop/features/products/data/datasources/review_remote_datasource.dart';
@@ -61,6 +63,7 @@ import 'package:digital_dreams_shop/features/products/domain/usecases/product/ge
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/search_product_by_name.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/search_product_by_name_per_category.dart';
 import 'package:digital_dreams_shop/features/products/domain/usecases/review/get_product_review.dart';
+import 'package:digital_dreams_shop/features/products/domain/usecases/review/review_product.dart';
 import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/categories_cubit.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/popular_categories_cubit.dart';
@@ -189,11 +192,18 @@ Future<void> init() async {
 
   //! Features - Review
   // Cubit
-  sl.registerFactory(() => ReviewCubit(
-        getProductReviews: sl(),
-      ));
+  sl.registerFactory(
+    () => ReviewCubit(
+      getProductReviews: sl(),
+      reviewProduct: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => ProductRateCubit(),
+  );
   // Use cases
   sl.registerLazySingleton(() => GetProductReviews(sl()));
+  sl.registerLazySingleton(() => ReviewProduct(sl()));
   // Repository
   sl.registerLazySingleton<ReviewRepository>(() => ReviewRepositoryImpl(sl()));
   // Data sources
@@ -277,6 +287,7 @@ Future<void> init() async {
     () => OrderCubit(
       placeOrder: sl(),
       getAllOrders: sl(),
+      updateOrderStatus: sl(),
     ),
   );
   // Use cases
@@ -286,6 +297,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => UpdateAddress(sl()));
   sl.registerLazySingleton(() => PlaceOrder(sl()));
   sl.registerLazySingleton(() => GetAllOrders(sl()));
+  sl.registerLazySingleton(() => UpdateOrderStatus(sl()));
   // Repository
   sl.registerLazySingleton<AddressRepository>(
       () => AddressRepositoryImpl(sl()));

@@ -5,4 +5,5 @@ abstract class ReviewRepository {
   const ReviewRepository();
 
   ResultFuture<List<Review>> getProductReviews(String productId);
+  ResultFuture<void> reviewProduct(String productId, DataMap review);
 }

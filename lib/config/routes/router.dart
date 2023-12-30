@@ -5,10 +5,12 @@ import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/core/utils/injection_container.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/pages/login.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/pages/signup.dart';
+import 'package:digital_dreams_shop/features/order/domain/entities/order_item.dart';
 import 'package:digital_dreams_shop/features/order/presentation/pages/checkout.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/pages/my_cart.dart';
 import 'package:digital_dreams_shop/features/on_boarding/data/data_sources/on_boarding_local_data_sources.dart';
 import 'package:digital_dreams_shop/features/order/presentation/pages/order_history.dart';
+import 'package:digital_dreams_shop/features/order/presentation/pages/review_screen.dart';
 import 'package:digital_dreams_shop/features/order/presentation/pages/shipping_address.dart';
 import 'package:digital_dreams_shop/features/profile/presentation/pages/settings.dart';
 import 'package:digital_dreams_shop/features/wishlist/presentation/pages/wishlist.dart';
@@ -210,6 +212,19 @@ class AppRouter {
         pageBuilder: (context, state) => CustomTransitionPage(
           child: OrderHistoryScreen(
             index: int.parse(state.pathParameters['index']!),
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return buildTransition(
+                context, animation, secondaryAnimation, child);
+          },
+        ),
+      ),
+      GoRoute(
+        name: RouteNames.review,
+        path: '/review/:orderId',
+        pageBuilder: (context, state) => CustomTransitionPage(
+          child: ReviewScreen(
+            orderId: state.pathParameters['orderId']!,
           ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return buildTransition(

@@ -16,4 +16,5 @@ class RouteNames {
   static String settings = 'settings';
   static String address = 'address';
   static String orderHistory = 'orderHistory';
+  static String review = 'review';
 }

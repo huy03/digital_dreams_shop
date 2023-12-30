@@ -1,16 +1,35 @@
+import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/order_cubit.dart';
+import 'package:digital_dreams_shop/features/order/presentation/cubit/product_rate_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/widgets/order_history_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 const status = {
-  'To Pay': {'name': 'Pending', 'color': Color(0xFFFFA500)},
-  'To Ship': {'name': 'Preparing', 'color': Color(0xFFFFCA0D)},
-  'To Receive': {'name': 'Shipping', 'color': Color(0xFF0082FB)},
-  'To Rate': {'name': 'Completed', 'color': Color(0xFF0AFF14)}
+  'To Pay': {
+    'name': 'Pending',
+    'color': Color.fromARGB(255, 255, 149, 0),
+  },
+  'To Ship': {
+    'name': 'Preparing',
+    'color': Color.fromARGB(255, 190, 13, 255),
+  },
+  'To Receive': {
+    'name': 'Shipping',
+    'color': Color(0xFF0082FB),
+  },
+  'To Rate': {
+    'name': 'Rating',
+    'color': Color(0xFFFFCA0D),
+  },
+  'Completed': {
+    'name': 'Completed',
+    'color': Color(0xFF0AFF14),
+  }
 };
 
 class OrderItemsList extends StatefulWidget {
@@ -258,6 +277,44 @@ class _OrderItemsListState extends State<OrderItemsList> {
                       ),
                     ],
                   ),
+                  widget.statusTitle == 'orderStatus=To Rate'
+                      ? Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 12),
+                            width: 120,
+                            height: 34,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                context
+                                    .read<ProductRateCubit>()
+                                    .addRateProduct(state.orders[index].items);
+
+                                context.pushNamed(
+                                  RouteNames.review,
+                                  pathParameters: {
+                                    'orderId': state.orders[index].id!,
+                                  },
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColor.primary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: Text(
+                                'Rate',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColor.textLight,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : const SizedBox(),
                 ],
               ),
             );
