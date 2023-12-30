@@ -7,4 +7,5 @@ abstract class OrderRepository {
 
   ResultFuture<void> placeOrder(OrderModel order);
   ResultFuture<List<OrderEntity>> getAllOrders(String query);
+  ResultFuture<void> updateOrderStatus(String orderId, String status);
 }

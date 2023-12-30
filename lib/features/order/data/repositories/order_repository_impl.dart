@@ -37,4 +37,14 @@ class OrderRepositoryImpl extends OrderRepository {
       return Left(ServerFailure.fromException(e));
     }
   }
+
+  @override
+  ResultFuture<void> updateOrderStatus(String orderId, String status) async {
+    try {
+      await remoteDataSource.updateOrderStatus(orderId, status);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
 }
