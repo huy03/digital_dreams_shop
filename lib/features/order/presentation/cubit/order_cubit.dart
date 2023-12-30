@@ -5,16 +5,19 @@ import 'package:digital_dreams_shop/features/order/domain/entities/order.dart';
 import 'package:digital_dreams_shop/features/order/domain/entities/order_item.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/order/create_order.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/order/get_all_orders.dart';
+import 'package:digital_dreams_shop/features/order/domain/usecases/order/update_order_status.dart';
 
 part 'order_state.dart';
 
 class OrderCubit extends Cubit<OrderState> {
   final PlaceOrder placeOrder;
   final GetAllOrders getAllOrders;
+  final UpdateOrderStatus updateOrderStatus;
 
   OrderCubit({
     required this.placeOrder,
     required this.getAllOrders,
+    required this.updateOrderStatus,
   }) : super(const OrderState());
 
   void addOrderItem(List<OrderItemModel> items) {
@@ -58,6 +61,15 @@ class OrderCubit extends Cubit<OrderState> {
           orderStatus: OrderStatus.loaded,
           orders: orders,
         ),
+      ),
+    );
+  }
+
+  void informOrderStatus(String orderId, String status) async {
+    await updateOrderStatus.call(
+      UpdateOrderStatusParams(
+        orderId: orderId,
+        status: status,
       ),
     );
   }

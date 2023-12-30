@@ -14,6 +14,7 @@ abstract class OrderRemoteDataSource {
 
   Future<void> placeOrder(OrderModel order);
   Future<List<OrderModel>> getAllOrders(String query);
+  Future<void> updateOrderStatus(String orderId, String status);
 }
 
 class OrderRemoteDataSourceImpl extends OrderRemoteDataSource {
@@ -45,7 +46,7 @@ class OrderRemoteDataSourceImpl extends OrderRemoteDataSource {
 
   @override
   Future<List<OrderModel>> getAllOrders(String query) async {
-    final url = Uri.parse('$kBaseUrl/orders?$query');
+    final url = Uri.parse('$kBaseUrl/orders?$query&sort=-updatedAt');
     try {
       final response = await client.get(
         url,
@@ -62,6 +63,37 @@ class OrderRemoteDataSourceImpl extends OrderRemoteDataSource {
         return data['data']['data']
             .map<OrderModel>((e) => OrderModel.fromMap(e))
             .toList();
+      }
+
+      throw ServerException(
+        data['message'],
+        response.statusCode,
+      );
+    } catch (e) {
+      throw ServerException(e.toString(), 500);
+    }
+  }
+
+  @override
+  Future<void> updateOrderStatus(String orderId, String status) async {
+    final url = Uri.parse('$kBaseUrl/orders/$orderId');
+    try {
+      final response = await client.patch(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':
+              'Bearer ${sl<SharedPreferences>().getString(kAuthToken)}',
+        },
+        body: json.encode({
+          'orderStatus': status,
+        }),
+      );
+
+      final DataMap data = jsonDecode(response.body);
+
+      if (response.statusCode == 200) {
+        return;
       }
 
       throw ServerException(

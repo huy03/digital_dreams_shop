@@ -13,6 +13,7 @@ abstract class ReviewRemoteDataSource {
   const ReviewRemoteDataSource();
 
   Future<List<ReviewModel>> getProductReviews(String productId);
+  Future<void> reviewProduct(String productId, DataMap review);
 }
 
 class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
@@ -52,5 +53,32 @@ class ReviewRemoteDataSourceImpl extends ReviewRemoteDataSource {
       data['message'],
       response.statusCode,
     );
+  }
+
+  @override
+  Future<void> reviewProduct(String productId, DataMap review) async {
+    try {
+      final url = Uri.parse('$kBaseUrl/products/$productId/reviews');
+      final response = await client.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization':
+              'Bearer ${sl<SharedPreferences>().getString(kAuthToken)}',
+        },
+        body: json.encode(review),
+      );
+      final DataMap data = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        return;
+      }
+
+      throw ServerException(
+        data['message'],
+        response.statusCode,
+      );
+    } catch (e) {
+      throw ServerException(e.toString(), 500);
+    }
   }
 }

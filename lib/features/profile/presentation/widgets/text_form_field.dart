@@ -12,6 +12,7 @@ class TextFormFieldSetting extends StatelessWidget {
     this.validator,
     this.enabled,
     this.suffixIcon,
+    this.maxLines,
   });
 
   final String hintText;
@@ -21,6 +22,7 @@ class TextFormFieldSetting extends StatelessWidget {
   final String? Function(String?)? validator;
   final bool? enabled;
   final Widget? suffixIcon;
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class TextFormFieldSetting extends StatelessWidget {
       initialValue: initialValue,
       keyboardType: keyboardType,
       enabled: enabled,
+      maxLines: maxLines,
       validator: validator,
       decoration: InputDecoration(
         suffixIcon: suffixIcon,

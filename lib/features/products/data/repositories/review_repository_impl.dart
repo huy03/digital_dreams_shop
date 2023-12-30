@@ -23,4 +23,14 @@ class ReviewRepositoryImpl extends ReviewRepository {
       return Left(ServerFailure.fromException(e));
     }
   }
+
+  @override
+  ResultFuture<void> reviewProduct(String productId, DataMap review) async {
+    try {
+      await remoteDataSource.reviewProduct(productId, review);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
 }

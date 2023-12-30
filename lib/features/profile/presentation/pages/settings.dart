@@ -42,6 +42,7 @@ class _SettingProfileState extends State<SettingProfile> {
     nameController.dispose();
     emailController.dispose();
     phoneController.dispose();
+    birthDateController.dispose();
     super.dispose();
   }
 
