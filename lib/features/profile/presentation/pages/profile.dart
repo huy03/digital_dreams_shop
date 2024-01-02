@@ -282,7 +282,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 15),
+                      padding: EdgeInsets.only(top: 15),
                       child: InformationItem(
                         content: 'Help Center',
                         icon: MediaResource.help,

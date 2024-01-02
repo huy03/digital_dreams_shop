@@ -1,6 +1,5 @@
 import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/core/common/widgets/cart_button.dart';
-import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:digital_dreams_shop/features/home/presentation/cubit/coupon_cubit.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/categoriy_button.dart';
 import 'package:digital_dreams_shop/core/common/widgets/shimmer_widget.dart';
@@ -17,7 +16,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:badges/badges.dart' as badges;
 
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';

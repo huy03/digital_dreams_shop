@@ -70,7 +70,7 @@ class TextFormFieldSetting extends StatelessWidget {
         hintStyle: GoogleFonts.poppins(
           fontSize: 14,
           fontWeight: FontWeight.w600,
-          color: Color(0xFFB0B0B0).withOpacity(0.9),
+          color: const Color(0xFFB0B0B0).withOpacity(0.9),
         ),
       ),
     );

@@ -1,12 +1,10 @@
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
-import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
 import 'package:digital_dreams_shop/core/utils/get_vietnam_provinces.dart';
 import 'package:digital_dreams_shop/features/order/domain/entities/address.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/widgets/address_widgets.dart';
 import 'package:digital_dreams_shop/features/order/presentation/widgets/bottom_container_widget.dart';
-import 'package:digital_dreams_shop/features/profile/presentation/widgets/text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -126,7 +124,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
                     );
                   }
                   if (state.addresses.isEmpty) {
-                    return Center(
+                    return const Center(
                       child: Text('No address yet! Please add address!'),
                     );
                   }
@@ -165,7 +163,7 @@ class _ShippingAddressState extends State<ShippingAddress> {
                   weight: 2,
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFFE3E3E3),
+                  backgroundColor: const Color(0xFFE3E3E3),
                   disabledBackgroundColor: AppColor.primary.withOpacity(0.5),
                   minimumSize: const Size(double.infinity, 55),
                   shape: RoundedRectangleBorder(

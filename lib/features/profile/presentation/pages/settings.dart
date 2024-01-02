@@ -1,11 +1,6 @@
-import 'dart:ffi';
-
-import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
-import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
-import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:digital_dreams_shop/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:digital_dreams_shop/features/profile/presentation/widgets/custom_dropdown_button.dart';
 import 'package:digital_dreams_shop/features/profile/presentation/widgets/text_form_field.dart';

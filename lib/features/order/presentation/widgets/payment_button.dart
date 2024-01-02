@@ -29,7 +29,7 @@ class PaymentButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Color(0xFFD8D8D8).withOpacity(0.25),
+            color: const Color(0xFFD8D8D8).withOpacity(0.25),
             offset: const Offset(0, 4),
             blurRadius: 12,
             spreadRadius: 0,
@@ -51,7 +51,7 @@ class PaymentButton extends StatelessWidget {
                       image: AssetImage(icon),
                       fit: BoxFit.cover,
                     ),
-                    color: Color(0xFFF4F4F4),
+                    color: const Color(0xFFF4F4F4),
                     borderRadius: BorderRadius.circular(7),
                   ),
                 ),
