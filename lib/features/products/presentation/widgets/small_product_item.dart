@@ -3,7 +3,6 @@ import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
-import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
 import 'package:digital_dreams_shop/features/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

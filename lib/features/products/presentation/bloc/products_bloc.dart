@@ -9,7 +9,7 @@ import 'package:digital_dreams_shop/features/products/domain/usecases/product/se
 import 'package:digital_dreams_shop/features/products/domain/usecases/product/search_product_by_name_per_category.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../domain/usecases/product/get_product_by_Id.dart';
+import '../../domain/usecases/product/get_product_by_id.dart';
 
 part 'products_event.dart';
 part 'products_state.dart';

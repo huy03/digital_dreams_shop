@@ -5,10 +5,8 @@ import 'package:digital_dreams_shop/core/common/widgets/cart_button.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:digital_dreams_shop/features/home/presentation/widgets/custom_suffix_icon.dart';
 import 'package:digital_dreams_shop/features/order/data/models/order_item_model.dart';
-import 'package:digital_dreams_shop/features/order/domain/entities/order_item.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/order_cubit.dart';
 import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
-import 'package:digital_dreams_shop/features/products/domain/usecases/product/get_product_by_Id.dart';
 import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/review_cubit.dart';
 import 'package:digital_dreams_shop/features/products/presentation/widgets/color_button.dart';
@@ -24,7 +22,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
-import 'package:badges/badges.dart' as badges;
 import 'package:uuid/uuid.dart';
 
 final currency = NumberFormat('#,##0', 'vi-VN');
@@ -113,7 +110,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Color(0xFF9A9696).withOpacity(0.25),
+                        color: const Color(0xFF9A9696).withOpacity(0.25),
                         offset: const Offset(0, 5),
                         blurRadius: 13,
                         spreadRadius: 0,
@@ -174,7 +171,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Color(0xFF9A9696).withOpacity(0.25),
+                        color: const Color(0xFF9A9696).withOpacity(0.25),
                         offset: const Offset(0, 5),
                         blurRadius: 13,
                         spreadRadius: 0,

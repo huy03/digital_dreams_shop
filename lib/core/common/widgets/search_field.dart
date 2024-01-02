@@ -1,9 +1,7 @@
-import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SearchField extends StatelessWidget {

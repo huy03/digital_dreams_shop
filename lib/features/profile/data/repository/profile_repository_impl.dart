@@ -3,7 +3,6 @@ import 'package:digital_dreams_shop/core/errors/exceptions.dart';
 import 'package:digital_dreams_shop/core/errors/failures.dart';
 import 'package:digital_dreams_shop/core/utils/typdefs.dart';
 import 'package:digital_dreams_shop/features/auth/data/models/user_model.dart';
-import 'package:digital_dreams_shop/features/auth/domain/entities/user.dart';
 import 'package:digital_dreams_shop/features/profile/data/datasources/profile_remote_datasources.dart';
 import 'package:digital_dreams_shop/features/profile/domain/repositories/profile_repository.dart';
 

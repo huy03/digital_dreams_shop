@@ -52,14 +52,14 @@ class AddressWidget extends StatelessWidget {
               height: 40,
               width: 40,
               decoration: BoxDecoration(
-                color: Color(0xFFF4F4F4),
+                color: const Color(0xFFF4F4F4),
                 borderRadius: BorderRadius.circular(100),
               ),
               child: IconButton(
                 onPressed: null,
                 icon: SvgPicture.asset(MediaResource.locate),
                 style: IconButton.styleFrom(
-                    backgroundColor: Color(0xFFF4F4F4), elevation: 1),
+                    backgroundColor: const Color(0xFFF4F4F4), elevation: 1),
               ),
             ),
             const SizedBox(
@@ -86,7 +86,7 @@ class AddressWidget extends StatelessWidget {
                       style: GoogleFonts.poppins(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
-                        color: Color(0xFFA9A6A6),
+                        color: const Color(0xFFA9A6A6),
                       ),
                     ),
                   ],
@@ -102,7 +102,7 @@ class AddressWidget extends StatelessWidget {
                     style: GoogleFonts.poppins(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      color: Color(0xFFA9A6A6),
+                      color: const Color(0xFFA9A6A6),
                     ),
                   ),
                 ),

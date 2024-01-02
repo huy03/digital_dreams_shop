@@ -1,7 +1,6 @@
 import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/config/theme/media_resource.dart';
-import 'package:digital_dreams_shop/features/order/domain/entities/order_item.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/order_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/product_rate_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/widgets/review_product_item.dart';

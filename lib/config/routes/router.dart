@@ -1,11 +1,9 @@
 import 'package:digital_dreams_shop/application.dart';
 import 'package:digital_dreams_shop/config/routes/route_names.dart';
-import 'package:digital_dreams_shop/core/common/widgets/custom_bottom_navigation_bar.dart';
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/core/utils/injection_container.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/pages/login.dart';
 import 'package:digital_dreams_shop/features/auth/presentation/pages/signup.dart';
-import 'package:digital_dreams_shop/features/order/domain/entities/order_item.dart';
 import 'package:digital_dreams_shop/features/order/presentation/pages/checkout.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/pages/my_cart.dart';
 import 'package:digital_dreams_shop/features/on_boarding/data/data_sources/on_boarding_local_data_sources.dart';

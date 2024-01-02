@@ -1,6 +1,5 @@
 import 'package:digital_dreams_shop/features/order/data/models/address_model.dart';
 import 'package:digital_dreams_shop/features/order/data/models/order_item_model.dart';
-import 'package:digital_dreams_shop/features/order/domain/entities/order_item.dart';
 import 'package:equatable/equatable.dart';
 
 class OrderEntity extends Equatable {
