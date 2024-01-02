@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:digital_dreams_shop/features/order/data/models/order_item_model.dart';
 import 'package:digital_dreams_shop/features/order/data/models/order_model.dart';
 import 'package:digital_dreams_shop/features/order/domain/entities/order.dart';
-import 'package:digital_dreams_shop/features/order/domain/entities/order_item.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/order/create_order.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/order/get_all_orders.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/order/update_order_status.dart';

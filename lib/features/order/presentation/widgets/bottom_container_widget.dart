@@ -1,7 +1,5 @@
-import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/core/common/models/city.dart';
 import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
-import 'package:digital_dreams_shop/core/utils/get_vietnam_provinces.dart';
 import 'package:digital_dreams_shop/features/order/data/models/address_model.dart';
 import 'package:digital_dreams_shop/features/order/domain/entities/address.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';

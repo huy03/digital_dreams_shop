@@ -1,10 +1,9 @@
 import 'dart:convert';
 
 import 'package:digital_dreams_shop/core/utils/typdefs.dart';
-import 'package:digital_dreams_shop/features/order/domain/entities/address.dart';
+
 import 'package:digital_dreams_shop/features/order/domain/entities/order_item.dart';
 import 'package:digital_dreams_shop/features/products/data/models/product_model.dart';
-import 'package:digital_dreams_shop/features/products/domain/entities/product.dart';
 
 class OrderItemModel extends OrderItem {
   const OrderItemModel({

@@ -1,16 +1,12 @@
-import 'package:digital_dreams_shop/config/routes/route_names.dart';
 import 'package:digital_dreams_shop/config/theme/colors.dart';
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
-import 'package:digital_dreams_shop/core/utils/typdefs.dart';
 import 'package:digital_dreams_shop/features/order/domain/entities/order_item.dart';
-import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/product_rate_cubit.dart';
 import 'package:digital_dreams_shop/features/products/presentation/cubit/review_cubit.dart';
 import 'package:digital_dreams_shop/features/profile/presentation/widgets/text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:transparent_image/transparent_image.dart';

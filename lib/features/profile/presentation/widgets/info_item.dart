@@ -38,7 +38,7 @@ class InformationItem extends StatelessWidget {
                 onPressed: () {},
                 icon: SvgPicture.asset(icon),
                 style: IconButton.styleFrom(
-                    backgroundColor: Color(0xFFF4F4F4), elevation: 2),
+                    backgroundColor: const Color(0xFFF4F4F4), elevation: 2),
               ),
             ),
             const SizedBox(
@@ -52,7 +52,7 @@ class InformationItem extends StatelessWidget {
                 color: AppColor.bodyText,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             InkWell(
               onTap: () {},
               child: IconButton(

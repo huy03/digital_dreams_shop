@@ -132,7 +132,7 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
 
   @override
   Future<List<ProductModel>> getNewArrivalProducts() async {
-    final url = Uri.parse('$kBaseUrl/products?sort=-updatedAt&limit=5');
+    final url = Uri.parse('$kBaseUrl/products?sort=-createdAt&limit=5');
     final response = await client.get(
       url,
       headers: {
@@ -160,7 +160,7 @@ class ProductRemoteDataSourceImpl extends ProductRemoteDataSource {
   @override
   Future<List<ProductModel>> getPopularProducts() async {
     final url = Uri.parse(
-        '$kBaseUrl/products?sort=-ratingsQuantity,-updatedAt&limit=5');
+        '$kBaseUrl/products?sort=-ratingsQuantity,-ratingsAverage,-updatedAt&limit=5');
     final response = await client.get(
       url,
       headers: {

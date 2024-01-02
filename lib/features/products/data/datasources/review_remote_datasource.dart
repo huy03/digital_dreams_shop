@@ -4,7 +4,6 @@ import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/core/errors/exceptions.dart';
 import 'package:digital_dreams_shop/core/utils/injection_container.dart';
 import 'package:digital_dreams_shop/core/utils/typdefs.dart';
-import 'package:digital_dreams_shop/features/products/data/models/category_model.dart';
 import 'package:digital_dreams_shop/features/products/data/models/review_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
