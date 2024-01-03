@@ -6,6 +6,7 @@ import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.
 import 'package:digital_dreams_shop/features/home/presentation/cubit/coupon_cubit.dart';
 import 'package:digital_dreams_shop/features/on_boarding/presentation/cubit/on_boarding_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
+import 'package:digital_dreams_shop/features/order/presentation/cubit/order_coupon_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/order_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/product_rate_cubit.dart';
 import 'package:digital_dreams_shop/features/products/presentation/bloc/products_bloc.dart';
@@ -73,6 +74,9 @@ Future<void> main() async {
             ),
             BlocProvider(
               create: (context) => sl<ProductRateCubit>(),
+            ),
+            BlocProvider(
+              create: (context) => sl<OrderCouponCubit>(),
             ),
           ],
           child: const MyApp(),
