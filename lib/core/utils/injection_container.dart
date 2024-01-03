@@ -41,6 +41,7 @@ import 'package:digital_dreams_shop/features/order/domain/usecases/order/create_
 import 'package:digital_dreams_shop/features/order/domain/usecases/order/get_all_orders.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/order/update_order_status.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
+import 'package:digital_dreams_shop/features/order/presentation/cubit/order_coupon_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/order_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/product_rate_cubit.dart';
 import 'package:digital_dreams_shop/features/products/data/datasources/category_remote_datasources.dart';
@@ -132,6 +133,7 @@ Future<void> init() async {
   //! Features - Home
   // Cubit
   sl.registerFactory(() => CouponCubit(getAllCoupons: sl()));
+  sl.registerFactory(() => OrderCouponCubit());
   // Use cases
   sl.registerLazySingleton(() => GetAllCoupons(sl()));
   // Repository

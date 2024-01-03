@@ -6,18 +6,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-class CouponItem extends StatefulWidget {
-  const CouponItem({super.key, required this.coupon});
+class OrderCouponItem extends StatefulWidget {
+  const OrderCouponItem({
+    super.key,
+    required this.coupon,
+    required this.onTap,
+  });
 
   final Coupon coupon;
+  final void Function() onTap;
 
   @override
-  State<CouponItem> createState() => _CouponItemState();
+  State<OrderCouponItem> createState() => _OrderCouponItemState();
 }
 
-class _CouponItemState extends State<CouponItem> {
+class _OrderCouponItemState extends State<OrderCouponItem> {
   bool isClicked = false;
-  String collectCoupon = 'Get now';
+  String collectCoupon = 'Apply';
 
   @override
   Widget build(BuildContext context) {
@@ -82,11 +87,9 @@ class _CouponItemState extends State<CouponItem> {
                       : () {
                           setState(() {
                             isClicked = true;
-                            collectCoupon = 'Collected';
+                            collectCoupon = 'Applied';
                           });
-                          context
-                              .read<OrderCouponCubit>()
-                              .addCoupon(widget.coupon);
+                          widget.onTap();
                         },
                   style: ElevatedButton.styleFrom(
                     disabledBackgroundColor: AppColor.secondary,
