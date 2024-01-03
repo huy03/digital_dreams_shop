@@ -5,9 +5,12 @@ import 'package:digital_dreams_shop/core/common/widgets/custom_button.dart';
 import 'package:digital_dreams_shop/core/common/widgets/status_dialog.dart';
 import 'package:digital_dreams_shop/core/constraints/constraints.dart';
 import 'package:digital_dreams_shop/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:digital_dreams_shop/features/home/presentation/widgets/coupon_item.dart';
 import 'package:digital_dreams_shop/features/order/data/models/address_model.dart';
 import 'package:digital_dreams_shop/features/order/data/models/order_model.dart';
+import 'package:digital_dreams_shop/features/order/presentation/cubit/order_coupon_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/order_cubit.dart';
+import 'package:digital_dreams_shop/features/order/presentation/widgets/order_coupon_item.dart';
 import 'package:digital_dreams_shop/features/order/presentation/widgets/payment_button.dart';
 import 'package:digital_dreams_shop/features/order/presentation/cubit/address_cubit.dart';
 import 'package:digital_dreams_shop/features/order/presentation/widgets/checkout_item.dart';
@@ -39,6 +42,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Map<String, dynamic>? paymentIntent;
   int shipCost = 30000;
   AddressModel? address;
+  int? discountValue;
 
   void makePayment(int amount) async {
     try {
@@ -121,6 +125,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget build(BuildContext context) {
     final cart = (context.watch<CartCubit>().state as CartLoaded).cart;
     final order = context.watch<OrderCubit>().state;
+    final coupons = context.watch<OrderCouponCubit>().state.coupons;
+    var totalOrderPrice = order.totalOrderPrice + shipCost;
 
     return Scaffold(
       bottomNavigationBar: Padding(
@@ -202,12 +208,40 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ],
               ),
             ),
+            discountValue != null
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Discount value',
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: AppColor.checkOutText,
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          currency.format(discountValue).toString(),
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: AppColor.text,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : const SizedBox.shrink(),
             Padding(
               padding: const EdgeInsets.only(top: 15),
               child: Row(
                 children: [
                   Text(
-                    'Total: ${currency.format(order.totalOrderPrice + shipCost).toString()}',
+                    discountValue == null
+                        ? 'Total: ${currency.format(totalOrderPrice).toString()}'
+                        : 'Total: ${currency.format(totalOrderPrice - discountValue!).toString()}',
                     style: GoogleFonts.poppins(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
@@ -608,6 +642,47 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               order.orderItems[index].product.imageCover,
                         ),
                       ),
+                      coupons.isNotEmpty
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  'Coupons',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColor.text,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                SizedBox(
+                                  height: 180,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: coupons.length,
+                                    itemBuilder: (ctx, index) =>
+                                        OrderCouponItem(
+                                      coupon: coupons[index],
+                                      onTap: () {
+                                        setState(() {
+                                          discountValue = totalOrderPrice *
+                                              coupons[index].discountValue ~/
+                                              100;
+                                          totalOrderPrice =
+                                              totalOrderPrice - discountValue!;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : const SizedBox.shrink(),
                     ],
                   ),
                 ),

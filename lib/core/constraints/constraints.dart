@@ -11,41 +11,13 @@ const String kStripeSecretKey =
 
 final currency = NumberFormat('#,##0', 'vi-VN');
 
-enum PhoneBrand {
-  apple,
-  samsung,
-  xiaomi,
-  oppo,
-  vivo,
-  realme,
-  huawei,
-  nokia,
-  sony
-}
+enum PhoneBrand { apple, samsung, xiaomi, oppo, vivo, realme, huawei, oneplus }
 
 enum LaptopBrand { apple, dell, hp, asus, acer, lenovo, msi, lg, microsoft }
 
-enum TabletBrand {
-  apple,
-  samsung,
-  xiaomi,
-  huawei,
-  lenovo,
-  asus,
-  acer,
-  microsoft
-}
+enum TabletBrand { apple, samsung, xiaomi, huawei, lenovo, oppo }
 
-enum WatchBrand {
-  apple,
-  samsung,
-  xiaomi,
-  huawei,
-  oppo,
-  realme,
-  amazfit,
-  garmin
-}
+enum WatchBrand { apple, samsung, xiaomi, huawei, oppo, amazfit, garmin }
 
 enum HeadphoneBrand {
   apple,
