@@ -6,6 +6,7 @@ abstract class OrderRepository {
   const OrderRepository();
 
   ResultFuture<void> placeOrder(OrderModel order);
+  ResultFuture<void> placeDiscountOrder(OrderModel order, int totalPrice);
   ResultFuture<List<OrderEntity>> getAllOrders(String query);
   ResultFuture<void> updateOrderStatus(String orderId, String status);
 }

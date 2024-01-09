@@ -41,7 +41,9 @@ exports.createOrder = catchAsync(async (req, res, next) => {
   const { items } = req.body;
 
   req.body.totalQuantity = items.reduce((a, b) => a + b.quantity, 0);
-  req.body.totalPrice = items.reduce((a, b) => a + b.price * b.quantity, 0);
+  if (!req.body.totalPrice) {
+    req.body.totalPrice = items.reduce((a, b) => a + b.price * b.quantity, 0);
+  }
   req.body.totalPrice += req.body.shippingPrice;
 
   if (req.body.paymentMethod !== "Cash On Delivery") {
