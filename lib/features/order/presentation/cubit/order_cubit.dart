@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:digital_dreams_shop/features/order/data/models/order_item_model.dart';
 import 'package:digital_dreams_shop/features/order/data/models/order_model.dart';
 import 'package:digital_dreams_shop/features/order/domain/entities/order.dart';
+import 'package:digital_dreams_shop/features/order/domain/usecases/order/create_discount_order.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/order/create_order.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/order/get_all_orders.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/order/update_order_status.dart';
@@ -10,11 +11,13 @@ part 'order_state.dart';
 
 class OrderCubit extends Cubit<OrderState> {
   final PlaceOrder placeOrder;
+  final PlaceDiscountOrder placeDiscountOrder;
   final GetAllOrders getAllOrders;
   final UpdateOrderStatus updateOrderStatus;
 
   OrderCubit({
     required this.placeOrder,
+    required this.placeDiscountOrder,
     required this.getAllOrders,
     required this.updateOrderStatus,
   }) : super(const OrderState());
@@ -34,6 +37,15 @@ class OrderCubit extends Cubit<OrderState> {
 
   void createOrder(OrderModel order) async {
     await placeOrder(order);
+  }
+
+  void createDiscountOrder(OrderModel order, int totalPrice) async {
+    await placeDiscountOrder(
+      PlaceDiscountOrderParams(
+        order: order,
+        totalPrice: totalPrice,
+      ),
+    );
   }
 
   void emptyOrder() {

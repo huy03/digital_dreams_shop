@@ -44,4 +44,15 @@ class OrderRepositoryImpl extends OrderRepository {
       return Left(ServerFailure.fromException(e));
     }
   }
+
+  @override
+  ResultFuture<void> placeDiscountOrder(
+      OrderModel order, int totalPrice) async {
+    try {
+      await remoteDataSource.placeDiscountOrder(order, totalPrice);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure.fromException(e));
+    }
+  }
 }

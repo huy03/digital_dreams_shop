@@ -37,6 +37,7 @@ import 'package:digital_dreams_shop/features/order/domain/usecases/address/add_a
 import 'package:digital_dreams_shop/features/order/domain/usecases/address/get_all_addresses.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/address/get_default_address.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/address/update_address.dart';
+import 'package:digital_dreams_shop/features/order/domain/usecases/order/create_discount_order.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/order/create_order.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/order/get_all_orders.dart';
 import 'package:digital_dreams_shop/features/order/domain/usecases/order/update_order_status.dart';
@@ -290,6 +291,7 @@ Future<void> init() async {
       placeOrder: sl(),
       getAllOrders: sl(),
       updateOrderStatus: sl(),
+      placeDiscountOrder: sl(),
     ),
   );
   // Use cases
@@ -298,6 +300,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => AddAddress(sl()));
   sl.registerLazySingleton(() => UpdateAddress(sl()));
   sl.registerLazySingleton(() => PlaceOrder(sl()));
+  sl.registerLazySingleton(() => PlaceDiscountOrder(sl()));
   sl.registerLazySingleton(() => GetAllOrders(sl()));
   sl.registerLazySingleton(() => UpdateOrderStatus(sl()));
   // Repository

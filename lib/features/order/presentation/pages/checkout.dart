@@ -88,6 +88,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         }
         BlocProvider.of<OrderCubit>(context).emptyOrder();
         shipCost = 0;
+        discountValue = 0;
         showDialog(
           context: context,
           builder: (ctx) {
@@ -346,9 +347,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           paymentMethod: 'Cash On Delivery',
                           shippingPrice: shipCost,
                         );
-                        context.read<OrderCubit>().createOrder(newOrder);
+                        discountValue == null
+                            ? context.read<OrderCubit>().createOrder(newOrder)
+                            : context.read<OrderCubit>().createDiscountOrder(
+                                  newOrder,
+                                  order.totalOrderPrice - discountValue!,
+                                );
                         setState(() {
                           shipCost = 0;
+                          discountValue = 0;
                         });
                         showDialog(
                           context: context,
@@ -365,7 +372,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           paymentMethod: 'Stripe',
                           shippingPrice: shipCost,
                         );
-                        context.read<OrderCubit>().createOrder(newOrder);
+                        //context.read<OrderCubit>().createOrder(newOrder);
+                        discountValue == null
+                            ? context.read<OrderCubit>().createOrder(newOrder)
+                            : context.read<OrderCubit>().createDiscountOrder(
+                                  newOrder,
+                                  order.totalOrderPrice - discountValue!,
+                                );
                       }
                     },
                   ),
@@ -670,7 +683,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       coupon: coupons[index],
                                       onTap: () {
                                         setState(() {
-                                          discountValue = totalOrderPrice *
+                                          discountValue = order
+                                                  .totalOrderPrice *
                                               coupons[index].discountValue ~/
                                               100;
                                           totalOrderPrice =
